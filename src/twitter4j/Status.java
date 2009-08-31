@@ -212,13 +212,11 @@ public class Status extends TwitterResponse implements java.io.Serializable {
 		String temp = text;
 		
 		String twitpic_reg ="m/http:\\/\\/twitpic.com\\/[\\w]{5}/i"; 
-		String url_reg = "s/(^|[^a-zA-Z])([a-zA-Z]+:\\/\\/[a-z][\\w\\_\\.\\-]*[a-z]{2,6}[\\w\\/\\*\\-\\?\\&\\%]*)($|(\\.?(\\s|$))|\\,)/$1\\<a href=\"$2\" class=\"web_link\" target=\"_blank\"\\>$2\\<\\/a\\>$3/ig";
-		String www_reg = "s/(^|[^w\\/\\\\])(www\\.[a-z][\\w\\_\\.\\-]*[a-z]{2,6}[\\w\\/\\*\\-\\?\\&\\%]*)($|(\\.?(\\s|$))|\\,)/$1\\<a href=\"http:\\/\\/$2\" class=\"web_link\" target=\"_blank\"\\>$2\\<\\/a\\>$3/ig";
-		String mail_reg = "s/(^|[\\s|\\:|：])([a-zA-Z][\\w\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][\\w\\_\\.\\-]*[a-zA-Z]{2,6})($|(\\.?(\\s|$))|\\,)/$1\\<a href=\"mailto:$2\" class=\"twitter-link\"\\>$2\\<\\/a\\>$3/ig";
+		String url_reg = "s/\\b([a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*)\\b/<a href=\"$1\" class=\"twitter-link\" class=\"web_link\" target=\"_blank\">$1<\\/a>/ig";
+		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
 		String user_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)@{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/user\\?id=$2\" class=\"user_link\"\\>@$2\\<\\/a\\>$3 /ig";
 
 		String rst = perl.substitute(url_reg, text);
-		rst = perl.substitute(www_reg, rst);
 		rst = perl.substitute(mail_reg, rst);
 		rst = perl.substitute(user_reg, rst);
 		
