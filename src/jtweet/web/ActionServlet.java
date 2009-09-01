@@ -5,7 +5,13 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.oro.text.perl.Perl5Util;
 import org.json.simple.JSONObject;
+
+import com.rosaloves.net.shorturl.bitly.Bitly;
+import com.rosaloves.net.shorturl.bitly.BitlyException;
+import com.rosaloves.net.shorturl.bitly.BitlyFactory;
+import com.rosaloves.net.shorturl.bitly.url.BitlyUrl;
 
 import twitter4j.TwitterException;
 
@@ -37,6 +43,7 @@ public class ActionServlet extends JTweetServlet {
 				if(action.equalsIgnoreCase("post"))
 				{
 					String tweet = req.getParameter("tweet_msg");
+					tweet = ShortURL(tweet);
 					if(id != null)
 					{
 						try
@@ -58,6 +65,7 @@ public class ActionServlet extends JTweetServlet {
 				else if(action.equalsIgnoreCase("msg"))
 				{
 					String tweet = req.getParameter("tweet_msg");
+					tweet = ShortURL(tweet);
 					if(id != null)
 					{
 						twitter.sendDirectMessage(id, tweet);
@@ -238,5 +246,35 @@ public class ActionServlet extends JTweetServlet {
 			json.put("result", "err");
 		}
 		resp.getWriter().print(json.toJSONString());
+	}
+	
+	protected String ShortURL(String text)
+	{
+		String rst = text;
+		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*\\b/i";
+		String temp = text;
+		Bitly bitly = BitlyFactory.newInstance("bitlyapidemo", "R_0da49e0a9118ff35f52f629d2d71bf07");
+		
+		Perl5Util perl = new Perl5Util();
+		while(perl.match(url_reg, temp))
+		{
+			String url = perl.group(0);
+			if(url.length() > 30)
+			{
+				try {
+					BitlyUrl bUrl = bitly.shorten(url);
+					rst = rst.replace(url, bUrl.getShortUrl().toString());
+				} catch (BitlyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			temp = perl.postMatch();
+		}
+		
+		return rst;
 	}
 }
