@@ -42,38 +42,46 @@ public class JtweetServlet extends HttpServlet {
 			if(contenttype != null) httpreq.addHeader(new HTTPHeader("Content-Type", contenttype));
 			String auth = req.getHeader("Authorization");
 			if(auth != null) httpreq.addHeader(new HTTPHeader("Authorization", auth));
-			HTTPResponse httpresp = urlFetch.fetch(httpreq);
 			
-			if(httpresp.getResponseCode() == 401)
+			try
 			{
-				resp.setHeader("WWW-Authenticate","BASIC realm=\"Twitter.com realm\"");
-				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+				HTTPResponse httpresp = urlFetch.fetch(httpreq);
+				if(httpresp.getResponseCode() == 401)
+				{
+					resp.setHeader("WWW-Authenticate","BASIC realm=\"Twitter.com realm\"");
+					resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+				}
+				else
+				{
+					String resp_content = new String(httpresp.getContent(), "UTF-8");
+					if(TRequest.getRequestType(req_url) == TRequest.JSON)
+					{
+						resp_content.replaceAll(JSONObject.escape("http://static.twitter.com/images/default_profile_normal.png"), JSONObject.escape(web_root + "/img/default_profile_normal.png"));
+					}
+					else if(TRequest.getRequestType(req_url) == TRequest.XML)
+					{
+						resp_content.replaceAll("http://static.twitter.com/images/default_profile_normal.png", web_root + "/img/default_profile_normal.png");
+					}
+					resp.getOutputStream().print(resp_content);
+					for (HTTPHeader h : httpresp.getHeaders())
+					{
+						if(h.getName().equalsIgnoreCase("Set-Cookie"))
+						{
+							resp.setHeader("Set-Cookie", h.getValue().replaceAll(".twitter.com", req.getServerName()));
+						}
+						else if(!h.getName().equalsIgnoreCase("Content-length"))
+						{
+							resp.setHeader(h.getName(), h.getValue());
+						}
+					}
+					//return err code
+					if(httpresp.getResponseCode() != 200) resp.sendError(httpresp.getResponseCode());
+				}
 			}
-			else
+			catch(IOException e)
 			{
-				String resp_content = new String(httpresp.getContent(), "UTF-8");
-				if(TRequest.getRequestType(req_url) == TRequest.JSON)
-				{
-					resp_content.replaceAll(JSONObject.escape("http://static.twitter.com/images/default_profile_normal.png"), JSONObject.escape(web_root + "/img/default_profile_normal.png"));
-				}
-				else if(TRequest.getRequestType(req_url) == TRequest.XML)
-				{
-					resp_content.replaceAll("http://static.twitter.com/images/default_profile_normal.png", web_root + "/img/default_profile_normal.png");
-				}
-				resp.getOutputStream().print(resp_content);
-				for (HTTPHeader h : httpresp.getHeaders())
-				{
-					if(h.getName().equalsIgnoreCase("Set-Cookie"))
-					{
-						resp.setHeader("Set-Cookie", h.getValue().replaceAll(".twitter.com", req.getServerName()));
-					}
-					else if(!h.getName().equalsIgnoreCase("Content-length"))
-					{
-						resp.setHeader(h.getName(), h.getValue());
-					}
-				}
-				//return err code
-				if(httpresp.getResponseCode() != 200) resp.sendError(httpresp.getResponseCode());
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -101,38 +109,46 @@ public class JtweetServlet extends HttpServlet {
 			byte[] buf = new byte[req.getContentLength()];
 			req.getInputStream().read(buf);
 			httpreq.setPayload(buf);
-			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			
-			if(httpresp.getResponseCode() == 401)
+			try
 			{
-				resp.setHeader("WWW-Authenticate","BASIC realm=\"Twitter.com realm\"");
-				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+				HTTPResponse httpresp = urlFetch.fetch(httpreq);
+				
+				if(httpresp.getResponseCode() == 401)
+				{
+					resp.setHeader("WWW-Authenticate","BASIC realm=\"Twitter.com realm\"");
+					resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+				}
+				else
+				{
+					String resp_content = new String(httpresp.getContent(), "UTF-8");
+					if(TRequest.getRequestType(req_url) == TRequest.JSON)
+					{
+						resp_content.replaceAll(JSONObject.escape("http://static.twitter.com/images/default_profile_normal.png"), JSONObject.escape(web_root + "/img/default_profile_normal.png"));
+					}
+					else if(TRequest.getRequestType(req_url) == TRequest.XML)
+					{
+						resp_content.replaceAll("http://static.twitter.com/images/default_profile_normal.png", web_root + "/img/default_profile_normal.png");
+					}
+					resp.getOutputStream().print(resp_content);
+					for (HTTPHeader h : httpresp.getHeaders())
+					{
+						if(h.getName().equalsIgnoreCase("Set-Cookie"))
+						{
+							resp.setHeader("Set-Cookie", h.getValue().replaceAll(".twitter.com", req.getServerName()));
+						}
+						else if(!h.getName().equalsIgnoreCase("Content-length"))
+						{
+							resp.setHeader(h.getName(), h.getValue());
+						}
+					}
+					//return err code
+					if(httpresp.getResponseCode() != 200) resp.sendError(httpresp.getResponseCode());
+				}
 			}
-			else
+			catch(IOException e)
 			{
-				String resp_content = new String(httpresp.getContent(), "UTF-8");
-				if(TRequest.getRequestType(req_url) == TRequest.JSON)
-				{
-					resp_content.replaceAll(JSONObject.escape("http://static.twitter.com/images/default_profile_normal.png"), JSONObject.escape(web_root + "/img/default_profile_normal.png"));
-				}
-				else if(TRequest.getRequestType(req_url) == TRequest.XML)
-				{
-					resp_content.replaceAll("http://static.twitter.com/images/default_profile_normal.png", web_root + "/img/default_profile_normal.png");
-				}
-				resp.getOutputStream().print(resp_content);
-				for (HTTPHeader h : httpresp.getHeaders())
-				{
-					if(h.getName().equalsIgnoreCase("Set-Cookie"))
-					{
-						resp.setHeader("Set-Cookie", h.getValue().replaceAll(".twitter.com", req.getServerName()));
-					}
-					else if(!h.getName().equalsIgnoreCase("Content-length"))
-					{
-						resp.setHeader(h.getName(), h.getValue());
-					}
-				}
-				//return err code
-				if(httpresp.getResponseCode() != 200) resp.sendError(httpresp.getResponseCode());
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+				//e.printStackTrace();
 			}
 		}
 	}

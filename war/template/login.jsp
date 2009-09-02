@@ -36,6 +36,7 @@
 			<span class="foot_web"><a href="http://www.yulei666.com" title="导弹基地" target="_blank">www.yulei666.com</a></span>
 			<span class="foot_twitter4j">基于<a href="http://yusuke.homeip.net/twitter4j/en/index.html" title="twitter4j" target="_blank">twitter4j</a></span>
 			<span class="foot_gae">运行在<a href="http://code.google.com/appengine/" target="_blank">Google AppEngine</a>上</span>
+			<script type="text/javascript" src="http://js.tongji.linezing.com/1292738/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/1292738/tongji.gif"/></a></noscript>
 		</div>
 	</div>
 	<div class="fixed"></div>
