@@ -46,6 +46,7 @@ public class TwitpicServlet extends JTweetServlet {
 				e.printStackTrace();
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
+				resp.sendError(e.getStatusCode());
 				e.printStackTrace();
 			}
 		}

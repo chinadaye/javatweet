@@ -75,6 +75,7 @@ public class UpdateServlet extends JTweetServlet {
 				
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
+				resp.sendError(e.getStatusCode());
 				e.printStackTrace();
 			} catch (TemplateException e) {
 				// TODO Auto-generated catch block

@@ -49,9 +49,11 @@ public class StatusServlet extends JTweetServlet {
 		}
 		catch (NumberFormatException e)
 		{
+			resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
 			e.printStackTrace();
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block

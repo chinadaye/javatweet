@@ -79,7 +79,7 @@ public class HomeServlet extends JTweetServlet {
 	{
 		HashMap<String,Object> root = new HashMap<String,Object>();
 		freemarker.template.Configuration config=new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("template")); 
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
@@ -96,6 +96,7 @@ public class HomeServlet extends JTweetServlet {
 			
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -124,6 +125,7 @@ public class HomeServlet extends JTweetServlet {
 			
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -152,6 +154,7 @@ public class HomeServlet extends JTweetServlet {
 			
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -179,6 +182,7 @@ public class HomeServlet extends JTweetServlet {
 			
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
