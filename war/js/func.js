@@ -24,8 +24,13 @@ $("div.unread").live(
 
 function playMsg()
 {
-	document.getElementById("MsgRing").Rewind();
-	document.getElementById("MsgRing").Play();
+	var ring = $.cookie("ring");
+	if(ring == null || ring == "true")
+	{
+		var ringswf = document.getElementById("MsgRing");
+		ringswf.Rewind();
+		ringswf.Play();
+	}
 };
 
 function updateUnread()

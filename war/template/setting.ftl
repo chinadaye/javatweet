@@ -7,6 +7,7 @@
 	<title>JTweet - 设置 - ${user.screenName}</title>
 	<link type="text/css" href="/template/style.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
 </head>
 <body>
 <div id="warp">
@@ -34,6 +35,15 @@
 				<center><button type="submit" id="setting_sub">修改</button></center>
 			</form>
 		</div>
+		<div id="jtweet_setting">
+			<div class="setting_div">
+				新消息声音提醒:
+				<input type="radio" value="true" name="ring">是</input>
+				<input type="radio" value="false" name="ring">否</input>
+				<span class="setting_tip">Cookie保存，有效期7天。</span>
+			</div>
+			<center><button id="jtweet_sub" onclick="javascript:onJTweetSetting();">保存</button></center>
+		</div>
 	</div>
 	<div id="side_warp">
 		<#include "side.ftl" />
@@ -45,6 +55,7 @@
 	<div class="fixed"></div>
 </div>
 <script type="text/javascript" src="/js/func.js" ></script>
+<script type="text/javascript" src="/js/setting.js" ></script>
 <script type="text/javascript" src="/js/checkext.js" ></script>
 </body>
 </html>

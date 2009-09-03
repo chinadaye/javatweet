@@ -390,7 +390,7 @@ a.pre_page:hover, a.next_page:hover
 	font-size:18px;
 }
 
-#setting_info, #setting_img
+#setting_info, #setting_img, #jtweet_setting
 {
 	margin:20px auto auto 30px;
 	overflow:auto;
@@ -418,7 +418,7 @@ a.pre_page:hover, a.next_page:hover
 	height:100px;
 	vertical-align:text-top;
 }
-#setting_sub
+#setting_sub, #jtweet_sub
 {
 	margin:20px auto;
 	font-size:18px;
