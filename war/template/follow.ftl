@@ -5,12 +5,7 @@
 <head>
 	<title>JTweet - ${title} - ${user_show.screenName}</title>
 	<link type="text/css" href="template/style.css" rel="stylesheet" />
-	<script type="text/javascript" src="http://www.google.com/jsapi" ></script>
-	<script type="text/javascript">
-	<!--
-		google.load("jquery", "1.3.2");
-	-->
-	</script>
+	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 </head>
 <body>
 	<div id="warp">
