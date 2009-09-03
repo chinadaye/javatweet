@@ -3,13 +3,13 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			if(autofresh)
 			window.setInterval
 			(
 				function()
 				{
 					//alert("update");
-					updateHome();
+					if(autofresh) updateHome();
+					updateRate();
 				},
 				60000
 			);

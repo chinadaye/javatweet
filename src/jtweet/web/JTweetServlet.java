@@ -30,7 +30,7 @@ public class JTweetServlet extends HttpServlet {
 		}
 		else twitter = new Twitter(id, passwd);
 		twitter.setSource("JTweet");
-		twitter.setClientURL("http://jtweet.yulei666.com");
+		twitter.setClientURL("http://code.google.com/p/javatweet/");
 		twitter.setClientVersion("0.0001");
 		twitter.setUserAgent(twitter.getSource() + " " + twitter.getClientURL() + " " + twitter.getClientVersion());
 		paging = new Paging(1,20);

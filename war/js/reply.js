@@ -3,12 +3,13 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			if(autofresh) window.setInterval
+			window.setInterval
 			(
 				function()
 				{
 					//alert("update");
-					updateReply();
+					if(autofresh) updateReply();
+					updateRate();
 				},
 				60000
 			);

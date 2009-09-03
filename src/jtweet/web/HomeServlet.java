@@ -85,6 +85,7 @@ public class HomeServlet extends JTweetServlet {
 		try {
 			List<Status> status = twitter.getFriendsTimeline(paging);
 			root.put("user", twitter.verifyCredentials());
+			root.put("rate", twitter.rateLimitStatus());
 			root.put("title","时间线");
 			root.put("addjs", "/js/home.js");
 			root.put("uri", uri);
@@ -114,6 +115,7 @@ public class HomeServlet extends JTweetServlet {
 		try {
 			List<Status> status = twitter.getMentions(paging);
 			root.put("user", twitter.verifyCredentials());
+			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "回复");
 			root.put("addjs", "/js/reply.js");
 			root.put("uri", uri);
@@ -143,6 +145,7 @@ public class HomeServlet extends JTweetServlet {
 		try {
 			List<Status> status = twitter.getFavorites(paging.getPage());
 			root.put("user", twitter.verifyCredentials());
+			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "收藏");
 			root.put("addjs", "/js/favor.js");
 			root.put("uri", uri);
@@ -172,6 +175,7 @@ public class HomeServlet extends JTweetServlet {
 		try {
 			List<DirectMessage> msg = twitter.getDirectMessages(paging);
 			root.put("user", twitter.verifyCredentials());
+			root.put("rate", twitter.rateLimitStatus());
 			root.put("addjs", "/js/message.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());

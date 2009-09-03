@@ -463,3 +463,12 @@ a.pre_page:hover, a.next_page:hover
 {
 	background-color:#FF9;
 }
+.side_rate
+{
+	padding:5px;
+	display:block;
+}
+#ring_div
+{
+	height:0px;
+}

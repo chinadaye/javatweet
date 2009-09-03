@@ -1,3 +1,17 @@
+$(document).ready(
+		function()
+		{
+			window.setInterval
+			(
+				function()
+				{
+					updateRate();
+				},
+				6000
+			);
+		}
+);
+
 function checkext(fname)
 {
 	if(fname.length == 0)

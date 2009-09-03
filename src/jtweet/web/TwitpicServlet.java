@@ -39,6 +39,7 @@ public class TwitpicServlet extends JTweetServlet {
 			
 			try {
 				root.put("user", twitter.verifyCredentials());
+				root.put("rate", twitter.rateLimitStatus());
 				Template t = config.getTemplate("twitpic.ftl");
 				t.process(root, resp.getWriter());
 			} catch (TemplateException e) {
@@ -122,6 +123,7 @@ public class TwitpicServlet extends JTweetServlet {
 			
 			try {
 				root.put("user", twitter.verifyCredentials());
+				root.put("rate", twitter.rateLimitStatus());
 				root.put("msg", msg);
 				if(imgurl != null) root.put("imgurl", imgurl);
 				Template t = config.getTemplate("twitpic.ftl");

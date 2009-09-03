@@ -3,12 +3,13 @@ var send_id = "";
 $(document).ready(
 		function()
 		{
-			if(autofresh) window.setInterval
+			window.setInterval
 			(
 				function()
 				{
 					//alert("update");
-					updateMessage();
+					if(autofresh) updateMessage();
+					updateRate();
 				},
 				60000
 			);

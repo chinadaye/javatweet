@@ -22,10 +22,17 @@ $("div.unread").live(
 		}
 );
 
+function playMsg()
+{
+	document.getElementById("MsgRing").Rewind();
+	document.getElementById("MsgRing").Play();
+};
+
 function updateUnread()
 {
 	unread_count = $("div.unread").length;
-}
+	if(unread_count > 0) playMsg();
+};
 
 
 function flash_title()
@@ -48,7 +55,22 @@ function flash_title()
 		document.title = title;
 	}
 	setTimeout(flash_title,1000);
-}
+};
+
+function updateRate()
+{
+	$.get(
+		"/update",
+		{
+			type:"rate",
+			timestamp: (new Date()).getTime()
+		},
+		function(data)
+		{
+			$("div#side_rate_div").html(data);
+		}
+	);
+};
 
 function updateCount()
 {

@@ -68,6 +68,11 @@ public class UpdateServlet extends JTweetServlet {
 					root.put("msg", msg);
 					t = config.getTemplate("message_element.ftl");
 				}
+				else if(type.equalsIgnoreCase("rate"))
+				{
+					root.put("rate", twitter.rateLimitStatus());
+					t = config.getTemplate("rate.ftl");
+				}
 				
 				
 				if(t != null) t.process(root, resp.getWriter());

@@ -75,6 +75,7 @@ public class SettingServlet extends JTweetServlet {
 		try {
 			List<Status> status = twitter.getFriendsTimeline(paging);
 			root.put("user", twitter.verifyCredentials());
+			root.put("rate", twitter.rateLimitStatus());
 			if(msg != null) root.put("msg", msg);
 			Template t = config.getTemplate("setting.ftl");
 			t.process(root, resp.getWriter());

@@ -6,7 +6,7 @@
 <head>
 	<title>JTweet - Twitpic - ${user.screenName}</title>
 	<link type="text/css" href="/template/style.css" rel="stylesheet" />
-	<script type="text/javascript" src="/js/checkext.js" ></script>
+	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 </head>
 <body>
 <div id="warp">
@@ -35,5 +35,7 @@
 	</div>
 	<div class="fixed"></div>
 </div>
+<script type="text/javascript" src="/js/func.js" ></script>
+<script type="text/javascript" src="/js/checkext.js" ></script>
 </body>
 </html>

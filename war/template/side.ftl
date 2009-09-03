@@ -22,3 +22,9 @@
 	<a href="/favor" class="side_link side_link_last">我的收藏</a>
 </div>
 <div class="fixed"></div>
+<#if rate?exists>
+	<div id="side_rate_div">
+		<#include "rate.ftl" />
+	</div>
+	<div class="fixed"></div>
+</#if>
