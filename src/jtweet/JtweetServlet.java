@@ -35,7 +35,15 @@ public class JtweetServlet extends HttpServlet {
 			HTTPRequest httpreq = new HTTPRequest(query_string == null ? new URL(twbase + req_url) : new URL(twbase + req_url + "?" + query_string), HTTPMethod.GET);
 			
 			String UA = req.getHeader("User-Agent");
-			if(UA != null) httpreq.addHeader(new HTTPHeader("User-Agent", UA));
+			if(UA != null)
+			{
+				if(UA.indexOf("appid") != -1)
+				{
+					resp.sendError(403);
+					return;
+				}//拒绝来自AppEngine的请求。
+				httpreq.addHeader(new HTTPHeader("User-Agent", UA));
+			}
 			String Conn = req.getHeader("Connection");
 			if(Conn != null)httpreq.addHeader(new HTTPHeader("Connection", Conn));
 			String contenttype = req.getContentType();
@@ -99,7 +107,15 @@ public class JtweetServlet extends HttpServlet {
 			HTTPRequest httpreq = new HTTPRequest(new URL(twurl + req_url), HTTPMethod.POST);
 			
 			String UA = req.getHeader("User-Agent");
-			if(UA != null) httpreq.addHeader(new HTTPHeader("User-Agent", UA));
+			if(UA != null)
+			{
+				if(UA.indexOf("appid") != -1)
+				{
+					resp.sendError(403);
+					return;
+				}//拒绝来自AppEngine的请求。
+				httpreq.addHeader(new HTTPHeader("User-Agent", UA));
+			}
 			String Conn = req.getHeader("Connection");
 			if(Conn != null) httpreq.addHeader(new HTTPHeader("Connection", Conn));
 			String contenttype = req.getContentType();

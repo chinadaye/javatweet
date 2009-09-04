@@ -49,12 +49,7 @@
 	</div>
 	<div class="fixed"></div>
 	<div id="ring_div">
-		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="0" height="0" id="MsgRing">
-			<param name="movie" value="/img/MSNsmsts.swf">
-	    	<param name="LOOP" value="false" />
-			<param name="PLAY" value="false" />
-			<embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="/img/MSNsmsts.swf" width="0" height="0" loop="false" play="false" id="MsgRing"></embed>
-		</object>
+		<embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="/img/MSNsmsts.swf" width="0" height="0" loop="false" play="false" id="MsgRing"></embed>
 	</div>
 	<div class="fixed"></div>
 </div>
