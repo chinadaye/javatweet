@@ -1,4 +1,4 @@
-<img src="/img/jtweet.png" alt="JTweet" class="logo_img"/>
+<a href="/home"><img src="/img/jtweet.png" alt="JTweet" class="logo_img"/></a>
 <div id="menu_warp">
 	<a href="/home" class="menu_link">首页</a>
 	<a href="/reply" class="menu_link">回复</a>

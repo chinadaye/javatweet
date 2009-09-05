@@ -10,6 +10,8 @@ div
 	display:block;
 	word-wrap:break-word;
 	word-break:break-all;
+	margin:0px;
+	padding:0px;
 }
 a{
 	text-decoration:none;
@@ -156,7 +158,8 @@ img{
 .tweet_content, .msg_content, .follow_content
 {
 	width:490px;
-	float:right;
+	padding-left:20px;
+	display:inline-block;
 }
 .tweet_text, .msg_text
 {

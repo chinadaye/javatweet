@@ -11,7 +11,7 @@
 <body>
 <div id="warp">
 	<div id="head_warp">
-		<img src="/img/jtweet.png" alt="JTweet" class="logo_img"/>
+		<a href="/home"><img src="/img/jtweet.png" alt="JTweet" class="logo_img"/></a>
 		<div class="fixed"></div>
 		<img src="/img/jiantou.png" class="head_jiantou" />
 	</div>
