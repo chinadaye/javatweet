@@ -71,7 +71,7 @@ public class FollowServlet extends JTweetServlet {
 		
 		List<User> follower;
 		try {
-			root.put("title", "跟踪者");
+			root.put("title", "关注者");
 			root.put("user", twitter.verifyCredentials());
 			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	

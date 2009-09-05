@@ -32,7 +32,7 @@
 						<div class="fixed"></div>
 						<span class="follow_info">
 							<a href="/following?id=${f.screenName}" class="follow_info_following">${f.friendsCount}个朋友</a>
-							<a href="/follower?id=${f.screenName}" class="follow_info_follower">${f.followersCount}个跟踪者</a>
+							<a href="/follower?id=${f.screenName}" class="follow_info_follower">${f.followersCount}个关注者</a>
 							<a href="/user?id=${f.screenName}" class="follow_info_status">${f.statusesCount}条推</a>
 							<a href="/user?id=${f.screenName}&show=favor" class="follow_info_favor">${f.favouritesCount}条收藏</a>
 						</span>
