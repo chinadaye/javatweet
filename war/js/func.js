@@ -105,6 +105,27 @@ function updateHome()
 		);
 };
 
+function updatePublic()
+{
+	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
+	//alert(sinceid);
+	$.get(
+			"/update",
+			{
+				type: "public",
+				since: sinceid,
+				timestamp: (new Date()).getTime()
+			},
+			function(data)
+			{
+				$("#tweet_warp").prepend(data);
+				$("div.newcome").slideDown("normal");
+				$("div.newcome").removeClass("newcome");
+				updateUnread();
+			}
+		);
+};
+
 function updateReply()
 {
 	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();

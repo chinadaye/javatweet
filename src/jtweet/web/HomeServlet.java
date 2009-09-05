@@ -64,6 +64,10 @@ public class HomeServlet extends JTweetServlet {
 			{
 				getMsgTimeline(resp);
 			}
+			else if(action.equalsIgnoreCase("public"))
+			{
+				getPubTimeline(resp);
+			}
 			else
 			{
 				resp.sendRedirect("/home");
@@ -118,6 +122,36 @@ public class HomeServlet extends JTweetServlet {
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "回复");
 			root.put("addjs", "/js/reply.js");
+			root.put("uri", uri);
+			root.put("page", paging.getPage());
+			root.put("status", status);
+			Template t = config.getTemplate("home.ftl");
+			t.process(root, resp.getWriter());
+			
+			
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
+			e.printStackTrace();
+		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void getPubTimeline(HttpServletResponse resp) throws IOException
+	{
+		HashMap<String,Object> root = new HashMap<String,Object>();
+		freemarker.template.Configuration config=new freemarker.template.Configuration();
+		config.setDirectoryForTemplateLoading(new File("template")); 
+		config.setDefaultEncoding("UTF-8");
+		
+		try {
+			List<Status> status = twitter.getPublicTimeline(paging);
+			root.put("user", twitter.verifyCredentials());
+			root.put("rate", twitter.rateLimitStatus());
+			root.put("title","公共页面");
+			root.put("addjs", "/js/public.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
 			root.put("status", status);

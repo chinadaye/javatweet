@@ -135,6 +135,10 @@ public class User extends TwitterResponse implements java.io.Serializable {
             following = getBoolean("following", json);
             notificationEnabled = getBoolean("notifications", json);
             statusesCount = json.getInt("statuses_count");
+            if(profileImageUrl.equalsIgnoreCase("http://static.twitter.com/images/default_profile_normal.png"))
+            {
+            	profileImageUrl = "http://javatweet.appspot.com/img/default_profile_normal.png";
+            }
             int extp = profileImageUrl.lastIndexOf(".");
             biggerImageUrl = profileImageUrl.substring(0, extp-6) + "bigger" + profileImageUrl.substring(extp);
             miniImageUrl = profileImageUrl.substring(0, extp-6) + "mini" + profileImageUrl.substring(extp);
@@ -184,6 +188,10 @@ public class User extends TwitterResponse implements java.io.Serializable {
         following = getChildBoolean("following", elem);
         notificationEnabled = getChildBoolean("notifications", elem);
         statusesCount = getChildInt("statuses_count", elem);
+        if(profileImageUrl.equalsIgnoreCase("http://static.twitter.com/images/default_profile_normal.png"))
+        {
+        	profileImageUrl = "http://javatweet.appspot.com/img/default_profile_normal.png";
+        }
         int extp = profileImageUrl.lastIndexOf(".");
         biggerImageUrl = profileImageUrl.substring(0, extp-6) + "bigger" + profileImageUrl.substring(extp);
         miniImageUrl = profileImageUrl.substring(0, extp-6) + "mini" + profileImageUrl.substring(extp);

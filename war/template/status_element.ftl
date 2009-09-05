@@ -1,5 +1,5 @@
 <#setting time_zone="GMT+8">
-<#setting datetime_format="yyyy.M.d,HH:m:s">
+<#setting datetime_format="yyyy.M.d,H:m:s">
 <#list status as s>
 	<div id="tweet_${s.id?c}" class="tweets<#if addclass?exists> ${addclass}<#if s.user.screenName?lower_case != user.screenName?lower_case> unread</#if></#if>">
 	<div class="user_img_div"><img src="${s.user.profileImageURL}" class="user_img" alt="${s.user.screenName}"/></div>

@@ -500,6 +500,13 @@ public class Twitter extends TwitterSupport implements java.io.Serializable {
                 "statuses/public_timeline.xml", null, new Paging((long) sinceID)
                 , false), this);
     }
+    
+    public List<Status> getPublicTimeline(Paging paging) throws
+    TwitterException {
+		return Status.constructStatuses(get(baseURL +
+		        "statuses/public_timeline.xml", null, paging
+		        , false), this);
+	}
 
     /**
      * Returns the 20 most recent statuses posted in the last 24 hours from the authenticating1 user and that user's friends.
