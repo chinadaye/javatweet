@@ -458,3 +458,15 @@ function onDeleteMessage(id, callback, param)
 		});
 	}
 };
+
+function markallread()
+{
+	if(unread_count > 0)
+	{
+		if(confirm("确定要将全部标记为已读吗？"))
+		{
+			$("div.unread").removeClass("unread");
+			unread_count = 0;
+		}
+	}
+};

@@ -127,7 +127,7 @@ img{
 {
 	color:#F00;
 }
-#tweet_warp, #msg_warp, #follow_warp, #info_warp, .user_protected
+#tweet_warp, #msg_warp, #follow_warp, #info_warp, #action_div, .user_protected
 {
 	margin:10px;
 }

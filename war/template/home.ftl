@@ -31,6 +31,8 @@
 			<button id="tweet_submit">我推！</button>
 		</div>
 		<div class="fixed"></div>
+		<div id="action_div"><a href="javascript:markallread();">标记全部为已读</a></div>
+		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "status_element.ftl" /> 
 		</div>
