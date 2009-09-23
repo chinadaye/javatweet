@@ -84,7 +84,7 @@ public class UserServlet extends JTweetServlet {
 			root.put("uri", uri + "?id=" + uid);
 			root.put("page", paging.getPage());
 			
-			if(!user.isProtected())
+			if(user.getScreenName().equalsIgnoreCase(getUsername()) || (!user.isProtected()))
 			{
 				List<Status> status = twitter.getUserTimeline(uid, paging);
 				root.put("status", status);

@@ -26,6 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package twitter4j;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.oro.text.perl.Perl5Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -86,16 +87,18 @@ public class DirectMessage extends TwitterResponse implements java.io.Serializab
 	private void parseText()
 	{
 		Perl5Util perl = new Perl5Util();
-		String temp = text;
+		String temp = StringEscapeUtils.escapeHtml(text);
 		
 		String twitpic_reg ="m/http:\\/\\/twitpic.com\\/[\\w]{5}/i"; 
 		String url_reg = "s/\\b([a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*)\\b/<a href=\"$1\" class=\"twitter-link\" class=\"web_link\" target=\"_blank\">$1<\\/a>/ig";
 		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
 		String user_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)@{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/user\\?id=$2\" class=\"user_link\"\\>@$2\\<\\/a\\>$3 /ig";
-
-		String rst = perl.substitute(url_reg, text);
+		String trend_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)#{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/search\\?s=%23$2\" class=\"search_link\"\\>#$2\\<\\/a\\>$3 /ig";
+		
+		String rst = perl.substitute(url_reg, temp);
 		rst = perl.substitute(mail_reg, rst);
 		rst = perl.substitute(user_reg, rst);
+		rst = perl.substitute(trend_reg, rst);
 		
 		rst = "<div class=\"twittertext\">" + rst +"</div>";
 		

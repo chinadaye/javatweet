@@ -61,12 +61,16 @@ img{
 	float:left;
 }
 
-#menu_warp
+#menu_form_warp
 {
 	margin:25px 25px 10px 5px;
+	float:right;
+}
+#menu_warp
+{
+	float:right;
 	padding:5px 10px 5px 10px;
 	background-color:#FFF;
-	float:right;
 }
 .head_jiantou
 {
@@ -475,4 +479,9 @@ a.pre_page:hover, a.next_page:hover
 #ring_div
 {
 	height:0px;
+}
+#searchform
+{
+	float:right;
+	padding-top:5px;
 }

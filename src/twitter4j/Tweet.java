@@ -31,12 +31,16 @@ import twitter4j.org.json.JSONObject;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.oro.text.perl.Perl5Util;
+
 /**
  * A data class representing a Tweet in the search response
  * @author Yusuke Yamamoto - yusuke at mac.com
  */
 public class Tweet extends TwitterResponse{
     private String text;
+    private String html;
     private int toUserId = -1;
     private String toUser = null;
     private String fromUser;
@@ -52,6 +56,7 @@ public class Tweet extends TwitterResponse{
         super();
         try {
             text = getString("text", tweet, false);
+            parseText();
             try{
                 toUserId = tweet.getInt("to_user_id");
                 toUser = tweet.getString("to_user");
@@ -67,7 +72,7 @@ public class Tweet extends TwitterResponse{
             }catch(JSONException ignore){
                 // iso_language_code can be missing
             }
-            source = getString("source", tweet, true);
+            source = StringEscapeUtils.unescapeHtml(getString("source", tweet, true));
             profileImageUrl = getString("profile_image_url", tweet, true);
             createdAt = parseDate(tweet.getString("created_at"), "EEE, dd MMM yyyy HH:mm:ss z");
         } catch (JSONException jsone) {
@@ -83,6 +88,37 @@ public class Tweet extends TwitterResponse{
 
     public String getText() {
         return text;
+    }
+    
+	private void parseText()
+	{
+		Perl5Util perl = new Perl5Util();
+		String temp = text;
+		
+		String twitpic_reg ="m/http:\\/\\/twitpic.com\\/[\\w]{5}/i"; 
+		String url_reg = "s/\\b([a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*)\\b/<a href=\"$1\" class=\"twitter-link\" class=\"web_link\" target=\"_blank\">$1<\\/a>/ig";
+		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
+		String user_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)@{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/user\\?id=$2\" class=\"user_link\"\\>@$2\\<\\/a\\>$3 /ig";
+		String trend_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)#{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/search\\?s=%23$2\" class=\"search_link\"\\>#$2\\<\\/a\\>$3 /ig";
+		
+		String rst = perl.substitute(url_reg, temp);
+		rst = perl.substitute(mail_reg, rst);
+		rst = perl.substitute(user_reg, rst);
+		rst = perl.substitute(trend_reg, rst);
+		
+		rst = "<div class=\"twittertext\">" + rst +"</div>";
+		
+		while(perl.match(twitpic_reg, temp))
+		{
+			rst += "<img src=\"http://twitpic.com/show/thumb/"+perl.group(0).substring(19) + "\" class=\"twitpic\" />";
+			temp = perl.postMatch();
+		}
+		
+		html = rst;
+	}
+	
+	public String getHtml() {
+        return html;
     }
 
     /**
