@@ -24,11 +24,11 @@ public class JTweetServlet extends HttpServlet {
 	
 	public void init_twitter(String id, String passwd)
 	{
+		twitter = new Twitter(id, passwd);
 		if(APIURL.useproxy){
-			twitter = new Twitter(id, passwd, APIURL.url);
+			twitter.setBaseURL(APIURL.url);
 			twitter.setSearchBaseURL(APIURL.url);
-		}
-		else twitter = new Twitter(id, passwd);
+		} 
 		twitter.setSource("JTweet");
 		twitter.setClientURL("http://code.google.com/p/javatweet/");
 		twitter.setClientVersion("0.0001");

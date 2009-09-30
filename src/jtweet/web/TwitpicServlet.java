@@ -28,6 +28,7 @@ public class TwitpicServlet extends JTweetServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 		throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
+		String uri = req.getRequestURI();
 		
 		if(isLogin(req))
 		{
@@ -40,6 +41,7 @@ public class TwitpicServlet extends JTweetServlet {
 			try {
 				root.put("user", twitter.verifyCredentials());
 				root.put("rate", twitter.rateLimitStatus());
+				root.put("uri", uri);
 				Template t = config.getTemplate("twitpic.ftl");
 				t.process(root, resp.getWriter());
 			} catch (TemplateException e) {
@@ -61,6 +63,7 @@ public class TwitpicServlet extends JTweetServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
+		String uri = req.getRequestURI();
 		
 		if(isLogin(req))
 		{
@@ -69,7 +72,16 @@ public class TwitpicServlet extends JTweetServlet {
 			String imgurl = null;
 			
 			URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
-			HTTPRequest httpreq = new HTTPRequest(new URL("http://twitpic.com/api/uploadAndPost"), HTTPMethod.POST);
+			String url;
+			if(uri.equalsIgnoreCase("/twitgoo"))
+			{
+				url = "http://twitgoo.com/api/uploadAndPost";
+			}
+			else
+			{
+				url = "http://twitpic.com/api/uploadAndPost";
+			}
+			HTTPRequest httpreq = new HTTPRequest(new URL(url), HTTPMethod.POST);
 			httpreq.addHeader(new HTTPHeader("Connection", "Keep-Alive"));
 			String contenttype = req.getContentType();
 			httpreq.addHeader(new HTTPHeader("Content-Type", contenttype));
@@ -104,7 +116,14 @@ public class TwitpicServlet extends JTweetServlet {
 				if(twitpic.isok())
 				{
 					msg = "图片发送成功。";
-					imgurl = "http://twitpic.com/show/thumb/" + twitpic.getMediaid();
+					if(uri.equalsIgnoreCase("/twitgoo"))
+					{
+						imgurl = "http://twitgoo.com/" + twitpic.getMediaid() + "/thumb";
+					}
+					else
+					{
+						imgurl = "/picthumb?id=" + twitpic.getMediaid();
+					}
 				}
 				else
 				{
@@ -125,6 +144,7 @@ public class TwitpicServlet extends JTweetServlet {
 				root.put("user", twitter.verifyCredentials());
 				root.put("rate", twitter.rateLimitStatus());
 				root.put("msg", msg);
+				root.put("uri", uri);
 				if(imgurl != null) root.put("imgurl", imgurl);
 				Template t = config.getTemplate("twitpic.ftl");
 				t.process(root, resp.getWriter());

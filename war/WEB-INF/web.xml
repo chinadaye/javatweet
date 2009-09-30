@@ -92,6 +92,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>Twitpic</servlet-name>
 		<url-pattern>/twitpic</url-pattern>
+		<url-pattern>/twitgoo</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Search</servlet-name>
@@ -100,5 +101,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>Search</servlet-name>
 		<url-pattern>/search</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PicThumb</servlet-name>
+		<servlet-class>jtweet.web.PicThumb</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PicThumb</servlet-name>
+		<url-pattern>/picthumb</url-pattern>
 	</servlet-mapping>
 </web-app>
