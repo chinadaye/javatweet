@@ -6,12 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.oro.text.perl.Perl5Util;
+import org.json.JSONException;
 import org.json.simple.JSONObject;
-
-import com.rosaloves.net.shorturl.bitly.Bitly;
-import com.rosaloves.net.shorturl.bitly.BitlyException;
-import com.rosaloves.net.shorturl.bitly.BitlyFactory;
-import com.rosaloves.net.shorturl.bitly.url.BitlyUrl;
 
 import twitter4j.TwitterException;
 
@@ -253,8 +249,6 @@ public class ActionServlet extends JTweetServlet {
 		String rst = text;
 		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*\\b/i";
 		String temp = text;
-		//Bitly bitly = BitlyFactory.newInstance("bitlyapidemo", "R_0da49e0a9118ff35f52f629d2d71bf07");
-		Bitly bitly = BitlyFactory.newInstance("yulei666", "R_a210b36d1e8c8c549b6ef32a5ed67950");
 		
 		Perl5Util perl = new Perl5Util();
 		while(perl.match(url_reg, temp))
@@ -263,9 +257,8 @@ public class ActionServlet extends JTweetServlet {
 			if(url.length() > 30)
 			{
 				try {
-					BitlyUrl bUrl = bitly.shorten(url);
-					rst = rst.replace(url, bUrl.getShortUrl().toString());
-				} catch (BitlyException e) {
+					rst = rst.replace(url, Bitly.getBitlyURL(url));
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
