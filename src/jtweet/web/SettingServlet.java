@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import twitter4j.TwitterException;
 
 import com.google.appengine.api.urlfetch.HTTPHeader;
 import com.google.appengine.api.urlfetch.HTTPMethod;
@@ -17,8 +18,6 @@ import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 
-import twitter4j.Status;
-import twitter4j.TwitterException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -73,7 +72,6 @@ public class SettingServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
-			List<Status> status = twitter.getFriendsTimeline(paging);
 			root.put("user", twitter.verifyCredentials());
 			root.put("rate", twitter.rateLimitStatus());
 			if(msg != null) root.put("msg", msg);

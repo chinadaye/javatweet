@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@SuppressWarnings("serial")
 public class Bitly {
 	public static String URLregex = "((https?|ftp|gopher|telnet|file|notes|ms-help):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
 	public static String[][] loginKeyPairs = {

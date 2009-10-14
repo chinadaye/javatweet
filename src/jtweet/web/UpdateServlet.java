@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import twitter4j.DirectMessage;
-import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import freemarker.template.Template;

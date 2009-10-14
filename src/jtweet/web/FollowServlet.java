@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import twitter4j.Paging;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import freemarker.template.Template;

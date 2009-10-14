@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.oro.text.perl.Perl5Util;
-import org.json.JSONException;
+//import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import twitter4j.TwitterException;
@@ -256,15 +256,17 @@ public class ActionServlet extends JTweetServlet {
 			String url = perl.group(0);
 			if(url.length() > 30)
 			{
-				try {
-					rst = rst.replace(url, Bitly.getBitlyURL(url));
+				String short_url = ShortURL.getIsgdURL(url);
+				if(short_url != null) rst = rst.replace(url, short_url);
+/*				try {
+					rst = rst.replace(url, Bitly.getBitlyURL(url));	
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 			}
 			temp = perl.postMatch();
 		}
