@@ -20,7 +20,7 @@ public class TweetParser {
 		String twitgoo_reg = "m/http:\\/\\/twitgoo.com\\/[\\w]{5}/i";
 		String imgly_reg = "m/http:\\/\\/img.ly\\/[\\w]{3,5}/i";
 		String brizzly_reg = "m/http:\\/\\/brizzly.com\\/pic\\/[\\w]{3,5}/i";
-		String moby_reg = "m/http:\\/\\/mobypicture.com\\/\\?[\\w]{6}/i";
+		String moby_reg = "m/http:\\/\\/(mobypicture.com\\/\\?|moby.to\\/)[\\w]{6}/i";
 		String url_reg = "s/\\b([a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*)\\b/<a href=\"$1\" class=\"twitter-link\" class=\"web_link\" target=\"_blank\">$1<\\/a>/ig";
 		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
 		String user_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)@{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/user\\?id=$2\" class=\"user_link\"\\>@$2\\<\\/a\\>$3 /ig";
