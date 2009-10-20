@@ -113,7 +113,7 @@ public class TwitpicServlet extends JTweetServlet {
 				Twitpic twitpic = new Twitpic(httpresp.getContent());
 				if(twitpic.isok())
 				{
-					msg = "图片发送成功。";
+					msg = "Your Pic have beed Tweeted Successfully!";
 					if(uri.equalsIgnoreCase("/twitgoo"))
 					{
 						imgurl = "http://twitgoo.com/" + twitpic.getMediaid() + "/thumb";
@@ -125,12 +125,12 @@ public class TwitpicServlet extends JTweetServlet {
 				}
 				else
 				{
-					msg = "图片发送失败，失败原因：" + twitpic.getErrmsg();
+					msg = "Failed, Error Message：" + twitpic.getErrmsg();
 				}
 			}
 			else
 			{
-				msg = "图片更新失败，错误代码：" + httpresp.getResponseCode() + "。";
+				msg = "Failed, Error Code：" + httpresp.getResponseCode() + "。";
 			}
 			
 			HashMap<String,Object> root = new HashMap<String,Object>();

@@ -3,43 +3,123 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>JTweet - 请登录</title>
-	<link type="text/css" href="/template/style.css" rel="stylesheet" />
+<head>          
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="Twitter is without a doubt the best way to share and discover what is happening right now." name="description" />
+<meta content="width = 780" name="viewport" />
+<meta content="NOODP" name="robots" />
+<meta content="n" name="session-loggedin" />
+<title id="page_title">JTweet - 请登录</title>
+<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+<style type="text/css">
+      
+	body { background: #C0DEED url(/img/bg-clouds.jpg) repeat-x; }
+	#login_warp
+	{
+		padding:30px;
+		text-align:center;
+		font-size:12px;
+		background-color:#fff;
+	
+	}
+	.login_tip
+	{
+		word-break:normal;
+		text-align:left;
+		font-weight:bold;
+		font-size:14px;
+		padding: 0px 30px 30px 30px;
+	}
+	#loginform
+	{
+		margin:0px auto;
+		width:300px;
+		text-align:center;
+	}
+	.input_div
+	{
+		padding:5px;
+		text-align:left;
+		overflow:auto;
+		vertical-align:top;
+	}
+	.login_text
+	{
+		float:left;
+		font-size:20px;
+	}
+	#username, #passwd
+	{
+		float:right;
+		font-size:20px;
+		width:200px;
+	}
+	.login_button
+	{
+		margin:20px 5px 5px 5px;
+		font-size:12px;
+	}
+      
+</style>
 </head>
-<body>
-<div id="warp">
-	<div id="head_warp">
-		<a href="/home"><img src="/img/jtweet.png" alt="JTweet" class="logo_img"/></a>
-		<div class="fixed"></div>
-		<img src="/img/jiantou.png" class="head_jiantou" />
-	</div>
-	<div class="fixed"></div>
-	<div id="login_warp">
-		<div class="login_tip">
-		<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。</p>
-		<p>支持HTTPS安全链接，请访问<b><a href="https://<% out.print(request.getServerName()); %>">https://<% out.print(request.getServerName()); %></a></b>。</p>
-		<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http<%if(request.isSecure()) out.print("s"); %>://<% out.print(request.getServerName()); %>/api" > http<%if(request.isSecure()) out.print("s"); %>://<% out.print(request.getServerName()); %>/api</a></b>。</p>
-		<p>关于该软件的安全性、源代码以及其他信息，请前往<a href="http://code.google.com/p/javatweet/">JTweet项目主页</a>围观。</p>
+<body class="sessions" id="new">
+	<div id="container" class="subpage">
+		<div id="header">
+			<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="36" src="/img/jtweet.png" width="115" /> </a>
+ 			 <ul class="top-navigation round">
+				<li><a href="/" accesskey="l">首页</a></li>
+				<li class="signup-link"><a href="https://twitter.com/signup">加入 Twitter!</a></li>
+			</ul>
 		</div>
-		<form action="/login" id="loginform" method="post">
-			<div class="input_div"><span class="login_text">用户名:</span><input type="text" id="username" name="username"/></div>
-			<div class="input_div"><span class="login_text">密码:</span><input type="password" id="passwd" name="passwd"/></div>
-		<button type="submit" id="sub_button" class="login_button">登录</button>
-		<button type="reset" id="reset_button" class="login_button">重置</button>
-		</form>
-	</div>
-	<div class="fixed"></div>
-	<div id="foot_warp">
-		<div class="foot">
-			<span class="foot_author">由<a href="/user?id=yulei666" title="@yulei666">@yulei666</a>制作</span>
-			<span class="foot_web"><a href="http://www.yulei666.com" title="导弹基地" target="_blank">www.yulei666.com</a></span>
-			<span class="foot_twitter4j">基于<a href="http://yusuke.homeip.net/twitter4j/en/index.html" title="twitter4j" target="_blank">twitter4j</a></span>
-			<span class="foot_gae">运行在<a href="http://code.google.com/appengine/" target="_blank">Google AppEngine</a>上</span>
-			<script type="text/javascript" src="http://js.tongji.linezing.com/1292738/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/1292738/tongji.gif"/></a></noscript>
+  
+		<div class="content-bubble-arrow"></div>
+			<div id="login_warp" class="round">
+				<div class="login_tip">
+				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。</p><br />
+				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http://<% out.print(request.getServerName()); %>/api" > http://<% out.print(request.getServerName()); %>/api</a></b>。</p>
+				</div>
+				<form action="/login" id="loginform" method="post">
+					<div class="input_div"><span class="login_text">用户名:</span><input type="text" id="username" name="username"/></div>
+					<div class="input_div"><span class="login_text">密码:</span><input type="password" id="passwd" name="passwd"/></div>
+				<button type="submit" id="sub_button" class="login_button">登录</button>
+				<button type="reset" id="reset_button" class="login_button">重置</button>
+				</form>
+			</div>
+			<div class="fixed"></div>
+		
+		<div id="footer" class="round">
+			<ul>
+				<li class="first">由<a href="/user?id=yulei666" title="@yulei666">@yulei666</a>制作，由<a href="/user?id=gowers" title="@gowers">@gowers</a>修改UI</li>
+				<li><a href="http://www.yulei666.com" title="导弹基地" target="_blank">www.yulei666.com</a></li>
+				<li>基于<a href="http://yusuke.homeip.net/twitter4j/en/index.html" title="twitter4j" target="_blank">twitter4j</a></li>
+				<li>运行在<a href="http://code.google.com/appengine/" target="_blank">Google AppEngine</a>上</li>
+				<li><script type="text/javascript" src="http://js.tongji.linezing.com/1292738/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/1292738/tongji.gif"/></a></noscript></li>
+			</ul>
 		</div>
+		<hr />
 	</div>
-	<div class="fixed"></div>
+
+<!-- BEGIN google analytics -->
+
+ 
+<!-- END google analytics -->
+
+	<div id="notifications"></div>
+	
+<SCRIPT>
+	if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
+		$("body").addClass("ie ie6");
+	}else{
+	    if (window.navigator.userAgent.indexOf("MSIE 7.0")>=1){
+	    	$("body").addClass("ie ie7");
+	    }else{
+	    	$("body").addClass("firefox-windows");
+	    }
+	};
+</SCRIPT>
+    
 </body>
+
 </html>
