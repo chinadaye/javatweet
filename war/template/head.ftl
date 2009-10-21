@@ -1,20 +1,20 @@
-<a href="/home"><img src="/img/jtweet.png" alt="JTweet" class="logo_img"/></a>
-<div id="menu_form_warp">
-	<div id="menu_warp">
-	<a href="/home" class="menu_link">首页</a>
-	<a href="/reply" class="menu_link">回复</a>
-	<a href="/message" class="menu_link">消息</a>
-	<a href="/public" class="menu_link">公共页面</a>
-	<a href="/twitpic" class="menu_link">TwitPic</a>
-	<a href="/twitgoo" class="menu_link">Twitgoo</a>
-	<a href="/setting" class="menu_link">设置</a>
-	<a href="/logout" class="menu_link">退出</a>
-	</div>
+<div id="header">
+	<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="36" src="/img/jtweet.png" width="115" /> </a>
+	<ul class="top-navigation round">
+	 <li><a href="/home" >首页</a></li>
+	 <li><a href="/reply" >回复</a></li>
+	 <li><a href="/message">消息</a></li>
+	 <li><a href="/public">公共页面</a></li>
+	 <li><a href="/twitpic">TwitPic</a></li>
+	 <li><a href="/twitgoo">Twitgoo</a></li>
+	 <li><a href="/setting" >设置</a></li>
+	 <li><a href="/logout">退出</a></li>
+	</ul>
 	<div class="fixed"></div>
 	<form action="/search" method="get" id="searchform">
-		<input type="text" name="s" />
+		<input type="text" name="s" class="searchtext"/>
 		<button type="submit">搜索</button>
-	</form> 
-</div> 
+	</form>
+</div>
 <div class="fixed"></div>
-<img src="/img/jiantou.png" class="head_jiantou" />
+<div class="content-bubble-arrow"></div>

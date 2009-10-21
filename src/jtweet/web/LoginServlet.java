@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import jtweet.Encrypt;
+
 import twitter4j.TwitterException;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
@@ -50,6 +52,7 @@ public class LoginServlet extends JTweetServlet {
 		String action= req.getRequestURI().substring(1);
 		String username = req.getParameter("username");
 		String passwd = req.getParameter("passwd");
+		String stayin = req.getParameter("stayin");
 		String passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
 		
 		if(action.equalsIgnoreCase("login"))			
@@ -63,6 +66,14 @@ public class LoginServlet extends JTweetServlet {
 					twitter.verifyCredentials();
 					session.setAttribute("username", username);
 					session.setAttribute("passwd", passwd_en);
+					
+					//在cookie中存储加密账户信息
+					if(null!=stayin&&stayin.equals("1")){
+						Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME,Encrypt.encodeAccount(username, passwd));
+						cookie.setMaxAge(7*24*3600);
+						cookie.setPath("/");
+						resp.addCookie(cookie);
+					}
 					
 					resp.sendRedirect("/home");
 					return;

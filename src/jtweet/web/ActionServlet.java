@@ -247,7 +247,7 @@ public class ActionServlet extends JTweetServlet {
 	protected String ShortURL(String text)
 	{
 		String rst = text;
-		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*\\b/i";
+		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!:;]*\\b/i";
 		String temp = text;
 		
 		Perl5Util perl = new Perl5Util();

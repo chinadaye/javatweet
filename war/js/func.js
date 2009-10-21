@@ -22,6 +22,16 @@ $("div.unread").live(
 		}
 );
 
+if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
+	$("body").addClass("ie ie6");
+}else{
+    if (window.navigator.userAgent.indexOf("MSIE 7.0")>=1){
+    	$("body").addClass("ie ie7");
+    }else{
+    	$("body").addClass("firefox-windows");
+    }
+};
+
 function playMsg()
 {
 	var ring = $.cookie("ring");
@@ -463,10 +473,10 @@ function markallread()
 {
 	if(unread_count > 0)
 	{
-		if(confirm("确定要将全部标记为已读吗？"))
-		{
+//		if(confirm("确定要将全部标记为已读吗？"))
+//		{
 			$("div.unread").removeClass("unread");
 			unread_count = 0;
-		}
+//		}
 	}
 };

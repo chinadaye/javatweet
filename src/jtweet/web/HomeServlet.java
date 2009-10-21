@@ -8,9 +8,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.gae.GCache;
+
 import twitter4j.DirectMessage;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.User;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -208,7 +211,7 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<DirectMessage> msg = twitter.getDirectMessages(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("addjs", "/js/message.js");
 			root.put("uri", uri);
@@ -226,5 +229,20 @@ public class HomeServlet extends JTweetServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 使用memcache缓存帐号信息
+	 * @return User
+	 * @throws TwitterException 
+	 */
+	protected User getCachedUser() throws TwitterException{
+		User user = (User) GCache.get("user:"+this.getUsername());
+		if(null!=user){
+			return user;
+		}
+		user = twitter.verifyCredentials();
+		GCache.put("user:", user,3600*24);
+		return user;
 	}
 }

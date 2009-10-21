@@ -65,12 +65,12 @@ img{
 {
 	margin:25px 25px 10px 5px;
 	float:right;
+	font-size:14px;
 }
 #menu_warp
 {
 	float:right;
 	padding:5px 10px 5px 10px;
-	background-color:#FFF;
 }
 .head_jiantou
 {
@@ -92,7 +92,7 @@ img{
 }
 #tweet_msg
 {
-	width:540px;
+	width:520px;
 	height:100px;
 	overflow-x:hidden;
 	overflow-y:hidden;
@@ -100,16 +100,16 @@ img{
 #tweet_submit
 {
 	margin-right:20px;
-	margin-top:15px;
-	font-size:24px;
+	margin-top:12px;
+	font-size:12px;
 	width:95px;
-	height:45px;
+	height:30px;
 	float:right;
 }
 .tweet_tip
 {
 	padding:5px;
-	font-size:18px;
+	font-size:12px;
 	font-weight:bold;
 	float:left;
 }
@@ -161,7 +161,7 @@ img{
 }
 .tweet_content, .msg_content, .follow_content
 {
-	width:490px;
+	width:450px;
 	padding-left:20px;
 	display:inline-block;
 }
@@ -170,6 +170,7 @@ img{
 	display:block;
 	margin-top:10px;
 	margin-bottom:10px;
+	font-size:14px;
 }
 .tweet_info, .tweet_action, .msg_time, .msg_action
 {
@@ -189,7 +190,7 @@ img{
 }
 .follow_info
 {
-	font-size:18px;
+	font-size:12px;
 }
 .follow_description
 {
@@ -225,18 +226,33 @@ img{
 {
 	margin-left:10px;
 	float:left;
+	font-size:12px;
 }
+.side_user_screenname
+{
+	margin-left:10px;
+	float:left;
+	font-size:12px;
+	font-weight:bold;
+}
+
 .side_user_location
 {
 	margin: 20px 5px 10px 5px;
+	font-size:12px;
 }
 .side_user_url_div, .side_user_description
 {
 	margin: 10px 5px 10px 5px;
+	font-size:12px;
 }
 .side_user_count
 {
-	margin: 50px 0px 10px 0px;
+	margin: 10px 0px 10px 0px;
+}
+.side_user_count2
+{
+	margin: 5px 0px 10px 0px;
 }
 .side_count
 {
@@ -248,8 +264,8 @@ img{
 }
 .side_user_link
 {
-	padding:5px 10px 5px 10px;
-	border-left: #e7ead7 solid 1px;
+	padding:5px 6px 5px 6px;
+	border-left: #5ED4DC solid 1px;
 	float:left;
 	display:block;
 	text-align:center;
@@ -257,7 +273,7 @@ img{
 }
 .side_user_link_last
 {
-	border-right:solid #e7ead7 1px;
+	border-right:solid #5ED4DC 1px;
 }
 .side_link_content
 {
@@ -268,8 +284,8 @@ img{
 	display:block;
 	margin:0px;
 	padding:5px 10px 5px 10px;
-	border:#e7ead7 solid 1px;
-	border-bottom-width:0px;
+	border-bottom:#5ED4DC solid 1px;
+	font-size:12px;
 	font-weight:bold;
 }
 .side_link_last
@@ -278,7 +294,7 @@ img{
 }
 a.side_link:hover, a.side_user_link:hover
 {
-	background-color:#FFF;
+	background-color:#EDFEFF;
 	text-decoration:none;
 }
 .name
@@ -308,6 +324,7 @@ a.side_link:hover, a.side_user_link:hover
 	padding:5px 10px 5px 10px;
 	border:#e7ead7 solid 1px;
 	background-color:#faffdf;
+	font-size:12px;
 }
 a.pre_page:hover, a.next_page:hover
 {
@@ -361,18 +378,23 @@ a.pre_page:hover, a.next_page:hover
 {
 	padding:30px;
 	text-align:center;
+	font-size:12px;
+	background-color:#dbeae3;
+
 }
 .login_tip
 {
 	word-break:normal;
-	text-align:left;
+	text-align:center;
+	font-weight:bold;
+	font-size:14px;
 	padding: 0px 30px 30px 30px;
 }
 #loginform
 {
 	margin:0px auto;
 	width:300px;
-	font-size:20px;
+	font-size:12px;
 	text-align:center;
 }
 .input_div
@@ -389,13 +411,13 @@ a.pre_page:hover, a.next_page:hover
 #username, #passwd
 {
 	float:right;
-	font-size:16px;
+	font-size:12px;
 	width:200px;
 }
 .login_button
 {
 	margin-top:20px;
-	font-size:18px;
+	font-size:12px;
 }
 
 #setting_info, #setting_img, #jtweet_setting
@@ -407,16 +429,18 @@ a.pre_page:hover, a.next_page:hover
 {
 	margin:5px;
 	padding:0px;
+	font-size:12px;
 }
 .info_input
 {
 	width:300px;
+	font-size:12px;
 }
 .setting_tip, .img_tip
 {
 	color:#999;
 	margin-right:10px;
-	font-size:14px;
+	font-size:12px;
 	font-style:italic;
 	max-width:350px;
 }
@@ -425,11 +449,12 @@ a.pre_page:hover, a.next_page:hover
 	width:300px;
 	height:100px;
 	vertical-align:text-top;
+	font-size:12px;
 }
 #setting_sub, #jtweet_sub
 {
 	margin:20px auto;
-	font-size:18px;
+	font-size:12px;
 }
 #setting_rst
 {
@@ -454,6 +479,7 @@ a.pre_page:hover, a.next_page:hover
 .img_input_div, .img_tip
 {
 	margin:10px;
+	font-size:12px;
 }
 .img_input
 {
@@ -484,4 +510,13 @@ a.pre_page:hover, a.next_page:hover
 {
 	float:right;
 	padding-top:5px;
+	display:block;
+}
+.searchtext
+{
+	height:23px;
+}
+.ie .searchtext
+{
+	margin-right:5px;
 }

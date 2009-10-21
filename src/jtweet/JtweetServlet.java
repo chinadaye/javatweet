@@ -1,9 +1,21 @@
 package jtweet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.TimeZone;
+import java.util.logging.Logger;
+
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import org.json.simple.*;
+
+
 import com.google.appengine.api.urlfetch.*;
 
 
@@ -11,7 +23,8 @@ import com.google.appengine.api.urlfetch.*;
 public class JtweetServlet extends HttpServlet {
 	
 	protected String twurl = "http://twitter.com";
-	protected String twsearch = "http://search.twitter.com";
+	protected String twsearch = "http://sospartan.0fees.net/";
+	private static Logger log = Logger.getLogger(JtweetServlet.class.getName());
 	//protected String twurl = "http://t.yulei666.com/api";
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
@@ -91,6 +104,34 @@ public class JtweetServlet extends HttpServlet {
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 				//e.printStackTrace();
 			}
+		}
+	}
+	
+	/**
+	 * 初始化
+	 */
+	@Override
+	public void init(ServletConfig cfg) throws ServletException {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+		log.info("init Account filter...");
+		String key = cfg.getInitParameter("encrypt_key");
+		try {
+			Encrypt.init(key);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+			log.warning(e.getMessage());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			log.warning(e.getMessage());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			log.warning(e.getMessage());
+		} catch (NoSuchPaddingException e) {
+			e.printStackTrace();
+			log.warning(e.getMessage());
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+			log.warning(e.getMessage());
 		}
 	}
 	
