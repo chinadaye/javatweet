@@ -104,7 +104,38 @@ public class DirectMessage extends TwitterResponse implements java.io.Serializab
     public Date getCreatedAt() {
         return created_at;
     }
-
+    /**
+     * 返回相对时间
+     * @return 
+     */
+    public String getCreatedTimeago(){
+		int time = Math
+				.round((System.currentTimeMillis() - this.created_at.getTime()) / 1000);
+		if (time <= 1) {
+			return "刚刚";
+		}
+		if (time < 60) {
+			return time + "秒前";
+		}
+		time = Math.round(time / 60);
+		if (time < 30) {
+			return time + "分钟前";
+		}
+		if (time < 60) {
+			return "半小时前";
+		}
+		time = Math.round(time / 60);
+		if (time < 24) {
+			return time + "小时前";
+		}
+		time = Math.round(time / 24);
+		if (time < 30) {
+			return time + "天前";
+		} else {
+			return "一个月前";
+		}
+    }
+    
     public String getSenderScreenName() {
         return sender_screen_name;
     }

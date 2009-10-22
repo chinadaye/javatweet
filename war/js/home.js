@@ -1,5 +1,4 @@
 var reply_id = 0;
-
 $(document).ready(
 		function()
 		{
@@ -8,8 +7,8 @@ $(document).ready(
 				function()
 				{
 					//alert("update");
-					if(autofresh) updateHome();
-					updateRate();
+					if($("#is_auto_update").attr("checked")=='checked'&&autofresh) updateHome();
+					//updateRate();
 				},
 				60000
 			);
@@ -22,9 +21,9 @@ $(document).ready(
 				300
 			);
 			flash_title();
+			markupUI();
 		}
 ); 
-
 $("button#tweet_submit").live(
 		"click",
 		function()

@@ -12,14 +12,15 @@ $(document).ready(
 				},
 				300
 			);
-			window.setInterval
+			/*window.setInterval
 			(
 				function()
 				{
 					updateRate();
 				},
 				6000
-			);
+			);*/
+			markupUI();
 		}
 );
 
@@ -151,7 +152,7 @@ $("a.user_action_follow").live(
 			send_id = $("span.user_name").text();
 			function callback(param)
 			{
-				param.text("取消跟踪");
+				param.text("取消关注");
 				param.attr("class", "user_action_unfollow");
 				//alert(send_id);
 			};
@@ -166,7 +167,7 @@ $("a.user_action_unfollow").live(
 			send_id = $("span.user_name").text();
 			function callback(param)
 			{
-				param.text("跟踪");
+				param.text("关注");
 				param.attr("class", "user_action_follow");
 				//alert(send_id);
 			};

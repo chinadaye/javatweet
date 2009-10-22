@@ -3,6 +3,7 @@ unread_count = 0;
 title = document.title;
 t = false;
 
+
 $("textarea#tweet_msg").keypress(function(e){
     if(e.ctrlKey && e.which == 13 || e.which == 10) { 
             $("button#tweet_submit").click();
@@ -49,6 +50,16 @@ function updateUnread()
 	if(unread_count > 0) playMsg();
 };
 
+/**
+ * 调整UI
+ */
+function markupUI(){
+	//高亮当前页面的tab链接
+	var href = window.location.href;
+	var act  = href.match(/http\:\/\/[a-z\.]*\/([a-z\?=]+)/)[1];
+	$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
+	
+};
 
 function flash_title()
 {
@@ -72,7 +83,7 @@ function flash_title()
 	setTimeout(flash_title,1000);
 };
 
-function updateRate()
+/*function updateRate()
 {
 	$.get(
 		"/update",
@@ -85,7 +96,7 @@ function updateRate()
 			$("div#side_rate_div").html(data);
 		}
 	);
-};
+};*/
 
 function updateCount()
 {

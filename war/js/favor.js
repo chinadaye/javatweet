@@ -11,14 +11,15 @@ $(document).ready(
 				},
 				300
 			);
-			window.setInterval
+			/*window.setInterval
 			(
 				function()
 				{
 					updateRate();
 				},
 				6000
-			);
+			);*/
+			markupUI();
 		}
 );
 

@@ -9,7 +9,7 @@ $(document).ready(
 				{
 					//alert("update");
 					if(autofresh) updatePublic();
-					updateRate();
+					//updateRate();
 				},
 				60000
 			);
@@ -22,6 +22,7 @@ $(document).ready(
 				300
 			);
 			flash_title();
+			
 		}
 ); 
 

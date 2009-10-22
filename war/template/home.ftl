@@ -119,7 +119,7 @@ ul.sidebar-list li a:hover {
 			<button id="tweet_submit">我推！</button>
 		</div>
 		<div class="fixed"></div>
-		<div id="action_div">[<a href="javascript:markallread();">标记全部为已读</a>]</div>
+		<#if page == 1><div id="action_div">[<a href="javascript:markallread();">标记全部为已读</a>]<label ><input type="checkbox" title="自动更新" id="is_auto_update" checked='checked'>自动更新</label></div></#if>
 		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "status_element.ftl" /> 

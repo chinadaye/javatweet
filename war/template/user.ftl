@@ -109,9 +109,9 @@ ul.sidebar-list li a:hover {
 					<span class="user_action">
 						<a href="javascript:void(0);" class="user_action_msg">发送消息</a>
 						<#if user_show.following>
-							<a href="javascript:void(0);" class="user_action_unfollow">取消跟踪</a>
+							<a href="javascript:void(0);" class="user_action_unfollow">取消关注</a>
 						<#else>
-							<a href="javascript:void(0);" class="user_action_follow">跟踪</a>
+							<a href="javascript:void(0);" class="user_action_follow">关注</a>
 						</#if>
 						<#if user_show.blocked>
 							<a href="javascript:void(0);" class="user_action_unblock">取消屏蔽</a>
@@ -143,7 +143,7 @@ ul.sidebar-list li a:hover {
 								<span class="tweet_link"><a href="/status?id=${s.id?c}">发表于${s.createdAt?datetime}</a></span>
 							</span>
 							<span class="tweet_id">${s.id?c}</span>
-							<div class="fixed"></div>
+							<!--<div class="fixed"></div>-->
 							<span class="tweet_action">
 								<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
 								<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>
@@ -165,7 +165,7 @@ ul.sidebar-list li a:hover {
 						<#if status?size gt 1><a href="${uri}&page=${page + 1}" class="next_page">下一页</a></#if>
 					</div>
 				<#else>
-				<span class="user_protected">对不起，该用户已保密。</span>
+				<span class="user_protected">对不起，该用户已设置消息保护。</span>
 				</#if>
 			</div>
 		</div>

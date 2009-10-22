@@ -135,6 +135,10 @@ img{
 {
 	margin:10px;
 }
+#action_div label
+{
+	float: right;
+}
 .tweets, .msgs, .follow_status
 {
 	padding-top:5px;
@@ -172,13 +176,20 @@ img{
 	margin-bottom:10px;
 	font-size:14px;
 }
-.tweet_info, .tweet_action, .msg_time, .msg_action
+ .tweet_action, .msg_time, .msg_action
 {
 	font-size:12px;
 	display:block;
 	float:right;
 }
-
+span.tweet_info
+{
+	margin: 3px 0pt 0pt; 
+	display: block; 
+	font-size: 10px;
+	color: #999999; 
+	float:left;
+}
 .tweet_id, .msg_id, div.msg_form, div.user_form
 {
 	display:none;
@@ -292,7 +303,7 @@ img{
 {
 	border-bottom-width:1px;
 }
-a.side_link:hover, a.side_user_link:hover
+a.side_link:hover,a.side_link_current, a.side_user_link:hover
 {
 	background-color:#EDFEFF;
 	text-decoration:none;
@@ -508,7 +519,7 @@ a.pre_page:hover, a.next_page:hover
 }
 #searchform
 {
-	float:right;
+	float:left;
 	padding-top:5px;
 	display:block;
 }

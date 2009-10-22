@@ -7,9 +7,8 @@
 		<span class="msg_user"><a href="/user?id=${m.senderScreenName}">${m.senderScreenName}</a></span>
 		<span class="msg_text">${m.html}</span>
 		<div class="fixed"></div>
-		<span class="msg_time">发表于${m.createdAt?datetime}</span>
+		<span class="tweet_info">发表于${m.createdTimeago}</span>
 		<span class="msg_id">${m.id?c}</span>
-		<div class="fixed"></div>
 		<span class="msg_action">
 			<a href="javascript:void(0);" class="msg_action_reply">回复</a>
 			<a href="javascript:void(0);" class="msg_action_del">删除</a>

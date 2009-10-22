@@ -16,16 +16,23 @@
 </div>
 <div class="fixed"></div>
 <div class="side_link_content">
-	<a href="/home" class="side_link">时间线</a>
-	<a href="/user?id=${user.screenName}" class="side_link">我的推</a>
-	<a href="/reply" class="side_link">我的回复</a>
-	<a href="/message" class="side_link">我的消息</a>
-	<a href="/favor" class="side_link side_link_last">我的收藏</a>
+	<a href="/home" class="side_link">首页</a>
+	<a href="/user?id=${user.screenName}" class="side_link">我的主页</a>
+	<a href="/reply" class="side_link">@${user.screenName}</a>
+	<a href="/message" class="side_link">私信</a>
+	<a href="/favor" class="side_link side_link_last">收藏</a>
 </div>
 <div class="fixed"></div>
+<form action="/search" method="get" id="searchform">
+		<input type="text" name="s" class="searchtext" size=15/>
+		<button type="submit">搜索</button>
+	</form>
+<div class="fixed"></div>
+<#-- 
 <#if rate?exists>
 	<div id="side_rate_div">
 		<#include "rate.ftl" />
 	</div>
 	<div class="fixed"></div>
 </#if>
+-->

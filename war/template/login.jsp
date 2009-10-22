@@ -70,8 +70,8 @@
 			<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="36" src="/img/jtweet.png" width="115" /> </a>
  			 <ul class="top-navigation round">
 				<li><a href="/" accesskey="l">首页</a></li>
-				<li class="signup-link"><a href="https://twitter.com/signup">加入 Twitter!</a></li>
-			</ul>
+				<!--<li class="signup-link"><a href="https://twitter.com/signup">加入 Twitter!</a></li>
+			--></ul>
 		</div>
   
 		<div class="content-bubble-arrow"></div>
