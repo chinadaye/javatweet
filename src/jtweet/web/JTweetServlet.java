@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
+import jtweet.gae.GCache;
 
 import twitter4j.Paging;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
@@ -102,6 +105,21 @@ public class JTweetServlet extends HttpServlet {
 
 	public String getPasswd() {
 		return passwd;
+	}
+	
+	/**
+	 * 使用memcache缓存帐号信息
+	 * @return User
+	 * @throws TwitterException 
+	 */
+	protected User getCachedUser() throws TwitterException{
+		User user = (User) GCache.get("user:"+this.getUsername());
+		if(null!=user){
+			return user;
+		}
+		user = twitter.verifyCredentials();
+		GCache.put("user:"+this.getUsername(), user,3600*24);
+		return user;
 	}
 
 }

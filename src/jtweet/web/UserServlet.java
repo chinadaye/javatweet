@@ -77,7 +77,7 @@ public class UserServlet extends JTweetServlet {
 		
 		try {
 			User user = twitter.showUser(uid);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("user_show", user);
 			root.put("title", "时间线");
@@ -112,7 +112,7 @@ public class UserServlet extends JTweetServlet {
 		
 		try {
 			User user = twitter.showUser(uid);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("user_show", user);
 			root.put("title", "收藏");

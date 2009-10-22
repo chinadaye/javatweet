@@ -72,7 +72,7 @@ public class SettingServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			if(msg != null) root.put("msg", msg);
 			Template t = config.getTemplate("setting.ftl");

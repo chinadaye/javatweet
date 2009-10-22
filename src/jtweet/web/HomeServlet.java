@@ -91,7 +91,7 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getFriendsTimeline(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title","时间线");
 			root.put("addjs", "/js/home.js");
@@ -121,7 +121,7 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getMentions(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "回复");
 			root.put("addjs", "/js/reply.js");
@@ -151,7 +151,7 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getPublicTimeline(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title","公共页面");
 			root.put("addjs", "/js/public.js");
@@ -181,7 +181,7 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getFavorites(paging.getPage());
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "收藏");
 			root.put("addjs", "/js/favor.js");
@@ -231,18 +231,5 @@ public class HomeServlet extends JTweetServlet {
 		}
 	}
 	
-	/**
-	 * 使用memcache缓存帐号信息
-	 * @return User
-	 * @throws TwitterException 
-	 */
-	protected User getCachedUser() throws TwitterException{
-		User user = (User) GCache.get("user:"+this.getUsername());
-		if(null!=user){
-			return user;
-		}
-		user = twitter.verifyCredentials();
-		GCache.put("user:", user,3600*24);
-		return user;
-	}
+	
 }

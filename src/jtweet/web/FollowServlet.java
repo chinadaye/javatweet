@@ -71,11 +71,11 @@ public class FollowServlet extends JTweetServlet {
 		List<User> follower;
 		try {
 			root.put("title", "关注者");
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	
 			{
-				root.put("user_show", twitter.verifyCredentials());
+				root.put("user_show", this.getCachedUser());
 				follower = twitter.getFollowersStatuses(paging);
 			}
 			else
@@ -110,11 +110,11 @@ public class FollowServlet extends JTweetServlet {
 		List<User> following;
 		try {
 			root.put("title", "朋友");
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	
 			{
-				root.put("user_show", twitter.verifyCredentials());
+				root.put("user_show", this.getCachedUser());
 				following = twitter.getFriendsStatuses(paging);
 			}
 			else

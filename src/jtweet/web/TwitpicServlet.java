@@ -37,7 +37,7 @@ public class TwitpicServlet extends JTweetServlet {
 			config.setDefaultEncoding("UTF-8");
 			
 			try {
-				root.put("user", twitter.verifyCredentials());
+				root.put("user", this.getCachedUser());
 				root.put("rate", twitter.rateLimitStatus());
 				root.put("uri", uri);
 				Template t = config.getTemplate("twitpic.ftl");
@@ -139,7 +139,7 @@ public class TwitpicServlet extends JTweetServlet {
 			config.setDefaultEncoding("UTF-8");
 			
 			try {
-				root.put("user", twitter.verifyCredentials());
+				root.put("user", this.getCachedUser());
 				root.put("rate", twitter.rateLimitStatus());
 				root.put("msg", msg);
 				root.put("uri", uri);

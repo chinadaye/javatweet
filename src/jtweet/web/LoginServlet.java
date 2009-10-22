@@ -6,8 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import jtweet.Encrypt;
+import jtweet.gae.GCache;
 
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 
@@ -63,7 +65,10 @@ public class LoginServlet extends JTweetServlet {
 				session.setMaxInactiveInterval(3600);
 				init_twitter(username, passwd);
 				try {
-					twitter.verifyCredentials();
+					User user = twitter.verifyCredentials();
+					if(user!=null){
+						GCache.put("user:"+this.getUsername(), user,3600*24);
+					}
 					session.setAttribute("username", username);
 					session.setAttribute("passwd", passwd_en);
 					
