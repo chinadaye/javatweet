@@ -25,4 +25,8 @@
 	<a href="/user?show=favor&id=${user_show.screenName}" class="side_link side_link_last">TA的收藏</a>
 </div>
 <div class="fixed"></div>
-
+<form action="/search" method="get" id="searchform">
+		<input type="text" name="s" class="searchtext" size=15/>
+		<button type="submit">搜索</button>
+	</form>
+<div class="fixed"></div>

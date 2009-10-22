@@ -25,9 +25,10 @@ public class TweetParser {
 		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
 		String user_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)@{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/user\\?id=$2\" class=\"user_link\"\\>@$2\\<\\/a\\>$3 /ig";
 		String trend_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)#{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/search\\?s=%23$2\" class=\"search_link\"\\>#$2\\<\\/a\\>$3 /ig";
-		String shorturl_reg = "m/http:\\/\\/(bit.ly|j.mp|ff.im)\\/[\\w\\-]{3,10}/i";
+		//短域名还原在服务器端实现性能很难保证，应该有客户端js来执行还原，稍候实现
+		//String shorturl_reg = "m/http:\\/\\/(bit.ly|j.mp|ff.im)\\/[\\w\\-]{3,10}/i";
 		
-		while(perl.match(shorturl_reg, temp))
+		/*while(perl.match(shorturl_reg, temp))
 		{
 			String longurl = ShortURL.getLongURL(perl.group(0));
 			//if(longurl != null) text_e = text_e.replace(perl.group(0), longurl);
@@ -40,7 +41,7 @@ public class TweetParser {
 				}
 			}
 			temp = perl.postMatch();
-		}
+		}*/
 		
 		temp = text_e;
 		
