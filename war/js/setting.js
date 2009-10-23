@@ -10,9 +10,9 @@ $(document).ready(
 ); 
 
 
-function onJTweetSetting()
+/*function onJTweetSetting()
 {
 	var ring = $(":radio:checked[name='ring']").val();
 	$.cookie("ring", ring, { expires: 7 });
 	alert("设置保存成功");
-};
+};*/

@@ -15,14 +15,27 @@ $("textarea#tweet_msg").keypress(function(e){
 });
 
 $("div.unread").live(
-		"click",
+		"mouseover",
 		function()
 		{
 			$(this).removeClass("unread");
 			unread_count = unread_count - 1;
 		}
 );
-
+$("div.tweets").live(
+		"mouseover",
+		function()
+		{
+			$(this).find("span.tweet_action,span.msg_action").show();
+		}
+);
+$("div.tweets").live(
+		"mouseout",
+		function()
+		{
+			$(this).find("span.tweet_action,span.msg_action").hide();
+		}
+);
 if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
 	$("body").addClass("ie ie6");
 }else{
@@ -33,7 +46,7 @@ if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
     }
 };
 
-function playMsg()
+/*function playMsg()
 {
 	var ring = $.cookie("ring");
 	if(ring == null || ring == "true")
@@ -42,12 +55,12 @@ function playMsg()
 		ringswf.Rewind();
 		ringswf.Play();
 	}
-};
+};*/
 
 function updateUnread()
 {
 	unread_count = $("div.unread").length;
-	if(unread_count > 0) playMsg();
+	//if(unread_count > 0) playMsg();
 };
 
 /**
@@ -231,7 +244,7 @@ function onPostStatus(reply_id, callback, param)
 
 function onDelete(id, callback, param)
 {
-	msg = "确实要删除ID为：" + id + "的Tweet吗？";
+	msg = "确实要删除这条Tweet吗？";
 	if(confirm(msg))
 	{
 		postdata = {type: "delete", id: id};

@@ -7,10 +7,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>JTeet /${title} /${user.screenName}</title>
 	<link type="text/css" href="/template/style.css" rel="stylesheet" />
-	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
-	<script type="text/javascript" src="/js/jquery.cookie.js" ></script> 
 	<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js" ></script> 
 	<style type="text/css">
 	  body {
   background: #${user.profileBackgroundColor} url('${user.profileBackgroundImageUrl}') fixed <#if user.profileBackgroundTile == 'false'>no-repeat<#else>repeat-x</#if> top left;
@@ -153,7 +153,7 @@ ul.sidebar-menu li.loading a {
 			<button id="tweet_submit">我推！</button>
 		</div>
 		<div class="fixed"></div>
-		<#if page == 1><div id="action_div">[<a href="javascript:markallread();">标记全部为已读</a>]<label ><input type="checkbox" title="自动更新" id="is_auto_update" checked='checked'>自动更新</label></div></#if>
+		<#if page == 1><div id="action_div"><!--[<a href="javascript:markallread();">标记全部为已读</a>]--><label ><input type="checkbox" title="自动更新" id="is_auto_update" checked='checked'>自动更新</label></div></#if>
 		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "status_element.ftl" /> 

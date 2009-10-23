@@ -93,7 +93,7 @@ public class HomeServlet extends JTweetServlet {
 			List<Status> status = twitter.getFriendsTimeline(paging);
 			root.put("user", this.getCachedUser());
 			root.put("rate", twitter.rateLimitStatus());
-			root.put("title","时间线");
+			root.put("title","首页");
 			root.put("addjs", "/js/home.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());

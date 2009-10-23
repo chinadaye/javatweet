@@ -7,7 +7,7 @@ $(document).ready(
 				function()
 				{
 					//alert("update");
-					if($("#is_auto_update").attr("checked")=='checked'&&autofresh) updateHome();
+					if($("#is_auto_update").attr("checked")&&autofresh) updateHome();
 					//updateRate();
 				},
 				60000

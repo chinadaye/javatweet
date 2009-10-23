@@ -179,7 +179,7 @@ img{
  .tweet_action, .msg_time, .msg_action
 {
 	font-size:12px;
-	display:block;
+	display:none;
 	float:right;
 }
 span.tweet_info
