@@ -2,6 +2,7 @@ package jtweet.web;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +28,8 @@ public class JTweetServlet extends HttpServlet {
 	private String username = null;
 	private String passwd = null;
 	public static final String ACCOUNT_COOKIE_NAME = "up";
-
+	protected static Logger log = Logger.getLogger(JTweetServlet.class.getName());
+	
 	public void init_twitter(String id, String passwd) {
 		twitter = new Twitter(id, passwd);
 		if (APIURL.useproxy) {
@@ -52,10 +54,10 @@ public class JTweetServlet extends HttpServlet {
 				passwd = new String(Base64.decode(passwd), "UTF-8");
 				return true;
 			} catch (Base64DecoderException e) {
-				// TODO Auto-generated catch block
+				log.warning(e.getMessage());
 				return false;
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
+				log.warning(e.getMessage());
 				return false;
 			}
 		} else {
@@ -81,6 +83,7 @@ public class JTweetServlet extends HttpServlet {
 						passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
 						session.setAttribute("passwd", passwd_en);
 					} catch (UnsupportedEncodingException e) {
+						log.warning(e.getMessage());
 						e.printStackTrace();
 					}
 					session.setAttribute("username", username);

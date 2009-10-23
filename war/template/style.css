@@ -22,11 +22,7 @@ a:hover
 	color:#384229;
 	text-decoration:underline;
 }
-a:visited
-{
-	text-decoration:none;
-	color:#6b702e;
-}
+
 img{
 	border:none;
 }
@@ -144,8 +140,12 @@ img{
 	padding-top:5px;
 	padding-bottom:5px;
 	padding-right:0px;
-	border-bottom:#CCC dashed 2px;
+	border-bottom:#EEE solid 1px;
 	overflow:auto;
+}
+.tweets:HOVER, .msgs:HOVER, .follow_status:HOVER
+{
+	background-color: #f7f7f7;
 }
 .user_img_div
 {
@@ -267,7 +267,7 @@ span.tweet_info
 }
 .side_count
 {
-	font-size:18px;
+	font-size:14px;
 }
 .side_tip
 {
@@ -408,6 +408,14 @@ a.pre_page:hover, a.next_page:hover
 	font-size:12px;
 	text-align:center;
 }
+#loginform input[type="password"],#loginform input[type="text"]
+{
+	display:block;
+	width: 200px;
+	border: 1px solid #AACCEE;
+	margin: 0 0 5px;
+	padding: 5px;
+}
 .input_div
 {
 	padding:5px;
@@ -415,16 +423,7 @@ a.pre_page:hover, a.next_page:hover
 	overflow:auto;
 	vertical-align:top;
 }
-.login_text
-{
-	float:left;
-}
-#username, #passwd
-{
-	float:right;
-	font-size:12px;
-	width:200px;
-}
+
 .login_button
 {
 	margin-top:20px;
@@ -520,7 +519,7 @@ a.pre_page:hover, a.next_page:hover
 #searchform
 {
 	float:left;
-	padding-top:5px;
+	padding:5px 0 0 10px;
 	display:block;
 }
 .searchtext

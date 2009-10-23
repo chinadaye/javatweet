@@ -1,5 +1,5 @@
 <div id="header">
-	<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="36" src="/img/jtweet.png" width="115" /> </a>
+	<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="40" src="/img/jteet_logo.png" /> </a>
 	<ul class="top-navigation round">
 	 <li><a href="/home" >首页</a></li>
 	 <li><a href="/reply" >回复</a></li>

@@ -36,7 +36,19 @@
 	{
 		margin:0px auto;
 		width:300px;
-		text-align:center;
+		text-align:left;
+	}
+	#loginform p
+	{
+	padding:5px;
+	}
+	#loginform input[type="password"],#loginform input[type="text"]
+	{
+	display:block;
+	width: 200px;
+	border: 1px solid #AACCEE;
+	margin: 0 0 5px;
+	padding: 5px;
 	}
 	.input_div
 	{
@@ -45,20 +57,11 @@
 		overflow:auto;
 		vertical-align:top;
 	}
-	.login_text
-	{
-		float:left;
-		font-size:20px;
-	}
-	#username, #passwd
-	{
-		float:right;
-		font-size:20px;
-		width:200px;
-	}
+	
+	
 	.login_button
 	{
-		margin:20px 5px 5px 5px;
+		margin:0 5px 0 0;
 		font-size:12px;
 	}
       
@@ -67,7 +70,7 @@
 <body class="sessions" id="new">
 	<div id="container" class="subpage">
 		<div id="header">
-			<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="36" src="/img/jtweet.png" width="115" /> </a>
+			<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="Jteet" height="40" src="/img/jteet_logo.png" /> </a>
  			 <ul class="top-navigation round">
 				<li><a href="/" accesskey="l">首页</a></li>
 				<!--<li class="signup-link"><a href="https://twitter.com/signup">加入 Twitter!</a></li>
@@ -80,13 +83,21 @@
 				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。</p><br />
 				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http://<% out.print(request.getServerName()); %>/api" > http://<% out.print(request.getServerName()); %>/api</a></b>。</p>
 				</div>
+				<div >
 				<form action="/login" id="loginform" method="post">
-					<div class="input_div"><span class="login_text">用户名:</span><input type="text" id="username" name="username"/></div>
-					<div class="input_div"><span class="login_text">密码:</span><input type="password" id="passwd" name="passwd"/></div>
-					<div class="input_div"><span class="login_text">保持登录:</span><input type="checkbox" id="stay" name="stayin" value="1"/></div>
-				<button type="submit" id="sub_button" class="login_button">登录</button>
-				<button type="reset" id="reset_button" class="login_button">重置</button>
+				<p>
+					<label>用户名:</label>
+					<input type="text" id="username" name="username"/>
+				</p>
+				<p>
+					<label>密码:</label>
+					<input type="password" id="passwd" name="passwd"/>
+				</p>
+				<p>
+					<button type="submit" id="sub_button" class="login_button">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1"/>保持登录</label>
+				</p>
 				</form>
+				</div>
 			</div>
 			<div class="fixed"></div>
 		
