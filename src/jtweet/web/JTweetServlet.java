@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
+import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
 import twitter4j.Paging;
@@ -102,11 +103,17 @@ public class JTweetServlet extends HttpServlet {
 		resp.sendRedirect("/login");
 	}
 
-	public String getUsername() {
+	public String getUsername() throws NotLoginException {
+		if(username==null){
+			throw new NotLoginException();
+		}
 		return username;
 	}
 
-	public String getPasswd() {
+	public String getPasswd() throws NotLoginException {
+		if(passwd==null){
+			throw new NotLoginException();
+		}
 		return passwd;
 	}
 	
@@ -114,8 +121,9 @@ public class JTweetServlet extends HttpServlet {
 	 * 使用memcache缓存帐号信息
 	 * @return User
 	 * @throws TwitterException 
+	 * @throws NotLoginException 
 	 */
-	protected User getCachedUser() throws TwitterException{
+	protected User getCachedUser() throws TwitterException, NotLoginException{
 		User user = (User) GCache.get("user:"+this.getUsername());
 		if(null!=user){
 			return user;

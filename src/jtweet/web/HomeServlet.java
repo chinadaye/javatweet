@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
 import twitter4j.DirectMessage;
@@ -31,11 +32,12 @@ public class HomeServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			
 			if(page != null)
 			{
 				try
 				{
+					init_twitter(getUsername(), getPasswd());
 					int p = Integer.parseInt(page);
 					if(p > 0) paging.setPage(p);
 					else
@@ -48,6 +50,9 @@ public class HomeServlet extends JTweetServlet {
 				{
 					resp.sendRedirect(uri);
 					return;
+				} catch (NotLoginException e) {
+					e.getMessage();
+					e.printStackTrace();
 				}
 			}
 			
@@ -109,6 +114,9 @@ public class HomeServlet extends JTweetServlet {
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NotLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -137,6 +145,9 @@ public class HomeServlet extends JTweetServlet {
 			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotLoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -169,6 +180,9 @@ public class HomeServlet extends JTweetServlet {
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NotLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -199,6 +213,9 @@ public class HomeServlet extends JTweetServlet {
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NotLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -226,6 +243,9 @@ public class HomeServlet extends JTweetServlet {
 			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotLoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

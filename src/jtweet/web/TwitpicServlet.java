@@ -8,6 +8,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
+
 import twitter4j.TwitterException;
 
 import com.google.appengine.api.urlfetch.HTTPHeader;
@@ -30,13 +32,14 @@ public class TwitpicServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			
 			HashMap<String,Object> root = new HashMap<String,Object>();
 			freemarker.template.Configuration config=new freemarker.template.Configuration();
 			config.setDirectoryForTemplateLoading(new File("template"));
 			config.setDefaultEncoding("UTF-8");
 			
 			try {
+				init_twitter(getUsername(), getPasswd());
 				root.put("user", this.getCachedUser());
 				root.put("rate", twitter.rateLimitStatus());
 				root.put("uri", uri);
@@ -48,6 +51,9 @@ public class TwitpicServlet extends JTweetServlet {
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
 				resp.sendError(e.getStatusCode());
+				e.printStackTrace();
+			} catch (NotLoginException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -65,7 +71,12 @@ public class TwitpicServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			try {
+				init_twitter(getUsername(), getPasswd());
+			} catch (NotLoginException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			String msg = null;
 			String imgurl = null;
 			
@@ -86,73 +97,82 @@ public class TwitpicServlet extends JTweetServlet {
 			
 			String boundary = contenttype.substring(contenttype.lastIndexOf("boundary=") + 9);
 			
-			String auth = "--" + boundary
-						+ "\r\nContent-Disposition: form-data; name=\"username\"\r\n\r\n"
-						+ getUsername() + "\r\n"
-						+ "--" + boundary
-						+ "\r\nContent-Disposition: form-data; name=\"password\"\r\n\r\n"
-						+ getPasswd() + "\r\n";
-			
-			byte[] buf = new byte[req.getContentLength()];
-			req.getInputStream().read(buf);
-			
-			byte[] authbyte = auth.getBytes();
-			byte[] post = new byte[buf.length + authbyte.length];
-			
-			
-			System.arraycopy(authbyte, 0, post, 0, authbyte.length);
-			System.arraycopy(buf, 0, post, authbyte.length, buf.length);
-			
-			//System.out.write(post);
-			httpreq.addHeader(new HTTPHeader("Content-Length", String.valueOf(post.length)));
-			httpreq.setPayload(post);
-			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			
-			if(httpresp.getResponseCode() == 200)
-			{
-				Twitpic twitpic = new Twitpic(httpresp.getContent());
-				if(twitpic.isok())
+			try {
+				String auth = "--" + boundary
+							+ "\r\nContent-Disposition: form-data; name=\"username\"\r\n\r\n"
+							+ getUsername() + "\r\n"
+							+ "--" + boundary
+							+ "\r\nContent-Disposition: form-data; name=\"password\"\r\n\r\n"
+							+ getPasswd() + "\r\n";
+				byte[] buf = new byte[req.getContentLength()];
+				req.getInputStream().read(buf);
+				
+				byte[] authbyte = auth.getBytes();
+				byte[] post = new byte[buf.length + authbyte.length];
+				
+				
+				System.arraycopy(authbyte, 0, post, 0, authbyte.length);
+				System.arraycopy(buf, 0, post, authbyte.length, buf.length);
+				
+				//System.out.write(post);
+				httpreq.addHeader(new HTTPHeader("Content-Length", String.valueOf(post.length)));
+				httpreq.setPayload(post);
+				HTTPResponse httpresp = urlFetch.fetch(httpreq);
+				
+				if(httpresp.getResponseCode() == 200)
 				{
-					msg = "Your Pic have beed Tweeted Successfully!";
-					if(uri.equalsIgnoreCase("/twitgoo"))
+					Twitpic twitpic = new Twitpic(httpresp.getContent());
+					if(twitpic.isok())
 					{
-						imgurl = "http://twitgoo.com/" + twitpic.getMediaid() + "/thumb";
+						msg = "Your Pic have beed Tweeted Successfully!";
+						if(uri.equalsIgnoreCase("/twitgoo"))
+						{
+							imgurl = "http://twitgoo.com/" + twitpic.getMediaid() + "/thumb";
+						}
+						else
+						{
+							imgurl = "/picthumb?id=" + twitpic.getMediaid();
+						}
 					}
 					else
 					{
-						imgurl = "/picthumb?id=" + twitpic.getMediaid();
+						msg = "Failed, Error Message：" + twitpic.getErrmsg();
 					}
 				}
 				else
 				{
-					msg = "Failed, Error Message：" + twitpic.getErrmsg();
+					msg = "Failed, Error Code：" + httpresp.getResponseCode() + "。";
 				}
-			}
-			else
-			{
-				msg = "Failed, Error Code：" + httpresp.getResponseCode() + "。";
+				
+				HashMap<String,Object> root = new HashMap<String,Object>();
+				freemarker.template.Configuration config=new freemarker.template.Configuration();
+				config.setDirectoryForTemplateLoading(new File("template"));
+				config.setDefaultEncoding("UTF-8");
+				
+				try {
+					root.put("user", this.getCachedUser());
+					root.put("rate", twitter.rateLimitStatus());
+					root.put("msg", msg);
+					root.put("uri", uri);
+					if(imgurl != null) root.put("imgurl", imgurl);
+					Template t = config.getTemplate("twitpic.ftl");
+					t.process(root, resp.getWriter());
+				} catch (TemplateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (TwitterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotLoginException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (NotLoginException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			
-			HashMap<String,Object> root = new HashMap<String,Object>();
-			freemarker.template.Configuration config=new freemarker.template.Configuration();
-			config.setDirectoryForTemplateLoading(new File("template"));
-			config.setDefaultEncoding("UTF-8");
 			
-			try {
-				root.put("user", this.getCachedUser());
-				root.put("rate", twitter.rateLimitStatus());
-				root.put("msg", msg);
-				root.put("uri", uri);
-				if(imgurl != null) root.put("imgurl", imgurl);
-				Template t = config.getTemplate("twitpic.ftl");
-				t.process(root, resp.getWriter());
-			} catch (TemplateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		else
 		{

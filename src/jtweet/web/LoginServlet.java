@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import jtweet.Encrypt;
+import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
 import twitter4j.TwitterException;
@@ -87,6 +88,9 @@ public class LoginServlet extends JTweetServlet {
 					redirectLogin(req, resp);
 					e.printStackTrace();
 					return;
+				} catch (NotLoginException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}

@@ -2,7 +2,7 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			window.setInterval
+			/*window.setInterval
 			(
 				function()
 				{
@@ -11,6 +11,12 @@ $(document).ready(
 					//updateRate();
 				},
 				60000
+			);*/
+			window.setTimeout
+			(
+					function(){
+						
+					},6000
 			);
 			window.setInterval
 			(

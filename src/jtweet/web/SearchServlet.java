@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
+
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -26,7 +28,12 @@ public class SearchServlet extends JTweetServlet {
 		s = req.getParameter("s");
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			try {
+				init_twitter(getUsername(), getPasswd());
+			} catch (NotLoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(s.length() > 0)
 			{
 				getSearch(req, resp);
@@ -84,6 +91,9 @@ public class SearchServlet extends JTweetServlet {
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			log.warning(e.getMessage());
+			e.printStackTrace();
+		} catch (NotLoginException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
+
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -28,11 +30,12 @@ public class UserServlet extends JTweetServlet {
 			
 			if(isLogin(req) && uid!= null)
 			{
-				init_twitter(getUsername(), getPasswd());
+				
 				if(page != null)
 				{
 					try
 					{
+						init_twitter(getUsername(), getPasswd());
 						int p = Integer.parseInt(page);
 						if(p > 0) paging.setPage(p);
 						else
@@ -45,6 +48,9 @@ public class UserServlet extends JTweetServlet {
 					{
 						resp.sendRedirect(uri);
 						return;
+					} catch (NotLoginException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 				if(show == null)
@@ -100,6 +106,9 @@ public class UserServlet extends JTweetServlet {
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NotLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -133,6 +142,9 @@ public class UserServlet extends JTweetServlet {
 			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotLoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

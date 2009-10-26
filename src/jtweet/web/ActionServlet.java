@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
+
 import org.apache.oro.text.perl.Perl5Util; //import org.json.JSONException;
 import org.json.simple.JSONObject;
 
@@ -26,6 +28,7 @@ public class ActionServlet extends JTweetServlet {
 		doAction(req, resp);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void doAction(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("application/x-javascript; charset=UTF-8");
@@ -34,8 +37,9 @@ public class ActionServlet extends JTweetServlet {
 		JSONObject json = new JSONObject();
 
 		if (isLogin(req)) {
-			init_twitter(getUsername(), getPasswd());
+			
 			try {
+				init_twitter(getUsername(), getPasswd());
 				if (action.equalsIgnoreCase("post")) {
 					String tweet = req.getParameter("tweet_msg");
 					if (tweet != null) {
@@ -170,6 +174,9 @@ public class ActionServlet extends JTweetServlet {
 					json.put("info", e.getStatusCode());
 					e.printStackTrace();
 				}
+			} catch (NotLoginException e) {
+				log.info(e.getMessage());
+				json.put("info", e.getMessage());
 			}
 		} else {
 			json.put("info", "No login.");

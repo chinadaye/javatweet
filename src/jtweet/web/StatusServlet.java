@@ -7,6 +7,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
+
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -23,7 +25,12 @@ public class StatusServlet extends JTweetServlet {
 		
 		if(isLogin(req) && sid != null)
 		{
-			init_twitter(getUsername(), getPasswd());
+			try {
+				init_twitter(getUsername(), getPasswd());
+			} catch (NotLoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			getStatus(sid, resp);
 		}
 		else

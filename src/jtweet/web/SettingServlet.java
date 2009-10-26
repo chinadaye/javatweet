@@ -8,6 +8,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.Exception.NotLoginException;
+
 import twitter4j.TwitterException;
 
 import com.google.appengine.api.urlfetch.HTTPHeader;
@@ -30,8 +32,14 @@ public class SettingServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
-			getSetting(resp, null);
+			try {
+				init_twitter(getUsername(), getPasswd());
+				getSetting(resp, null);
+			} catch (NotLoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		else
 		{
@@ -47,10 +55,20 @@ public class SettingServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			try {
+				init_twitter(getUsername(), getPasswd());
+			} catch (NotLoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(uri.equalsIgnoreCase("/setimg"))
 			{
-				UpdateImg(req, resp);
+				try {
+					UpdateImg(req, resp);
+				} catch (NotLoginException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else
 			{
@@ -84,6 +102,9 @@ public class SettingServlet extends JTweetServlet {
 			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotLoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -120,7 +141,7 @@ public class SettingServlet extends JTweetServlet {
 		
 		getSetting(resp, msg);
 	}
-	protected void UpdateImg(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	protected void UpdateImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, NotLoginException
 	{
 		String msg = null;
 		

@@ -74,6 +74,7 @@ function markupUI(){
 	
 };
 
+
 function flash_title()
 {
 	if(unread_count > 0)
@@ -138,6 +139,29 @@ function updateHome()
 			}
 		);
 };
+
+/**
+ * 检查是否有新消息
+ * 
+ */
+function checkHome()
+{
+	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
+	$.getJSON(
+			"/check",
+			{
+				type: "home",
+				since: sinceid,
+				timestamp: (new Date()).getTime()
+			},
+			function(data)
+			{
+				
+			}
+		);
+}
+
+
 
 function updatePublic()
 {

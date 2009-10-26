@@ -9,7 +9,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-class>jtweet.JtweetServlet</servlet-class>
 		<init-param>
 			<param-name>encrypt_key</param-name>
-			<param-value>javateet</param-value>
+			<param-value>itwitter</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -115,7 +115,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>PicThumb</servlet-name>
 		<url-pattern>/picthumb</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>Check</servlet-name>
+		<servlet-class>jtweet.web.CheckServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Check</servlet-name>
+		<url-pattern>/check</url-pattern>
+	</servlet-mapping>
 	
 	<error-page>
 		<error-code>500</error-code>
