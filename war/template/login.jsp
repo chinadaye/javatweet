@@ -9,7 +9,7 @@
 <meta content="width = 780" name="viewport" />
 <meta content="NOODP" name="robots" />
 <meta content="n" name="session-loggedin" />
-<title id="page_title">JTweet - 请登录</title>
+<title id="page_title">JTeet - 请登录</title>
 <link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>

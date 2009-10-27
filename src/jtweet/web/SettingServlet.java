@@ -91,7 +91,7 @@ public class SettingServlet extends JTweetServlet {
 		
 		try {
 			root.put("user", this.getCachedUser());
-			root.put("rate", twitter.rateLimitStatus());
+//			root.put("rate", twitter.rateLimitStatus());
 			if(msg != null) root.put("msg", msg);
 			Template t = config.getTemplate("setting.ftl");
 			t.process(root, resp.getWriter());

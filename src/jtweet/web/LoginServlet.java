@@ -68,7 +68,7 @@ public class LoginServlet extends JTweetServlet {
 				try {
 					User user = twitter.verifyCredentials();
 					if(user!=null){
-						GCache.put("user:"+this.getUsername(), user,3600*24);
+						GCache.put("user:"+username, user,3600*24);
 					}
 					session.setAttribute("username", username);
 					session.setAttribute("passwd", passwd_en);
@@ -84,14 +84,11 @@ public class LoginServlet extends JTweetServlet {
 					resp.sendRedirect("/home");
 					return;
 				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
+					this.log.warning(e.getMessage());
 					redirectLogin(req, resp);
-					e.printStackTrace();
+//					e.printStackTrace();
 					return;
-				} catch (NotLoginException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} 
 			}
 		}
 		else

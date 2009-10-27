@@ -19,86 +19,73 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class UserServlet extends JTweetServlet {
 	protected String uri;
-	
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-			resp.setContentType("text/html; charset=UTF-8");
-			uri = req.getRequestURI();
-			String uid = req.getParameter("id");
-			String page = req.getParameter("page");
-			String show = req.getParameter("show");
-			
-			if(isLogin(req) && uid!= null)
-			{
-				
-				if(page != null)
-				{
-					try
-					{
-						init_twitter(getUsername(), getPasswd());
+		resp.setContentType("text/html; charset=UTF-8");
+		uri = req.getRequestURI();
+		String uid = req.getParameter("id");
+		String page = req.getParameter("page");
+		String show = req.getParameter("show");
+
+		if (isLogin(req) && uid != null) {
+			try {
+				init_twitter(getUsername(), getPasswd());
+				if (page != null) {
+					try {
+						
 						int p = Integer.parseInt(page);
-						if(p > 0) paging.setPage(p);
-						else
-						{
-							resp.sendRedirect(uri);
-							return;
+						if (p > 0)
+							paging.setPage(p);
+						else {
+							paging.setPage(1);
 						}
-					}
-					catch (NumberFormatException e)
-					{
-						resp.sendRedirect(uri);
-						return;
-					} catch (NotLoginException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					} catch (NumberFormatException e) {
+						paging.setPage(1);
+					} 
 				}
-				if(show == null)
-				{
+				if (show == null) {
 					getUserTimeline(uid, resp);
-				}
-				else if(show.equalsIgnoreCase("favor"))
-				{
+				} else if (show.equalsIgnoreCase("favor")) {
 					getUserFavor(uid, resp);
-				}
-				else
-				{
+				} else {
 					resp.sendRedirect("/home");
 					return;
 				}
-				
+			} catch (NotLoginException e) {
+				this.redirectLogin(req, resp);
 			}
-			else
-			{
-				redirectLogin(req, resp);
-			}
+		} else {
+			redirectLogin(req, resp);
+		}
 
 	}
-	protected void getUserTimeline(String uid, HttpServletResponse resp) throws IOException
-	{
-		HashMap<String,Object> root = new HashMap<String,Object>();
-		freemarker.template.Configuration config=new freemarker.template.Configuration();
+
+	protected void getUserTimeline(String uid, HttpServletResponse resp)
+			throws IOException, NotLoginException {
+		HashMap<String, Object> root = new HashMap<String, Object>();
+		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
-		
+
 		try {
 			User user = twitter.showUser(uid);
 			root.put("user", this.getCachedUser());
-			root.put("rate", twitter.rateLimitStatus());
+			// root.put("rate", twitter.rateLimitStatus());
 			root.put("user_show", user);
 			root.put("title", "时间线");
 			root.put("uri", uri + "?id=" + uid);
 			root.put("page", paging.getPage());
-			
-			if(user.getScreenName().equalsIgnoreCase(getUsername()) || (!user.isProtected()))
-			{
+
+			if (user.getScreenName().equalsIgnoreCase(getUsername())
+					|| (!user.isProtected())) {
 				List<Status> status = twitter.getUserTimeline(uid, paging);
 				root.put("status", status);
 			}
-			
+
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			resp.sendError(e.getStatusCode());
@@ -106,37 +93,34 @@ public class UserServlet extends JTweetServlet {
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
-	
-	protected void getUserFavor(String uid, HttpServletResponse resp) throws IOException
-	{
-		HashMap<String,Object> root = new HashMap<String,Object>();
-		freemarker.template.Configuration config=new freemarker.template.Configuration();
+
+	protected void getUserFavor(String uid, HttpServletResponse resp)
+			throws IOException {
+		HashMap<String, Object> root = new HashMap<String, Object>();
+		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
-		
+
 		try {
 			User user = twitter.showUser(uid);
 			root.put("user", this.getCachedUser());
-			root.put("rate", twitter.rateLimitStatus());
+			// root.put("rate", twitter.rateLimitStatus());
 			root.put("user_show", user);
 			root.put("title", "收藏");
 			root.put("uri", uri + "?id=" + uid + "&show=favor");
 			root.put("page", paging.getPage());
-			
-			if(!user.isProtected())
-			{
-				List<Status> status = twitter.getFavorites(uid, paging.getPage());
+
+			if (!user.isProtected()) {
+				List<Status> status = twitter.getFavorites(uid, paging
+						.getPage());
 				root.put("status", status);
 			}
-			
+
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			resp.sendError(e.getStatusCode());

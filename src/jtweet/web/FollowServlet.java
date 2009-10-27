@@ -77,7 +77,7 @@ public class FollowServlet extends JTweetServlet {
 		try {
 			root.put("title", "关注者");
 			root.put("user", this.getCachedUser());
-			root.put("rate", twitter.rateLimitStatus());
+//			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	
 			{
 				root.put("user_show", this.getCachedUser());
@@ -119,7 +119,7 @@ public class FollowServlet extends JTweetServlet {
 		try {
 			root.put("title", "朋友");
 			root.put("user", this.getCachedUser());
-			root.put("rate", twitter.rateLimitStatus());
+//			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	
 			{
 				root.put("user_show", this.getCachedUser());

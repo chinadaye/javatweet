@@ -45,6 +45,7 @@ public class JTweetServlet extends HttpServlet {
 		paging = new Paging(1, 20);
 	}
 
+	@Deprecated
 	protected boolean isLogin(HttpServletRequest req) {
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
@@ -95,6 +96,47 @@ public class JTweetServlet extends HttpServlet {
 		}
 	}
 
+	protected void revertAccount(HttpServletRequest req) throws NotLoginException, UnsupportedEncodingException, Base64DecoderException{
+		HttpSession session = req.getSession(true);
+		session.setMaxInactiveInterval(3600);
+		username = (String) session.getAttribute("username");
+		passwd = (String) session.getAttribute("passwd");
+		if (username != null && passwd != null) {
+				passwd = new String(Base64.decode(passwd), "UTF-8");
+		} else {
+			Cookie[] cookies = req.getCookies();
+			Cookie accountCookie = null;
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals(
+							JTweetServlet.ACCOUNT_COOKIE_NAME)) {
+						accountCookie = cookie;
+						break;
+					}
+				}
+			}
+			if (accountCookie != null) {
+				String[] accountString = Encrypt.decodeAccount(accountCookie
+						.getValue());
+				if (accountString != null) {
+					username = accountString[0];
+					passwd = accountString[1];
+					String passwd_en;
+					try {
+						passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
+						session.setAttribute("passwd", passwd_en);
+					} catch (UnsupportedEncodingException e) {
+						log.warning(e.getMessage());
+						e.printStackTrace();
+					}
+					session.setAttribute("username", username);
+				}
+			}else{
+				throw new NotLoginException();
+			}
+		}
+		this.init_twitter(username, passwd);
+	}
 	protected void redirectLogin(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession(true);

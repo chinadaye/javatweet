@@ -23,66 +23,56 @@ public class SearchServlet extends JTweetServlet {
 	protected String s;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-	throws IOException {
+			throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		s = req.getParameter("s");
-		if(isLogin(req))
-		{
-			try {
-				init_twitter(getUsername(), getPasswd());
-			} catch (NotLoginException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if(!this.isLogin(req)){
+				throw new NotLoginException();
 			}
-			if(s.length() > 0)
-			{
+			init_twitter(getUsername(), getPasswd());
+			if (s.length() > 0) {
 				getSearch(req, resp);
-			}
-			else
-			{
+			} else {
 				resp.sendRedirect("/home");
 				return;
 			}
-		}
-		else
-		{
-			redirectLogin(req, resp);
+		} catch (NotLoginException e) {
+			e.printStackTrace();
+			this.redirectLogin(req, resp);
 		}
 	}
-	protected void getSearch(HttpServletRequest req, HttpServletResponse resp) throws IOException
-	{
-		HashMap<String,Object> root = new HashMap<String,Object>();
-		freemarker.template.Configuration config=new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template")); 
+
+	protected void getSearch(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, NotLoginException {
+		HashMap<String, Object> root = new HashMap<String, Object>();
+		freemarker.template.Configuration config = new freemarker.template.Configuration();
+		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
-		
+
 		String p = req.getParameter("page");
 		int page = 1;
-		if(p != null)
-		{
-			try
-			{
+		if (p != null) {
+			try {
 				page = Integer.parseInt(p);
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				page = 1;
 			}
 		}
-		
+
 		Query query = new Query(s);
 		query.setPage(page);
-		
+
 		try {
 			QueryResult result = twitter.search(query);
 			List<Tweet> tweets = result.getTweets();
 			root.put("user", this.getCachedUser());
+
 			root.put("search", s);
 			root.put("addjs", "/js/search.js");
-			root.put("rate", twitter.rateLimitStatus());
 			root.put("page", page);
 			root.put("tweets", tweets);
-			
+
 			Template t = config.getTemplate("search.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -92,10 +82,7 @@ public class SearchServlet extends JTweetServlet {
 		} catch (TemplateException e) {
 			log.warning(e.getMessage());
 			e.printStackTrace();
-		} catch (NotLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
+
 	}
 }

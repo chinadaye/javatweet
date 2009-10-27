@@ -41,7 +41,7 @@ public class TwitpicServlet extends JTweetServlet {
 			try {
 				init_twitter(getUsername(), getPasswd());
 				root.put("user", this.getCachedUser());
-				root.put("rate", twitter.rateLimitStatus());
+//				root.put("rate", twitter.rateLimitStatus());
 				root.put("uri", uri);
 				Template t = config.getTemplate("twitpic.ftl");
 				t.process(root, resp.getWriter());
@@ -151,7 +151,7 @@ public class TwitpicServlet extends JTweetServlet {
 				
 				try {
 					root.put("user", this.getCachedUser());
-					root.put("rate", twitter.rateLimitStatus());
+//					root.put("rate", twitter.rateLimitStatus());
 					root.put("msg", msg);
 					root.put("uri", uri);
 					if(imgurl != null) root.put("imgurl", imgurl);

@@ -81,7 +81,7 @@ public class UpdateServlet extends JTweetServlet {
 				}
 				else if(type.equalsIgnoreCase("rate"))
 				{
-					root.put("rate", twitter.rateLimitStatus());
+//					root.put("rate", twitter.rateLimitStatus());
 					t = config.getTemplate("rate.ftl");
 				}
 				
