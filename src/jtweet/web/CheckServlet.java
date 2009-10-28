@@ -39,7 +39,7 @@ public class CheckServlet extends JTweetServlet {
 				
 			}
 		} catch (NeedParamterException e) {
-			this.log.warning(e.getMessage());
+			this.logger.warning(e.getMessage());
 			e.printStackTrace();
 		}
 	}

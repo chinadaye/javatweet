@@ -13,6 +13,7 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
 
 @SuppressWarnings("serial")
@@ -24,29 +25,39 @@ public class LoginServlet extends JTweetServlet {
 		
 		if(action.equalsIgnoreCase("login"))			
 		{
-			if(isLogin(req))
-			{
+			try {
+				this.revertAccount(req);
+				JTweetServlet.logger.info("redirect home");
 				resp.sendRedirect("/home");
-				return;
+			} catch (NotLoginException e) {
+				//进行登录
+				try {
+					req.getRequestDispatcher("template/login.jsp").include(req, resp);
+				} catch (ServletException e1) {
+					JTweetServlet.logger.warning(e1.getMessage());
+					this.showError(req, resp, e1.getMessage());
+				}
+				
+			} catch (Base64DecoderException e) {
+				JTweetServlet.logger.warning(e.getMessage());
+				this.showError(req, resp, e.getMessage());
 			}
 		}
 		else if(action.equalsIgnoreCase("logout"))
 		{
+			HttpSession session = req.getSession(true);
+			session.invalidate();
+			resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null));
 			redirectLogin(req, resp);
 			return;
 		}
 		else
 		{
-			redirectLogin(req, resp);
+			resp.sendRedirect("/");
 			return;
 		}
 		
-		try {
-			req.getRequestDispatcher("template/login.jsp").include(req, resp);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -80,20 +91,24 @@ public class LoginServlet extends JTweetServlet {
 						cookie.setPath("/");
 						resp.addCookie(cookie);
 					}
-					
+					JTweetServlet.logger.info("redirect home");
 					resp.sendRedirect("/home");
 					return;
 				} catch (TwitterException e) {
-					this.log.warning(e.getMessage());
-					redirectLogin(req, resp);
-//					e.printStackTrace();
-					return;
+					JTweetServlet.logger.warning(e.getMessage());
+					req.setAttribute("error", e.getMessage());
+					try {
+						getServletContext().getRequestDispatcher("/template/login.jsp").forward(req, resp);
+					} catch (ServletException e1) {
+						JTweetServlet.logger.warning(e1.getMessage());
+						e1.printStackTrace();
+					}
 				} 
 			}
 		}
 		else
 		{
-			redirectLogin(req, resp);
+			resp.sendRedirect("/");
 		}
 	}
 }

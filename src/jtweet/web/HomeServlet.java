@@ -51,16 +51,14 @@ public class HomeServlet extends JTweetServlet {
 			} else if (action.equalsIgnoreCase("public")) {
 				getPubTimeline(resp);
 			} else {
+				JTweetServlet.logger.info("redirect home");
 				resp.sendRedirect("/home");
 			}
 		} catch (NotLoginException e) {
-			JTweetServlet.log.info(e.getMessage());
 			this.redirectLogin(req, resp);
-		} catch(TwitterException e){
-			// TODO twitter错误处理
 		}catch (Exception e) {
-			log.warning(e.getMessage());
-			// TODO 未知异常处理 错误处理页
+			logger.warning(e.getMessage());
+			this.showError(req, resp, e.getMessage());
 		}
 	}
 
@@ -93,7 +91,6 @@ public class HomeServlet extends JTweetServlet {
 
 			List<Status> status = twitter.getMentions(paging);
 			root.put("user", this.getCachedUser());
-			// root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "回复");
 			root.put("addjs", "/js/reply.js");
 			root.put("uri", uri);

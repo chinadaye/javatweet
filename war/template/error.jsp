@@ -9,7 +9,7 @@
 <meta content="width = 780" name="viewport" />
 <meta content="NOODP" name="robots" />
 <meta content="n" name="session-loggedin" />
-<title id="page_title">JTeet - 请登录</title>
+<title id="page_title">JTeet </title>
 <link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
@@ -31,6 +31,10 @@
 		font-weight:bold;
 		font-size:14px;
 		padding: 0px 30px 30px 30px;
+	}
+	.error_tip
+	{
+		text-align:center;
 	}
 	#loginform
 	{
@@ -64,10 +68,7 @@
 		margin:0 5px 0 0;
 		font-size:12px;
 	}
-     .error_tip
-     {
-     	color: red;
-     } 
+      
 </style>
 </head>
 <body class="sessions" id="new">
@@ -82,30 +83,11 @@
   
 		<div class="content-bubble-arrow"></div>
 			<div id="login_warp" class="round">
-				<div class="login_tip">
-				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。</p><br />
-				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http://<% out.print(request.getServerName()); %>/api" > http://<% out.print(request.getServerName()); %>/api</a></b>。</p>
+				<div class="error_tip">
+				<p><img alt="error"  src="/img/error.jpg" width="400"></p>
+				<p>发生了未知的异常情况，请稍候再试。<% String error = (String)request.getAttribute("error"); %><%=error!=null?error:"" %></p>
 				</div>
-				<div >
-				<% String error = (String)request.getAttribute("error"); 
-				if(error!=null){
-				%>
-				<p class="error_tip">请检查用户名和密码（<%=error %>）</p>
-				<%} %>
-				<form action="/login" id="loginform" method="post">
-				<p>
-					<label>用户名:</label>
-					<input type="text" id="username" name="username"/>
-				</p>
-				<p>
-					<label>密码:</label>
-					<input type="password" id="passwd" name="passwd"/>
-				</p>
-				<p>
-					<button type="submit" id="sub_button" class="login_button">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1"/>保持登录</label>
-				</p>
-				</form>
-				</div>
+				
 			</div>
 			<div class="fixed"></div>
 		

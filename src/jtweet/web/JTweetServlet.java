@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class JTweetServlet extends HttpServlet {
 	private String username = null;
 	private String passwd = null;
 	public static final String ACCOUNT_COOKIE_NAME = "up";
-	protected static Logger log = Logger.getLogger(JTweetServlet.class.getName());
+	protected static Logger logger = Logger.getLogger(JTweetServlet.class.getName());
 	
 	public void init_twitter(String id, String passwd) {
 		twitter = new Twitter(id, passwd);
@@ -56,10 +57,10 @@ public class JTweetServlet extends HttpServlet {
 				passwd = new String(Base64.decode(passwd), "UTF-8");
 				return true;
 			} catch (Base64DecoderException e) {
-				log.warning(e.getMessage());
+				logger.warning(e.getMessage());
 				return false;
 			} catch (UnsupportedEncodingException e) {
-				log.warning(e.getMessage());
+				logger.warning(e.getMessage());
 				return false;
 			}
 		} else {
@@ -85,7 +86,7 @@ public class JTweetServlet extends HttpServlet {
 						passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
 						session.setAttribute("passwd", passwd_en);
 					} catch (UnsupportedEncodingException e) {
-						log.warning(e.getMessage());
+						logger.warning(e.getMessage());
 						e.printStackTrace();
 					}
 					session.setAttribute("username", username);
@@ -126,10 +127,12 @@ public class JTweetServlet extends HttpServlet {
 						passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
 						session.setAttribute("passwd", passwd_en);
 					} catch (UnsupportedEncodingException e) {
-						log.warning(e.getMessage());
+						logger.warning(e.getMessage());
 						e.printStackTrace();
 					}
 					session.setAttribute("username", username);
+				}else{
+					throw new NotLoginException();
 				}
 			}else{
 				throw new NotLoginException();
@@ -139,12 +142,21 @@ public class JTweetServlet extends HttpServlet {
 	}
 	protected void redirectLogin(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
-		HttpSession session = req.getSession(true);
-		session.invalidate();
-		resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null));
+		JTweetServlet.logger.info("redirect login");
 		resp.sendRedirect("/login");
 	}
-
+	protected void showError(HttpServletRequest req,HttpServletResponse resp,String error){
+		req.setAttribute("error", error);
+		try {
+			getServletContext().getRequestDispatcher("/template/error.jsp").forward(req, resp);
+		} catch (ServletException e) {
+			JTweetServlet.logger.warning(e.getMessage());
+		} catch (IOException e) {
+			JTweetServlet.logger.warning(e.getMessage());
+		}
+	}
+	
+	
 	public String getUsername() throws NotLoginException {
 		if(username==null){
 			throw new NotLoginException();

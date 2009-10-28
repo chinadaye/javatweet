@@ -76,11 +76,11 @@ public class SearchServlet extends JTweetServlet {
 			Template t = config.getTemplate("search.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			log.warning(e.getMessage());
+			logger.warning(e.getMessage());
 			resp.sendError(e.getStatusCode());
 			e.printStackTrace();
 		} catch (TemplateException e) {
-			log.warning(e.getMessage());
+			logger.warning(e.getMessage());
 			e.printStackTrace();
 		}
 

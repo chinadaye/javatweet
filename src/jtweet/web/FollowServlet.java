@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.TwitterException;
@@ -27,30 +29,32 @@ public class FollowServlet extends JTweetServlet {
 		String action = uri.substring(1);
 		String page = req.getParameter("page");
 		
-		if(isLogin(req))
-		{
+		
 			
-			if(page != null)
-			{
 				try
 				{
-					init_twitter(getUsername(), getPasswd());
-					int p = Integer.parseInt(page);
-					if(p > 0) paging.setPage(p);
-					else
+					this.revertAccount(req);
+					if(page == null)
 					{
-						resp.sendRedirect(uri);
-						return;
+						paging.setPage(1);
+					}else{
+						int p = Integer.parseInt(page);
+						if(p > 0) paging.setPage(p);
+						else	paging.setPage(1);
 					}
+					init_twitter(getUsername(), getPasswd());
+					
 				}
 				catch (NumberFormatException e)
 				{
 					resp.sendRedirect(uri);
 					return;
 				} catch (NotLoginException e) {
-					log.info(e.getMessage());
+					logger.info(e.getMessage());
+				} catch (Base64DecoderException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			}
 			if(action.equalsIgnoreCase("follower"))
 			{
 				getFollower(uid, resp);
@@ -59,11 +63,7 @@ public class FollowServlet extends JTweetServlet {
 			{
 				getFollowing(uid, resp);
 			}
-		}
-		else
-		{
-			redirectLogin(req, resp);
-		}	
+		
 	}
 	
 	protected void getFollower(String uid, HttpServletResponse resp) throws IOException
@@ -103,7 +103,7 @@ public class FollowServlet extends JTweetServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotLoginException e) {
-			log.info(e.getMessage());
+			logger.info(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -145,7 +145,7 @@ public class FollowServlet extends JTweetServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotLoginException e) {
-			log.info(e.getMessage());
+			logger.info(e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -36,150 +36,145 @@ public class ActionServlet extends JTweetServlet {
 		String id = req.getParameter("id");
 		JSONObject json = new JSONObject();
 
-		if (isLogin(req)) {
-			
-			try {
-				init_twitter(getUsername(), getPasswd());
-				if (action.equalsIgnoreCase("post")) {
-					String tweet = req.getParameter("tweet_msg");
-					if (tweet != null) {
-						// tweet = ShortURL(tweet);
-						// 匹配私信
-						String directRegex = "d\\s+([a-z0-9A-Z]+)\\s+(\\S+)";
-						Matcher mt = Pattern.compile(directRegex).matcher(
-								tweet.trim());
-						if (mt.find()) {
-							JTweetServlet.log.info("found");
-							twitter.sendDirectMessage(mt.group(1), mt.group(2));
-						} else if (id != null) {
-							try {
-								long sid = Long.parseLong(id);
-								twitter.updateStatus(tweet, sid);
-							} catch (NumberFormatException e) {
-								twitter.updateStatus(tweet);
-							}
-						} else {
-							twitter.updateStatus(tweet);
-						}
-						rst = true;
-					} else {
-						json.put("info", "empty msg");
-					}
-				} else if (action.equalsIgnoreCase("msg")) {
-					String tweet = req.getParameter("tweet_msg");
-					String directRegex = "d\\s+[a-z0-9A-Z]+\\s+(\\S+)";
+
+		try {
+			init_twitter(getUsername(), getPasswd());
+			if (action.equalsIgnoreCase("post")) {
+				String tweet = req.getParameter("tweet_msg");
+				if (tweet != null) {
+					// tweet = ShortURL(tweet);
+					// 匹配私信
+					String directRegex = "d\\s+([a-z0-9A-Z]+)\\s+(\\S+)";
 					Matcher mt = Pattern.compile(directRegex).matcher(
 							tweet.trim());
-					if(mt.find()){
-						tweet = mt.group(1);
-					}
-					//tweet = ShortURL(tweet);
-					if (id != null) {
-						twitter.sendDirectMessage(id, tweet);
-						rst = true;
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("delmsg")) {
-					if (id != null) {
-						try {
-							int sid = Integer.parseInt(id);
-							twitter.destroyDirectMessage(sid);
-							rst = true;
-						} catch (NumberFormatException e) {
-							json.put("info", "ID err");
-						}
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("delete")) {
-					if (id != null) {
+					if (mt.find()) {
+						JTweetServlet.logger.info("found");
+						twitter.sendDirectMessage(mt.group(1), mt.group(2));
+					} else if (id != null) {
 						try {
 							long sid = Long.parseLong(id);
-							twitter.destroyStatus(sid);
-							rst = true;
+							twitter.updateStatus(tweet, sid);
 						} catch (NumberFormatException e) {
-							json.put("info", "ID err");
+							twitter.updateStatus(tweet);
 						}
 					} else {
-						json.put("info", "ID err");
+						twitter.updateStatus(tweet);
 					}
-				} else if (action.equalsIgnoreCase("favor")) {
-					if (id != null) {
-						try {
-							long sid = Long.parseLong(id);
-							twitter.createFavorite(sid);
-							rst = true;
-						} catch (NumberFormatException e) {
-							json.put("info", "ID err");
-						}
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("unfavor")) {
-					if (id != null) {
-						try {
-							long sid = Long.parseLong(id);
-							twitter.destroyFavorite(sid);
-							rst = true;
-						} catch (NumberFormatException e) {
-							json.put("info", "ID err");
-						}
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("follow")) {
-					if (id != null) {
-						twitter.createFriendship(id);
+					rst = true;
+				} else {
+					json.put("info", "empty msg");
+				}
+			} else if (action.equalsIgnoreCase("msg")) {
+				String tweet = req.getParameter("tweet_msg");
+				String directRegex = "d\\s+[a-z0-9A-Z]+\\s+(\\S+)";
+				Matcher mt = Pattern.compile(directRegex).matcher(tweet.trim());
+				if (mt.find()) {
+					tweet = mt.group(1);
+				}
+				// tweet = ShortURL(tweet);
+				if (id != null) {
+					twitter.sendDirectMessage(id, tweet);
+					rst = true;
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("delmsg")) {
+				if (id != null) {
+					try {
+						int sid = Integer.parseInt(id);
+						twitter.destroyDirectMessage(sid);
 						rst = true;
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("unfollow")) {
-					if (id != null) {
-						twitter.destroyFriendship(id);
-						rst = true;
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("block")) {
-					if (id != null) {
-						twitter.createBlock(id);
-						rst = true;
-					} else {
-						json.put("info", "ID err");
-					}
-				} else if (action.equalsIgnoreCase("unblock")) {
-					if (id != null) {
-						twitter.destroyBlock(id);
-						rst = true;
-					} else {
+					} catch (NumberFormatException e) {
 						json.put("info", "ID err");
 					}
 				} else {
-					json.put("info", "Action type err.");
+					json.put("info", "ID err");
 				}
-
-			} catch (TwitterException e) {
-				rst = false;
-				// TODO Auto-generated catch block
-				if (e.getStatusCode() == 400) {
-					if (action.equalsIgnoreCase("delete")) {
+			} else if (action.equalsIgnoreCase("delete")) {
+				if (id != null) {
+					try {
+						long sid = Long.parseLong(id);
+						twitter.destroyStatus(sid);
 						rst = true;
-					} else {
-						json.put("info", e.getStatusCode());
-						e.printStackTrace();
+					} catch (NumberFormatException e) {
+						json.put("info", "ID err");
 					}
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("favor")) {
+				if (id != null) {
+					try {
+						long sid = Long.parseLong(id);
+						twitter.createFavorite(sid);
+						rst = true;
+					} catch (NumberFormatException e) {
+						json.put("info", "ID err");
+					}
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("unfavor")) {
+				if (id != null) {
+					try {
+						long sid = Long.parseLong(id);
+						twitter.destroyFavorite(sid);
+						rst = true;
+					} catch (NumberFormatException e) {
+						json.put("info", "ID err");
+					}
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("follow")) {
+				if (id != null) {
+					twitter.createFriendship(id);
+					rst = true;
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("unfollow")) {
+				if (id != null) {
+					twitter.destroyFriendship(id);
+					rst = true;
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("block")) {
+				if (id != null) {
+					twitter.createBlock(id);
+					rst = true;
+				} else {
+					json.put("info", "ID err");
+				}
+			} else if (action.equalsIgnoreCase("unblock")) {
+				if (id != null) {
+					twitter.destroyBlock(id);
+					rst = true;
+				} else {
+					json.put("info", "ID err");
+				}
+			} else {
+				json.put("info", "Action type err.");
+			}
+
+		} catch (TwitterException e) {
+			rst = false;
+			// TODO Auto-generated catch block
+			if (e.getStatusCode() == 400) {
+				if (action.equalsIgnoreCase("delete")) {
+					rst = true;
 				} else {
 					json.put("info", e.getStatusCode());
 					e.printStackTrace();
 				}
-			} catch (NotLoginException e) {
-				log.info(e.getMessage());
-				json.put("info", e.getMessage());
+			} else {
+				json.put("info", e.getStatusCode());
+				e.printStackTrace();
 			}
-		} else {
-			json.put("info", "No login.");
+		} catch (NotLoginException e) {
+			logger.info(e.getMessage());
+			json.put("info", e.getMessage());
 		}
 
 		if (rst) {
