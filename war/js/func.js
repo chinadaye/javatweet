@@ -59,9 +59,11 @@ function updateUnread()
 function markupUI(){
 	//高亮当前页面的tab链接
 	var href = window.location.href;
-	var act  = href.match(/http\:\/\/[a-z\.]*\/([a-z\?=&]+)/)[1];
-	$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
-	
+	var matches = href.match(/http\:\/\/[0-9a-z\.]*\/([0-9a-z\?=&]+)/i);
+	if(matches!=null){
+		var act  = matches[1];
+		$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
+	}
 };
 
 
@@ -71,7 +73,7 @@ function flash_title()
 	{
 		if(t)
 		{
-			document.title = "【" + unread_count + "未读】 " + title;
+			document.title = "您有新消息.. " + title;
 			t = false;
 		}
 		else
@@ -100,7 +102,7 @@ function checkHome(){
 			},
 			function(respon){
 				if(respon&&respon.code==1&&respon.count>0){
-					$("a#income_alert:hidden").show();
+					$("a#income_alert").css("visibility","visible");
 					is_income  = true;
 				}else{
 					window.setTimeout
@@ -117,17 +119,21 @@ function checkHome(){
 function retrieveShortUrl(){
 	var short_urls = $("a.shorturl");
 	var short_urls_length = short_urls.length;
-	for(var i=0;i<short_urls_length;i++){
-		var url = $(short_urls[i]).attr('href');
-		$.getJSON('http://untiny.me/api/1.0/extract,
-				{format:'json',url:url},
+//	for(var i=0;i<short_urls_length;i++){
+	if(short_urls_length>0){
+		var url = $(short_urls[0]).attr('href');
+		$.getJSON('/untinyme',
+				{url:url},
 				function(data){
 					if(data.org_url){
-						$(short_urls[i]).attr('href',data.org_url);
-						$(short_urls[i]).text(data.org_url);
+						$(short_urls[0]).attr('href',data.org_url);
+						$(short_urls[0]).text(data.org_url);
 					}
 				});
-		$(short_urls[i]).removeClass('shorturl');
+		$(short_urls[0]).removeClass('shorturl');
+		if(short_urls_length>1){
+			window.setTimeout(function(){retrieveShortUrl();},1000);
+		}
 	}
 }
 
@@ -155,6 +161,7 @@ function updateHome()
 				$("div.newcome").slideDown("normal");
 				$("div.newcome").removeClass("newcome");
 				updateUnread();
+				$("#ajax_loader").css("visibility","hidden");
 				retrieveShortUrl();
 			}
 		);

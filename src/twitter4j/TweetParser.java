@@ -14,9 +14,8 @@ import org.apache.oro.text.perl.Perl5Util;
 public class TweetParser {
 
 	public static String parseTextJava(String text){
-		text = StringEscapeUtils.escapeHtml(text);
 		//twitpic
-		String regex = "http://twitpic\\.com\\/([\\w]{5})\\s?$";
+		String regex = "http://twitpic\\.com\\/([\\w]{5})\\s?";
 		Matcher mt = Pattern.compile(regex).matcher(text);
 		String images = "";
 		while(mt.find()){
@@ -24,21 +23,21 @@ public class TweetParser {
 		}
 		
 		//twitgoo
-		regex = "http://twitgoo\\.com\\/([\\w]{5})\\s?$";
+		regex = "http://twitgoo\\.com\\/([\\w]{5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			images += "<img src=\""+mt.group()+"/thumb\" class=\"twitpic\">";
 		}
 		
 		//img.ly
-		regex = "http://img\\.ly\\/([\\w]{3,5})\\s?$";
+		regex = "http://img\\.ly\\/([\\w]{3,5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			images += "<img src=\"http://img.ly/show/thumb/"+mt.group(1)+"\" class=\"twitpic\">";
 		}
 		
 		//brizzly.com
-		regex = "http://brizzly\\.com\\/pic\\/([\\w]{3,5})\\s?$";
+		regex = "http://brizzly\\.com\\/pic\\/([\\w]{3,5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			images += "<img src=\"http://pics.brizzly.com/thumb_sm_" +mt.group(1)+".jpg\" class=\"twitpic\">";
@@ -55,9 +54,10 @@ public class TweetParser {
 						||url.matches(".*j\\.mp\\/.*")
 						||url.matches(".*is\\.gd\\/.*")
 						){
-					text = text.replace(mt.group(), "<a class=\"shorturl\" href=\""+url+"\">"+mt.group()+"</a>");
+					text = text.replace(mt.group(), "<a class=\"shorturl\" href=\""+url+"\">"+url+"</a>");
+				}else{
+				text = text.replace(mt.group(), "<a href=\""+url+"\">"+url+"</a>");
 				}
-				text = text.replace(mt.group(), "<a href=\""+url+"\">"+mt.group()+"</a>");
 			
 		}
 		

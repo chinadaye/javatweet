@@ -19,10 +19,12 @@ $(document).ready(
 			);
 			flash_title();
 			markupUI();
+			retrieveShortUrl();
 		}
 );
 $("a#income_alert").click(function(){
-	$(this).fadeOut();
+	$(this).css("visibility","hidden")
+	$("#ajax_loader").css("visibility","visible");
 	updateHome();
 	is_income = false;
 	window.setTimeout

@@ -12,6 +12,8 @@ import jtweet.Exception.NotLoginException;
 import org.apache.oro.text.perl.Perl5Util; //import org.json.JSONException;
 import org.json.simple.JSONObject;
 
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+
 import twitter4j.TwitterException;
 
 @SuppressWarnings("serial")
@@ -38,7 +40,7 @@ public class ActionServlet extends JTweetServlet {
 
 
 		try {
-			init_twitter(getUsername(), getPasswd());
+			this.revertAccount(req);
 			if (action.equalsIgnoreCase("post")) {
 				String tweet = req.getParameter("tweet_msg");
 				if (tweet != null) {
@@ -175,6 +177,8 @@ public class ActionServlet extends JTweetServlet {
 		} catch (NotLoginException e) {
 			logger.info(e.getMessage());
 			json.put("info", e.getMessage());
+		} catch (Exception e) {
+			JTweetServlet.logger.warning(e.getMessage());
 		}
 
 		if (rst) {
