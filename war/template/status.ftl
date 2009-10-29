@@ -14,7 +14,7 @@
 	<table cellspacing="0" class="columns">
           <tbody>
             <tr>
-              <td id="content" class="round column">
+              <td id="status_content" class="round column">
 		<div id="status_warp">
 			<span class="status_text">${status.html}</span>	
 			<div class="fixed"></div>

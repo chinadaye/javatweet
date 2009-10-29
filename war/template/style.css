@@ -259,6 +259,16 @@ td.column{
 	-moz-border-radius-bottomleft:5px;
 	-webkit-border-bottom-left-radius:5px;
 }
+#status_content
+{
+	background-color:#FFF;
+	margin-top:0;
+	word-wrap:break-word;
+	-moz-border-radius-topleft:5px;
+	-webkit-border-top-left-radius:5px;
+	-moz-border-radius-bottomleft:5px;
+	-webkit-border-bottom-left-radius:5px;
+}
 .wrapper
 {
 	padding:5px 10px 15px;
