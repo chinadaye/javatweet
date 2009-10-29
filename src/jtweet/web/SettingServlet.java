@@ -8,6 +8,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.gae.GCache;
+
 import twitter4j.TwitterException;
 
 import com.google.appengine.api.urlfetch.HTTPHeader;
@@ -30,7 +32,7 @@ public class SettingServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			getSetting(resp, null);
 		}
 		else
@@ -47,7 +49,7 @@ public class SettingServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			if(uri.equalsIgnoreCase("/setimg"))
 			{
 				UpdateImg(req, resp);
@@ -72,7 +74,8 @@ public class SettingServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
+			root.put("browser", browser);
 			root.put("rate", twitter.rateLimitStatus());
 			if(msg != null) root.put("msg", msg);
 			Template t = config.getTemplate("setting.ftl");
@@ -110,6 +113,7 @@ public class SettingServlet extends JTweetServlet {
 		{
 			try {
 				twitter.updateProfile(name, null, url, loc, desc);
+				GCache.clean("user:" + getUsername());
 				msg = "资料更新成功。";
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
@@ -140,6 +144,7 @@ public class SettingServlet extends JTweetServlet {
 		
 		if(httpresp.getResponseCode() == 200)
 		{
+			GCache.clean("user:" + getUsername());
 			msg="图片更新成功";
 		}
 		else

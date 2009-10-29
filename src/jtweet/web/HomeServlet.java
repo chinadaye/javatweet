@@ -28,7 +28,7 @@ public class HomeServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			if(page != null)
 			{
 				try
@@ -88,9 +88,10 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getFriendsTimeline(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title","时间线");
+			root.put("browser", browser);
 			root.put("addjs", "/js/home.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
@@ -118,9 +119,10 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getMentions(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "回复");
+			root.put("browser", browser);
 			root.put("addjs", "/js/reply.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
@@ -148,9 +150,10 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getPublicTimeline(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title","公共页面");
+			root.put("browser", browser);
 			root.put("addjs", "/js/public.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
@@ -178,9 +181,10 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<Status> status = twitter.getFavorites(paging.getPage());
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title", "收藏");
+			root.put("browser", browser);
 			root.put("addjs", "/js/favor.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
@@ -208,8 +212,9 @@ public class HomeServlet extends JTweetServlet {
 		
 		try {
 			List<DirectMessage> msg = twitter.getDirectMessages(paging);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
+			root.put("browser", browser);
 			root.put("addjs", "/js/message.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());

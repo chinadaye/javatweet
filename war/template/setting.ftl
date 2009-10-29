@@ -9,13 +9,15 @@
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
 </head>
-<body>
-<div id="warp">
-	<div id="head_warp">
+<body class="sessions ${browser}" id="new">
+	<div id="container" class="subpage">
 		<#include "head.ftl" /> 
-	</div>
-	<div class="fixed"></div>
-	<div id="main_warp">
+	
+	<table cellspacing="0" class="columns">
+          <tbody>
+            <tr>
+              <td id="content" class="round-left column">
+                                <div class="wrapper">
 		<#if msg?exists><center><div id="setting_rst">${msg}</div></center></#if>
 		<div id="setting_img">
 			<img src="${user.biggerImageURL}" alt="${user.screenName}" class="user_img_big"/>
@@ -45,11 +47,23 @@
 			<center><button id="jtweet_sub" onclick="javascript:onJTweetSetting();">保存</button></center>
 		</div>
 	</div>
-	<div id="side_warp">
+	</td>
+              
+                <td id="side_base" class="column round-right">
+                                  
+                  <div id="side">
 		<#include "side.ftl" />
 	</div>
 	<div class="fixed"></div>
-	<div id="foot_warp">
+	</td>
+
+              
+            </tr>
+          </tbody>
+        </table>
+
+
+  <div id="footer" class="round">
 		<#include "foot.ftl" />
 	</div>
 	<div class="fixed"></div>
@@ -57,5 +71,7 @@
 <script type="text/javascript" src="/js/func.js" ></script>
 <script type="text/javascript" src="/js/setting.js" ></script>
 <script type="text/javascript" src="/js/checkext.js" ></script>
+<div class="fixed"></div>
+<#include "analytics.ftl" />
 </body>
 </html>

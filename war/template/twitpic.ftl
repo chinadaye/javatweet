@@ -4,18 +4,20 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>JTweet - Twitpic - ${user.screenName}</title>
+	<title>Twitter - Twitpic - ${user.screenName}</title>
 	<link type="text/css" href="/template/style.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
-	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>	 
 </head>
-<body>
-<div id="warp">
-	<div id="head_warp">
+<body class="sessions ${browser}" id="new">
+	<div id="container" class="subpage">
 		<#include "head.ftl" /> 
-	</div>
-	<div class="fixed"></div>
-	<div id="main_warp">
+	
+	<table cellspacing="0" class="columns">
+          <tbody>
+            <tr>
+              <td id="content" class="round-left column">
+                                <div class="wrapper">
 		<#if msg?exists><center><div id="setting_rst">${msg}</div></center></#if>
 		<#if imgurl?exists><img src="${imgurl}" class="twitpic_post"/></#if>
 		<div id="twitpic_warp">
@@ -27,16 +29,28 @@
 			</form>
 		</div>
 	</div>
-	<div id="side_warp">
+	</td>
+              
+                <td id="side_base" class="column round-right">
+                                  
+                  <div id="side">
 		<#include "side.ftl" />
 	</div>
-	<div class="fixed"></div>
-	<div id="foot_warp">
+	</td>
+
+              
+            </tr>
+          </tbody>
+        </table>
+
+
+  <div id="footer" class="round">
 		<#include "foot.ftl" />
 	</div>
 	<div class="fixed"></div>
 </div>
 <script type="text/javascript" src="/js/func.js" ></script>
-<script type="text/javascript" src="/js/checkext.js" ></script>
-</body>
+<script type="text/javascript" src="/js/checkext.js" ></script></body>
+<div class="fixed"></div>
+<#include "analytics.ftl" />
 </html>

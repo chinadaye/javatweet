@@ -31,7 +31,7 @@ $("button#tweet_submit").live(
 		{
 			function callback(param)
 			{
-				$("div.msg_form").slideUp("normal");
+				$("div#statuses").slideUp("normal");
 				send_id = "";
 			}
 			onSendMessage(send_id, callback);
@@ -43,7 +43,7 @@ $("a.msg_action_reply").live(
 		function()
 		{
 			send_id = $(this).parents("div.msg_content").children("span.msg_user").text();
-			$("div.msg_form").slideDown("normal");
+			$("div#statuses").slideDown("normal");
 			$("#tweet_msg").val("d " + send_id + " ");
 			//alert(send_id);
 		}

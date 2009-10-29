@@ -6,15 +6,17 @@
 	<title>JTweet - ${title} - ${user_show.screenName}</title>
 	<link type="text/css" href="template/style.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
-	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js" ></script> 
 </head>
-<body>
-	<div id="warp">
-		<div id="head_warp">
-			<#include "head.ftl" />
-		</div>
-		<div class="fixed"></div>
-		<div id="main_warp">
+<body class="sessions ${browser}" id="new">
+	<div id="container" class="subpage">
+		<#include "head.ftl" /> 
+	
+	<table cellspacing="0" class="columns">
+          <tbody>
+            <tr>
+              <td id="content" class="round-left column">
+                                <div class="wrapper">
 			<div id="info_warp">
 				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big"/>
 				<div class="user_div">
@@ -78,24 +80,37 @@
 						<#if status?size gt 1><a href="${uri}&page=${page + 1}" class="next_page">下一页</a></#if>
 					</div>
 				<#else>
-				<span class="user_protected">对不起，该用户${title}已保密。</span>
+				<span class="user_protected">对不起，该用户已保密。</span>
 				</#if>
 			</div>
 		</div>
-		<div id="side_warp">
+	</td>
+              
+                <td id="side_base" class="column round-right">
+                                  
+                  <div id="side">
 			<#if user.screenName?lower_case == user_show.screenName?lower_case>
 				<#include "side.ftl" />
 			<#else>
 				<#include "side_other.ftl" />
 			</#if>
 		</div>
-		<div class="fixed"></div>
-		<div id="foot_warp">
-			<#include "foot.ftl" />
-		</div>
-		<div class="fixed"></div>
+	</td>
+
+              
+            </tr>
+          </tbody>
+        </table>
+
+
+  <div id="footer" class="round">
+		<#include "foot.ftl" />
 	</div>
+	<div class="fixed"></div>
+</div>
 <script type="text/javascript" src="/js/func.js"></script>
 <script type="text/javascript" src="/js/user.js"></script>
+<div class="fixed"></div>
+<#include "analytics.ftl" />
 </body>
 </html>

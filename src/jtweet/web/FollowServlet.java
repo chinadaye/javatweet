@@ -27,7 +27,7 @@ public class FollowServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			if(page != null)
 			{
 				try
@@ -71,7 +71,8 @@ public class FollowServlet extends JTweetServlet {
 		List<User> follower;
 		try {
 			root.put("title", "关注者");
-			root.put("user", twitter.verifyCredentials());
+			root.put("browser", browser);
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	
 			{
@@ -110,7 +111,8 @@ public class FollowServlet extends JTweetServlet {
 		List<User> following;
 		try {
 			root.put("title", "朋友");
-			root.put("user", twitter.verifyCredentials());
+			root.put("browser", browser);
+			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			if(uid == null)	
 			{

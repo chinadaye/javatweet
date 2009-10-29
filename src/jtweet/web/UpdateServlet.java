@@ -25,7 +25,7 @@ public class UpdateServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			
 			if(since !=null )
 			{

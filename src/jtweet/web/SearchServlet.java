@@ -26,7 +26,7 @@ public class SearchServlet extends JTweetServlet {
 		s = req.getParameter("s");
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			if(s.length() > 0)
 			{
 				getSearch(req, resp);
@@ -69,8 +69,9 @@ public class SearchServlet extends JTweetServlet {
 		try {
 			QueryResult result = twitter.search(query);
 			List<Tweet> tweets = result.getTweets();
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
 			root.put("search", s);
+			root.put("browser", browser);
 			root.put("addjs", "/js/search.js");
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("page", page);

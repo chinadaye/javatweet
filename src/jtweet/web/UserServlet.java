@@ -28,7 +28,7 @@ public class UserServlet extends JTweetServlet {
 			
 			if(isLogin(req) && uid!= null)
 			{
-				init_twitter(getUsername(), getPasswd());
+				init_twitter(getUsername(), getPasswd(), req);
 				if(page != null)
 				{
 					try
@@ -77,7 +77,8 @@ public class UserServlet extends JTweetServlet {
 		
 		try {
 			User user = twitter.showUser(uid);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
+			root.put("browser", browser);
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("user_show", user);
 			root.put("title", "时间线");
@@ -112,7 +113,8 @@ public class UserServlet extends JTweetServlet {
 		
 		try {
 			User user = twitter.showUser(uid);
-			root.put("user", twitter.verifyCredentials());
+			root.put("user", getTuser());
+			root.put("browser", browser);
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("user_show", user);
 			root.put("title", "收藏");

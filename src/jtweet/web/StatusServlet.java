@@ -23,7 +23,7 @@ public class StatusServlet extends JTweetServlet {
 		
 		if(isLogin(req) && sid != null)
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			getStatus(sid, resp);
 		}
 		else
@@ -43,6 +43,7 @@ public class StatusServlet extends JTweetServlet {
 			
 			Status status = twitter.showStatus(id);
 			root.put("status", status);
+			root.put("browser", browser);
 			
 			Template t = config.getTemplate("status.ftl");
 			t.process(root, resp.getWriter());

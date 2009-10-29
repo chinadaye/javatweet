@@ -34,9 +34,9 @@ $("a.tweet_action_reply").live(
 		"click",
 		function()
 		{
-			reply_id = $(this).parents("div.tweets").children("span.tweet_id").text();
+			reply_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
 			oringal_msg = $("#tweet_msg").val();
-			$("#tweet_msg").val("@" + $(this).parents("div.tweets").children("span.tweet_user").text() + " " + oringal_msg);
+			$("#tweet_msg").val("@" + $(this).parents("div.tweet_content").children("span.tweet_user").text() + " " + oringal_msg);
 			$("#tweet_msg").focus();
 			//alert(reply_id);
 		}
@@ -46,8 +46,8 @@ $("a.tweet_action_rt").live(
 		"click",
 		function()
 		{
-			reply_id = $(this).parents("div.tweets").children("span.tweet_id").text();
-			$("#tweet_msg").val("RT @" + $(this).parents("div.tweets").children("span.tweet_user").text() + " " + $(this).parents("div.tweets").children("span.tweet_text").text() + "");
+			reply_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
+			$("#tweet_msg").val("RT @" + $(this).parents("div.tweet_content").children("span.tweet_user").text() + " " + $(this).parents("div.tweet_content").children("span.tweet_text").text() + "");
 			$("#tweet_msg").focus();
 			//alert(reply_id);
 		}
@@ -57,7 +57,7 @@ $("a.tweet_action_del").live(
 		"click",
 		function()
 		{
-			del_id = $(this).parents("div.tweets").children("span.tweet_id").text();
+			del_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
 			function callback(param)
 			{
 				param.parents("div.tweets").slideUp("normal");
@@ -71,7 +71,7 @@ $("a.tweet_action_unfavor").live(
 		"click",
 		function()
 		{
-			favor_id = $(this).parents("div.tweets").children("span.tweet_id").text();
+			favor_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
 			function callback(param)
 			{
 				param.parents("div.tweets").slideUp("normal");

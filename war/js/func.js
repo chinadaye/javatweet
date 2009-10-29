@@ -22,6 +22,7 @@ $("div.unread").live(
 		}
 );
 
+
 function playMsg()
 {
 	var ring = $.cookie("ring");
@@ -463,10 +464,7 @@ function markallread()
 {
 	if(unread_count > 0)
 	{
-		if(confirm("确定要将全部标记为已读吗？"))
-		{
-			$("div.unread").removeClass("unread");
-			unread_count = 0;
-		}
+		$("div.unread").removeClass("unread");
+		unread_count = 0;
 	}
 };

@@ -8,14 +8,16 @@
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
 </head>
-<body>
-	<div id="warp">
-		<div id="head_warp">
-			<#include "head.ftl" />
-		</div>
-		<div class="fixed"></div>
-		<div id="main_warp">
-			<div id="form_warp" class="msg_form">
+<body class="sessions ${browser}" id="new">
+	<div id="container" class="subpage">
+		<#include "head.ftl" /> 
+	
+	<table cellspacing="0" class="columns">
+          <tbody>
+            <tr>
+              <td id="content" class="round-left column">
+                                <div class="wrapper">
+	<div id="statuses" class="statuses hide">
 				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
 				<textarea rows="5" cols="20" id="tweet_msg" name="tweet_msg"></textarea><br />
 				<button id="tweet_submit">发送！</button>
@@ -53,7 +55,11 @@
 				</#if>
 			</div>
 		</div>
-		<div id="side_warp">
+	</td>
+              
+                <td id="side_base" class="column round-right">
+                                  
+                  <div id="side">
 			<#if user.screenName?lower_case == user_show.screenName?lower_case>
 				<#include "side.ftl" />
 			<#else>
@@ -61,12 +67,22 @@
 			</#if>
 		</div>
 		<div class="fixed"></div>
-		<div id="foot_warp">
-			<#include "foot.ftl" />
-		</div>
+	</td>
+
+              
+            </tr>
+          </tbody>
+        </table>
+
+
+  <div id="footer" class="round">
+		<#include "foot.ftl" />
+	</div>
 		<div class="fixed"></div>
 	</div>
 <script type="text/javascript" src="/js/func.js"></script>
 <script type="text/javascript" src="/js/follow.js"></script>
+<div class="fixed"></div>
+<#include "analytics.ftl" />
 </body>
 </html>

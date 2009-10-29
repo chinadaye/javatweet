@@ -34,12 +34,16 @@ public class ActionServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			try {
 				if(action.equalsIgnoreCase("post"))
 				{
 					String tweet = req.getParameter("tweet_msg");
 					tweet = ShortURL(tweet);
+					if(tweet.length() > 140)
+					{
+						tweet = tweet.substring(0, 139) + "…";
+					}
 					if(id != null)
 					{
 						try
@@ -62,6 +66,10 @@ public class ActionServlet extends JTweetServlet {
 				{
 					String tweet = req.getParameter("tweet_msg");
 					tweet = ShortURL(tweet);
+					if(tweet.length() > 140)
+					{
+						tweet = tweet.substring(0, 139) + "…";
+					}
 					if(id != null)
 					{
 						twitter.sendDirectMessage(id, tweet);
@@ -247,7 +255,7 @@ public class ActionServlet extends JTweetServlet {
 	protected String ShortURL(String text)
 	{
 		String rst = text;
-		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!]*\\b/i";
+		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!:;]*\\b/i";
 		String temp = text;
 		
 		Perl5Util perl = new Perl5Util();

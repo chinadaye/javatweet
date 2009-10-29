@@ -30,14 +30,15 @@ public class TwitpicServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			HashMap<String,Object> root = new HashMap<String,Object>();
 			freemarker.template.Configuration config=new freemarker.template.Configuration();
 			config.setDirectoryForTemplateLoading(new File("template"));
 			config.setDefaultEncoding("UTF-8");
 			
 			try {
-				root.put("user", twitter.verifyCredentials());
+				root.put("user", getTuser());
+				root.put("browser", browser);
 				root.put("rate", twitter.rateLimitStatus());
 				root.put("uri", uri);
 				Template t = config.getTemplate("twitpic.ftl");
@@ -65,7 +66,7 @@ public class TwitpicServlet extends JTweetServlet {
 		
 		if(isLogin(req))
 		{
-			init_twitter(getUsername(), getPasswd());
+			init_twitter(getUsername(), getPasswd(), req);
 			String msg = null;
 			String imgurl = null;
 			
@@ -139,7 +140,8 @@ public class TwitpicServlet extends JTweetServlet {
 			config.setDefaultEncoding("UTF-8");
 			
 			try {
-				root.put("user", twitter.verifyCredentials());
+				root.put("user", getTuser());
+				root.put("browser", browser);
 				root.put("rate", twitter.rateLimitStatus());
 				root.put("msg", msg);
 				root.put("uri", uri);

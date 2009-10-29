@@ -7,12 +7,14 @@
 	<title>JTweet - Status - ${status.id}</title>
 	<link type="text/css" href="template/style.css" rel="stylesheet" />
 </head>
-<body>
-	<div id="warp">
-		<div id="head_warp">
-			<#include "head.ftl" />
-		</div>
-		<div class="fixed"></div>
+<body class="sessions ${browser}" id="new">
+	<div id="container" class="subpage">
+		<#include "head.ftl" /> 
+	
+	<table cellspacing="0" class="columns">
+          <tbody>
+            <tr>
+              <td id="content" class="round column">
 		<div id="status_warp">
 			<span class="status_text">${status.html}</span>	
 			<div class="fixed"></div>
@@ -30,10 +32,20 @@
 			</div>
 		</div>
 		<div class="fixed"></div>
-		<div id="foot_warp">
-			<#include "foot.ftl" />
-		</div>
-		<div class="fixed"></div>
+	</td>
+
+              
+            </tr>
+          </tbody>
+        </table>
+
+
+  <div id="footer" class="round">
+		<#include "foot.ftl" />
 	</div>
+	<div class="fixed"></div>
+</div>
+<div class="fixed"></div>
+<#include "analytics.ftl" />
 </body>
 </html>
