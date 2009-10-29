@@ -2,21 +2,12 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			/*window.setInterval
-			(
-				function()
-				{
-					//alert("update");
-					if($("#is_auto_update").attr("checked")&&autofresh) updateHome();
-					//updateRate();
-				},
-				60000
-			);*/
 			window.setTimeout
 			(
 					function(){
-						
-					},6000
+						checkHome();
+					},
+					15000
 			);
 			window.setInterval
 			(
@@ -29,7 +20,21 @@ $(document).ready(
 			flash_title();
 			markupUI();
 		}
-); 
+);
+$("a#income_alert").click(function(){
+	$(this).fadeOut();
+	updateHome();
+	is_income = false;
+	window.setTimeout
+	(
+			function(){
+				checkHome();
+			},
+			60000
+	);
+	return false;
+});
+
 $("button#tweet_submit").live(
 		"click",
 		function()

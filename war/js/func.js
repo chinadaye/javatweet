@@ -2,6 +2,7 @@ tweet_length = 0;
 unread_count = 0;
 title = document.title;
 t = false;
+var is_income = false;
 
 
 $("textarea#tweet_msg").keypress(function(e){
@@ -46,21 +47,10 @@ if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
     }
 };
 
-/*function playMsg()
-{
-	var ring = $.cookie("ring");
-	if(ring == null || ring == "true")
-	{
-		var ringswf = document.getElementById("MsgRing");
-		ringswf.Rewind();
-		ringswf.Play();
-	}
-};*/
 
 function updateUnread()
 {
 	unread_count = $("div.unread").length;
-	//if(unread_count > 0) playMsg();
 };
 
 /**
@@ -69,7 +59,7 @@ function updateUnread()
 function markupUI(){
 	//高亮当前页面的tab链接
 	var href = window.location.href;
-	var act  = href.match(/http\:\/\/[a-z\.]*\/([a-z\?=]+)/)[1];
+	var act  = href.match(/http\:\/\/[a-z\.]*\/([a-z\?=&]+)/)[1];
 	$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
 	
 };
@@ -77,7 +67,7 @@ function markupUI(){
 
 function flash_title()
 {
-	if(unread_count > 0)
+	if(is_income)
 	{
 		if(t)
 		{
@@ -97,20 +87,49 @@ function flash_title()
 	setTimeout(flash_title,1000);
 };
 
-/*function updateRate()
-{
-	$.get(
-		"/update",
-		{
-			type:"rate",
-			timestamp: (new Date()).getTime()
-		},
-		function(data)
-		{
-			$("div#side_rate_div").html(data);
-		}
-	);
-};*/
+/**
+ * 检查是否有新消息
+ * @return
+ */
+function checkHome(){
+	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
+	$.getJSON('/check',
+			{
+			type: "home",
+			since: sinceid
+			},
+			function(respon){
+				if(respon&&respon.code==1&&respon.count>0){
+					$("a#income_alert:hidden").show();
+					is_income  = true;
+				}else{
+					window.setTimeout
+					(
+							function(){
+								checkHome();
+							},
+							15000
+					);
+				}
+			});
+}
+
+function retrieveShortUrl(){
+	var short_urls = $("a.shorturl");
+	var short_urls_length = short_urls.length;
+	for(var i=0;i<short_urls_length;i++){
+		var url = $(short_urls[i]).attr('href');
+		$.getJSON('http://untiny.me/api/1.0/extract,
+				{format:'json',url:url},
+				function(data){
+					if(data.org_url){
+						$(short_urls[i]).attr('href',data.org_url);
+						$(short_urls[i]).text(data.org_url);
+					}
+				});
+		$(short_urls[i]).removeClass('shorturl');
+	}
+}
 
 function updateCount()
 {
@@ -136,31 +155,10 @@ function updateHome()
 				$("div.newcome").slideDown("normal");
 				$("div.newcome").removeClass("newcome");
 				updateUnread();
+				retrieveShortUrl();
 			}
 		);
 };
-
-/**
- * 检查是否有新消息
- * 
- */
-function checkHome()
-{
-	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
-	$.getJSON(
-			"/check",
-			{
-				type: "home",
-				since: sinceid,
-				timestamp: (new Date()).getTime()
-			},
-			function(data)
-			{
-				
-			}
-		);
-}
-
 
 
 function updatePublic()
@@ -208,7 +206,6 @@ function updateReply()
 function updateMessage()
 {
 	sinceid = $("div#msg_warp div.msgs:first-child").children("div.msg_content").children("span.msg_id").text();
-	//alert(sinceid);
 	$.get(
 			"/update",
 			{

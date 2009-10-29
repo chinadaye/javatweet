@@ -56,7 +56,7 @@ public class Tweet extends TwitterResponse{
         super();
         try {
             text = getString("text", tweet, false);
-            html = TweetParser.parseText(text);
+            html = TweetParser.parseTextJava(text);
             try{
                 toUserId = tweet.getInt("to_user_id");
                 toUser = tweet.getString("to_user");

@@ -1,14 +1,14 @@
 $(document).ready(
 		function()
 		{
-			window.setInterval
+			/*window.setInterval
 			(
 				function()
 				{
 					updateRate();
 				},
 				6000
-			);
+			);*/
 		}
 );
 

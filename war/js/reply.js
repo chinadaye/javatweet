@@ -9,7 +9,7 @@ $(document).ready(
 				{
 					//alert("update");
 					if(autofresh) updateReply();
-					updateRate();
+					//updateRate();
 				},
 				60000
 			);

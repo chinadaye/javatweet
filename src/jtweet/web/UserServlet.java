@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.Status;
@@ -19,7 +21,7 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class UserServlet extends JTweetServlet {
 	protected String uri;
-
+	private boolean isLogin=true;
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
@@ -28,9 +30,16 @@ public class UserServlet extends JTweetServlet {
 		String page = req.getParameter("page");
 		String show = req.getParameter("show");
 
-		if (isLogin(req) && uid != null) {
 			try {
-				init_twitter(getUsername(), getPasswd());
+				if(uid==null){
+					this.showError(req, resp, "用户id不能为空");
+				}
+				try{
+					this.revertAccount(req);
+				}catch(NotLoginException e){
+					//查看用户信息时可以不登录
+					this.isLogin = false;
+				}
 				if (page != null) {
 					try {
 						
@@ -49,35 +58,32 @@ public class UserServlet extends JTweetServlet {
 				} else if (show.equalsIgnoreCase("favor")) {
 					getUserFavor(uid, resp);
 				} else {
-					resp.sendRedirect("/home");
-					return;
+					this.showError(req, resp, "page not found!");
 				}
-			} catch (NotLoginException e) {
-				this.redirectLogin(req, resp);
+			} catch (Exception e) {
+				JTweetServlet.logger.warning(e.getStackTrace()[0].getLineNumber()+":"+e.getMessage());
+				this.showError(req, resp, e.getMessage());
 			}
-		} else {
-			redirectLogin(req, resp);
-		}
 
 	}
 
 	protected void getUserTimeline(String uid, HttpServletResponse resp)
-			throws IOException, NotLoginException {
+			throws IOException,  TwitterException, TemplateException, NotLoginException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		try {
 			User user = twitter.showUser(uid);
+			if(this.isLogin)
 			root.put("user", this.getCachedUser());
-			// root.put("rate", twitter.rateLimitStatus());
+			
 			root.put("user_show", user);
 			root.put("title", "时间线");
 			root.put("uri", uri + "?id=" + uid);
 			root.put("page", paging.getPage());
 
-			if (user.getScreenName().equalsIgnoreCase(getUsername())
+			if ((this.isLogin&&user.getScreenName().equalsIgnoreCase(getUsername()))
 					|| (!user.isProtected())) {
 				List<Status> status = twitter.getUserTimeline(uid, paging);
 				root.put("status", status);
@@ -86,27 +92,19 @@ public class UserServlet extends JTweetServlet {
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
 
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			resp.sendError(e.getStatusCode());
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	protected void getUserFavor(String uid, HttpServletResponse resp)
-			throws IOException {
+			throws IOException, TwitterException, NotLoginException, TemplateException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		try {
 			User user = twitter.showUser(uid);
+			if(isLogin)
 			root.put("user", this.getCachedUser());
-			// root.put("rate", twitter.rateLimitStatus());
+			
 			root.put("user_show", user);
 			root.put("title", "收藏");
 			root.put("uri", uri + "?id=" + uid + "&show=favor");
@@ -121,16 +119,5 @@ public class UserServlet extends JTweetServlet {
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
 
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			resp.sendError(e.getStatusCode());
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

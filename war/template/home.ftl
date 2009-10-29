@@ -153,7 +153,7 @@ ul.sidebar-menu li.loading a {
 			<button id="tweet_submit">我推！</button>
 		</div>
 		<div class="fixed"></div>
-		<#if page == 1><div id="action_div"><!--[<a href="javascript:markallread();">标记全部为已读</a>]--><label ><input type="checkbox" title="自动更新" id="is_auto_update" checked='checked'>自动更新</label></div></#if>
+		<#if page == 1><div id="action_div"><!--[<a href="javascript:markallread();">标记全部为已读</a>]--><a href="javascript:;" id="income_alert" style="display:none;">有新消息，点击更新</a></div></#if>
 		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "status_element.ftl" /> 

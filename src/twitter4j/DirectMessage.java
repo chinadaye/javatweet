@@ -73,7 +73,7 @@ public class DirectMessage extends TwitterResponse implements java.io.Serializab
         created_at = getChildDate("created_at", elem);
         sender_screen_name = getChildText("sender_screen_name", elem);
         recipient_screen_name = getChildText("recipient_screen_name", elem);
-        html = TweetParser.parseText(text);
+        html = TweetParser.parseTextJava(text);
     }
 
     public int getId() {

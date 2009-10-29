@@ -81,7 +81,7 @@ public class Status extends TwitterResponse implements java.io.Serializable {
         inReplyToUserId = getInt("in_reply_to_user_id", json);
         isFavorited = getBoolean("favorited", json);
         user = new User(json.getJSONObject("user"));
-        html = TweetParser.parseText(text);
+        html = TweetParser.parseTextJava(text);
     }
 
     private void init(Response res, Element elem, Twitter twitter) throws
@@ -98,7 +98,7 @@ public class Status extends TwitterResponse implements java.io.Serializable {
         inReplyToUserId = getChildInt("in_reply_to_user_id", elem);
         isFavorited = getChildBoolean("favorited", elem);
         inReplyToScreenName = getChildText("in_reply_to_screen_name", elem);
-        html = TweetParser.parseText(text);
+        html = TweetParser.parseTextJava(text);
     }
 
     /**

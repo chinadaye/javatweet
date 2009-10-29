@@ -9,7 +9,6 @@ $(document).ready(
 				{
 					//alert("update");
 					if(autofresh) updateMessage();
-					//updateRate();
 				},
 				60000
 			);

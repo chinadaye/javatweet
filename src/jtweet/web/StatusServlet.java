@@ -7,6 +7,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+
 import jtweet.Exception.NotLoginException;
 
 import freemarker.template.Template;
@@ -23,25 +25,20 @@ public class StatusServlet extends JTweetServlet {
 		resp.setContentType("text/html; charset=UTF-8");
 		String sid = req.getParameter("id");
 		
-		if(isLogin(req) && sid != null)
-		{
 			try {
-				init_twitter(getUsername(), getPasswd());
+				this.revertAccount(req);
+				getStatus(sid, resp);
 			} catch (NotLoginException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.redirectLogin(req, resp);
+			} catch (Exception e) {
+				JTweetServlet.logger.warning(e.getMessage());
+				this.showError(req, resp, e.getMessage());
 			}
-			getStatus(sid, resp);
-		}
-		else
-		{
-			redirectLogin(req, resp);
-		}
+			
 	}
 	
-	protected void getStatus(String sid, HttpServletResponse resp) throws IOException
+	protected void getStatus(String sid, HttpServletResponse resp) throws IOException, TwitterException, TemplateException
 	{
-		try{
 			long id = Long.parseLong(sid);
 			HashMap<String,Object> root = new HashMap<String,Object>();
 			freemarker.template.Configuration config=new freemarker.template.Configuration();
@@ -53,18 +50,5 @@ public class StatusServlet extends JTweetServlet {
 			
 			Template t = config.getTemplate("status.ftl");
 			t.process(root, resp.getWriter());
-		}
-		catch (NumberFormatException e)
-		{
-			resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
-			e.printStackTrace();
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			resp.sendError(e.getStatusCode());
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

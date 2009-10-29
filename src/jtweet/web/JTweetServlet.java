@@ -25,15 +25,19 @@ import com.google.appengine.repackaged.com.google.common.util.Base64DecoderExcep
 
 @SuppressWarnings("serial")
 public class JTweetServlet extends HttpServlet {
-	protected Twitter twitter;
-	protected Paging paging;
+	protected Twitter twitter= new Twitter();
+	protected Paging paging = new Paging(1,20);
 	private String username = null;
 	private String passwd = null;
 	public static final String ACCOUNT_COOKIE_NAME = "up";
+	public static final int JSON_SUCCESS = 1;
+	public static final int JSON_FAIL = 2;
+	public static final int JSON_ERROR = 3;
 	protected static Logger logger = Logger.getLogger(JTweetServlet.class.getName());
 	
 	public void init_twitter(String id, String passwd) {
-		twitter = new Twitter(id, passwd);
+		twitter.setUserId(id);
+		twitter.setPassword(passwd);
 		if (APIURL.useproxy) {
 			twitter.setBaseURL(APIURL.url);
 			twitter.setSearchBaseURL(APIURL.url);
@@ -43,7 +47,6 @@ public class JTweetServlet extends HttpServlet {
 		twitter.setClientVersion("r25");
 		twitter.setUserAgent(twitter.getSource() + " " + twitter.getClientURL()
 				+ " " + twitter.getClientVersion());
-		paging = new Paging(1, 20);
 	}
 
 	@Deprecated
@@ -97,6 +100,13 @@ public class JTweetServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * 还原帐号 可以用来检验是否登录 如果登录可有可无 则需要捕捉并忽略NotLoginException
+	 * @param req
+	 * @throws NotLoginException
+	 * @throws UnsupportedEncodingException
+	 * @throws Base64DecoderException
+	 */
 	protected void revertAccount(HttpServletRequest req) throws NotLoginException, UnsupportedEncodingException, Base64DecoderException{
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
@@ -140,13 +150,45 @@ public class JTweetServlet extends HttpServlet {
 		}
 		this.init_twitter(username, passwd);
 	}
+	
+
+	/**
+	 * 未登录跳转到登录页面
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 */
 	protected void redirectLogin(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		JTweetServlet.logger.info("redirect login");
 		resp.sendRedirect("/login");
 	}
+	
+	/**
+	 * 处理错误
+	 * @param req
+	 * @param resp
+	 * @param error
+	 */
 	protected void showError(HttpServletRequest req,HttpServletResponse resp,String error){
 		req.setAttribute("error", error);
+		try {
+			getServletContext().getRequestDispatcher("/template/error.jsp").forward(req, resp);
+		} catch (ServletException e) {
+			JTweetServlet.logger.warning(e.getMessage());
+		} catch (IOException e) {
+			JTweetServlet.logger.warning(e.getMessage());
+		}
+	}
+	
+	/**
+	 * 处理未知异常
+	 * @param req
+	 * @param resp
+	 * @param exception
+	 */
+	protected void showException(HttpServletRequest req,HttpServletResponse resp,Exception exception){
+		req.setAttribute("error", exception.getStackTrace()[0].getClassName()+"("+exception.getStackTrace()[0].getLineNumber()+"):"+exception.getMessage());
 		try {
 			getServletContext().getRequestDispatcher("/template/error.jsp").forward(req, resp);
 		} catch (ServletException e) {

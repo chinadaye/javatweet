@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+
 import jtweet.Exception.NotLoginException;
 
 import freemarker.template.Template;
@@ -27,10 +29,7 @@ public class SearchServlet extends JTweetServlet {
 		resp.setContentType("text/html; charset=UTF-8");
 		s = req.getParameter("s");
 		try {
-			if(!this.isLogin(req)){
-				throw new NotLoginException();
-			}
-			init_twitter(getUsername(), getPasswd());
+			this.revertAccount(req);
 			if (s.length() > 0) {
 				getSearch(req, resp);
 			} else {
@@ -40,11 +39,14 @@ public class SearchServlet extends JTweetServlet {
 		} catch (NotLoginException e) {
 			e.printStackTrace();
 			this.redirectLogin(req, resp);
+		} catch (Exception e) {
+			this.showError(req, resp, e.getMessage());
 		}
 	}
 
 	protected void getSearch(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, NotLoginException {
+			throws IOException, NotLoginException, TwitterException,
+			TemplateException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
@@ -63,26 +65,17 @@ public class SearchServlet extends JTweetServlet {
 		Query query = new Query(s);
 		query.setPage(page);
 
-		try {
-			QueryResult result = twitter.search(query);
-			List<Tweet> tweets = result.getTweets();
-			root.put("user", this.getCachedUser());
+		QueryResult result = twitter.search(query);
+		List<Tweet> tweets = result.getTweets();
+		root.put("user", this.getCachedUser());
 
-			root.put("search", s);
-			root.put("addjs", "/js/search.js");
-			root.put("page", page);
-			root.put("tweets", tweets);
+		root.put("search", s);
+		root.put("addjs", "/js/search.js");
+		root.put("page", page);
+		root.put("tweets", tweets);
 
-			Template t = config.getTemplate("search.ftl");
-			t.process(root, resp.getWriter());
-		} catch (TwitterException e) {
-			logger.warning(e.getMessage());
-			resp.sendError(e.getStatusCode());
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			logger.warning(e.getMessage());
-			e.printStackTrace();
-		}
+		Template t = config.getTemplate("search.ftl");
+		t.process(root, resp.getWriter());
 
 	}
 }

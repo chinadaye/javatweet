@@ -38,7 +38,7 @@ public class LoginServlet extends JTweetServlet {
 					this.showError(req, resp, e1.getMessage());
 				}
 				
-			} catch (Base64DecoderException e) {
+			} catch (Exception e) {
 				JTweetServlet.logger.warning(e.getMessage());
 				this.showError(req, resp, e.getMessage());
 			}
@@ -53,7 +53,7 @@ public class LoginServlet extends JTweetServlet {
 		}
 		else
 		{
-			resp.sendRedirect("/");
+			resp.sendRedirect("/home");
 			return;
 		}
 		
@@ -103,12 +103,14 @@ public class LoginServlet extends JTweetServlet {
 						JTweetServlet.logger.warning(e1.getMessage());
 						e1.printStackTrace();
 					}
-				} 
+				} catch(Exception e){
+					this.showError(req, resp, e.getMessage());
+				}
 			}
 		}
 		else
 		{
-			resp.sendRedirect("/");
+			resp.sendRedirect("/home");
 		}
 	}
 }

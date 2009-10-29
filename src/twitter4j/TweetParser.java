@@ -2,14 +2,80 @@ package twitter4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jtweet.web.ShortURL;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.oro.text.perl.Perl5Util;
 
+
 public class TweetParser {
 
+	public static String parseTextJava(String text){
+		text = StringEscapeUtils.escapeHtml(text);
+		//twitpic
+		String regex = "http://twitpic\\.com\\/([\\w]{5})\\s?$";
+		Matcher mt = Pattern.compile(regex).matcher(text);
+		String images = "";
+		while(mt.find()){
+			images += "<img src=\"/picthumb?id="+mt.group(1)+"\" class=\"twitpic\">";
+		}
+		
+		//twitgoo
+		regex = "http://twitgoo\\.com\\/([\\w]{5})\\s?$";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			images += "<img src=\""+mt.group()+"/thumb\" class=\"twitpic\">";
+		}
+		
+		//img.ly
+		regex = "http://img\\.ly\\/([\\w]{3,5})\\s?$";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			images += "<img src=\"http://img.ly/show/thumb/"+mt.group(1)+"\" class=\"twitpic\">";
+		}
+		
+		//brizzly.com
+		regex = "http://brizzly\\.com\\/pic\\/([\\w]{3,5})\\s?$";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			images += "<img src=\"http://pics.brizzly.com/thumb_sm_" +mt.group(1)+".jpg\" class=\"twitpic\">";
+		}
+		
+		//url
+		regex = "([A-Za-z]+://[A-Za-z0-9-,_]+\\.[A-Za-z0-9-_,:%&\\?\\/.#=\\+]+)";//link
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+				String url = mt.group();
+				if(url.matches(".*tinyurl\\.com\\/.*")
+						||url.matches(".*bit\\.ly\\/.*")
+						||url.matches(".*ff\\.im\\/.*")
+						||url.matches(".*j\\.mp\\/.*")
+						||url.matches(".*is\\.gd\\/.*")
+						){
+					text = text.replace(mt.group(), "<a class=\"shorturl\" href=\""+url+"\">"+mt.group()+"</a>");
+				}
+				text = text.replace(mt.group(), "<a href=\""+url+"\">"+mt.group()+"</a>");
+			
+		}
+		
+		//query
+		regex = "#([A-Za-z0-9]+)";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			text = text.replace(mt.group(), "<a class=\"search_link\" href=\"/search?s="+mt.group(1)+"\">"+mt.group()+"</a>");
+		}
+		//people
+		regex = "@([A-Za-z0-9_]+)";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			text = text.replace(mt.group(), "<a class=\"user_link\" href=\"/user?id="+mt.group(1)+"\">"+mt.group()+"</a>");
+		}
+		
+		return "<div class=\"twittertext\">" + text +"</div>"+images;
+	}
 	public static String parseText(String text)
 	{
 		Perl5Util perl = new Perl5Util();

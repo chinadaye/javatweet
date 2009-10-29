@@ -19,6 +19,7 @@ import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.appengine.repackaged.com.google.common.util.Base64;
+import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -30,21 +31,15 @@ public class SettingServlet extends JTweetServlet {
 		throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		
-		if(isLogin(req))
-		{
 			try {
-				init_twitter(getUsername(), getPasswd());
+				this.revertAccount(req);
 				getSetting(resp, null);
 			} catch (NotLoginException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.redirectLogin(req, resp);
+			} catch (Exception e) {
+				JTweetServlet.logger.warning(e.getMessage());
+				this.showError(req, resp, e.getMessage());
 			}
-			
-		}
-		else
-		{
-			redirectLogin(req, resp);
-		}
 	
 	}
 	
@@ -53,64 +48,40 @@ public class SettingServlet extends JTweetServlet {
 		resp.setContentType("text/html; charset=UTF-8");
 		String uri = req.getRequestURI();
 		
-		if(isLogin(req))
-		{
 			try {
-				init_twitter(getUsername(), getPasswd());
-			} catch (NotLoginException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(uri.equalsIgnoreCase("/setimg"))
-			{
-				try {
-					UpdateImg(req, resp);
-				} catch (NotLoginException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				this.revertAccount(req);
+				if(uri.equalsIgnoreCase("/setimg"))
+				{
+						UpdateImg(req, resp);
 				}
+				else
+				{
+					UpdateProfile(req, resp);
+				}
+			} catch (NotLoginException e) {
+				this.redirectLogin(req, resp);
+			} catch (Exception e) {
+				JTweetServlet.logger.warning(e.getMessage());
+				this.showError(req, resp, e.getMessage());
 			}
-			else
-			{
-				UpdateProfile(req, resp);
-			}
-		}
-		else
-		{
-			redirectLogin(req, resp);
-		}
+			
 		
 	}
 	
-	protected void getSetting(HttpServletResponse resp, String msg) throws IOException
+	protected void getSetting(HttpServletResponse resp, String msg) throws IOException, TwitterException, NotLoginException, TemplateException
 	{
 		HashMap<String,Object> root = new HashMap<String,Object>();
 		freemarker.template.Configuration config=new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 		
-		try {
 			root.put("user", this.getCachedUser());
-//			root.put("rate", twitter.rateLimitStatus());
 			if(msg != null) root.put("msg", msg);
 			Template t = config.getTemplate("setting.ftl");
 			t.process(root, resp.getWriter());
-			
-			
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			resp.sendError(e.getStatusCode());
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
-	protected void UpdateProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	protected void UpdateProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException, TwitterException, NotLoginException, TemplateException
 	{
 		String msg = null;
 		String name = req.getParameter("name");
@@ -129,19 +100,13 @@ public class SettingServlet extends JTweetServlet {
 		}
 		else
 		{
-			try {
 				twitter.updateProfile(name, null, url, loc, desc);
 				msg = "资料更新成功。";
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				msg = "资料更新失败，错误代码：" + e.getStatusCode() + "。";
-				e.printStackTrace();
-			}
 		}
 		
 		getSetting(resp, msg);
 	}
-	protected void UpdateImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, NotLoginException
+	protected void UpdateImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, NotLoginException, TwitterException, TemplateException
 	{
 		String msg = null;
 		

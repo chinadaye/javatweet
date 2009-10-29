@@ -139,6 +139,7 @@ ul.sidebar-menu li.loading a {
 				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big"/>
 				<div class="user_div">
 					<span class="user_name">${user_show.screenName}</span>
+					<#if user?exists>
 					<span class="user_action">
 						<a href="javascript:void(0);" class="user_action_msg">发送消息</a>
 						<#if user_show.following>
@@ -152,14 +153,17 @@ ul.sidebar-menu li.loading a {
 							<a href="javascript:void(0);" class="user_action_block">屏蔽</a>
 						</#if>
 					</span>	
+					</#if>
 				</div>
 			</div>
 			<div class="fixed"></div>
+			<#if user?exists>
 			<div id="form_warp" class="user_form">
 				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
 				<textarea rows="5" cols="20" id="tweet_msg" name="tweet_msg"></textarea><br />
 				<button id="tweet_submit">我推！</button>
 			</div>
+			</#if>
 			<div class="fixed"></div>
 			<div id="tweet_warp">
 				<#if status?exists>
@@ -185,7 +189,7 @@ ul.sidebar-menu li.loading a {
 								<#else>
 									<a href="javascript:void(0);" class="tweet_action_favor">收藏</a>
 								</#if>
-								<#if user.screenName?lower_case == s.user.screenName?lower_case>
+								<#if user?exists&&user.screenName?lower_case == s.user.screenName?lower_case>
 									<a href="javascript:void(0);" class="tweet_action_del">删除</a>
 								</#if>
 							</span>
@@ -207,7 +211,7 @@ ul.sidebar-menu li.loading a {
                 <td id="side_base" class="column round-right">
                                   
                   <div id="side">
-			<#if user.screenName?lower_case == user_show.screenName?lower_case>
+			<#if user?exists&&user.screenName?lower_case == user_show.screenName?lower_case>
 				<#include "side.ftl" />
 			<#else>
 				<#include "side_other.ftl" />
