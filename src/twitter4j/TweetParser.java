@@ -25,29 +25,14 @@ public class TweetParser {
 		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
 		String user_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)@{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/user\\?id=$2\" class=\"user_link\"\\>@$2\\<\\/a\\>$3 /ig";
 		String trend_reg = "s/([\\s|\\.|\\,|\\:|\\xA1|\\xBF\\>|\\{|\\(]?)#{1}(\\w*)([\\.|\\,|\\:|\\!|\\?|\\>|\\}|\\)]?)[\\s|$]/$1\\<a href=\"\\/search\\?s=%23$2\" class=\"search_link\"\\>#$2\\<\\/a\\>$3 /ig";
-		String shorturl_reg = "m/http:\\/\\/(bit.ly|j.mp|ff.im)\\/[\\w\\-]{3,10}/i";
+		String shorturl_reg = "s/href=\\\"(http:\\/\\/(bit.ly|j.mp|ff.im)\\/[\\w\\-]{3,10})\\\"/href=\\\"\\/expend?u=$1\\\"/ig";
 		
-		while(perl.match(shorturl_reg, temp))
-		{
-			String longurl = ShortURL.getLongURL(perl.group(0));
-			//if(longurl != null) text_e = text_e.replace(perl.group(0), longurl);
-			if(longurl != null)
-			{
-				String shorturl = ShortURL.getIsgdURL(longurl);
-				if(shorturl != null)
-				{
-					text_e = text_e.replace(perl.group(0), shorturl);
-				}
-			}
-			temp = perl.postMatch();
-		}
-		
-		temp = text_e;
 		
 		String rst = perl.substitute(url_reg, text_e);
 		rst = perl.substitute(mail_reg, rst);
 		rst = perl.substitute(user_reg, rst);
 		rst = perl.substitute(trend_reg, rst);
+		rst = perl.substitute(shorturl_reg, rst);
 		
 		rst = "<div class=\"twittertext\">" + rst +"</div>";
 		

@@ -49,6 +49,41 @@ public class ShortURL {
 		
 	}
 	
+	public static String getRealURL(String url)
+	{
+		String short_url = null;
+		String url_en;
+		try {
+			url_en = URLEncoder.encode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			url_en = url;
+			e.printStackTrace();
+		}
+		URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
+		HTTPRequest httpreq;
+		try {
+			httpreq = new HTTPRequest(new URL("http://Realurl.net/api/?Url=" + url_en), HTTPMethod.GET);
+			HTTPResponse httpresp = urlFetch.fetch(httpreq);
+			if(httpresp.getResponseCode() == 200)
+			{
+				String rst = new String(httpresp.getContent(), "UTF-8");
+				if(!(rst.startsWith("Error") || rst.startsWith("Bad Url")))
+				{
+					short_url = rst;
+				}
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return short_url;
+		
+	}
+	
 	public static String getIsgdURL(String url)
 	{
 		String short_url = null;

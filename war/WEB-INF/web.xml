@@ -110,4 +110,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>PicThumb</servlet-name>
 		<url-pattern>/picthumb</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>ShortURLProxy</servlet-name>
+		<servlet-class>jtweet.web.ShortURLProxy</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShortURLProxy</servlet-name>
+		<url-pattern>/expend</url-pattern>
+	</servlet-mapping>
 </web-app>
