@@ -32,7 +32,8 @@ public class LoginServlet extends JTweetServlet {
 			} catch (NotLoginException e) {
 				//进行登录
 				try {
-					req.getRequestDispatcher("template/login.jsp").include(req, resp);
+					req.setAttribute("trends", this.getTrend());
+					req.getRequestDispatcher("template/login.jsp").forward(req, resp);
 				} catch (ServletException e1) {
 					JTweetServlet.logger.warning(e1.getMessage());
 					this.showError(req, resp, e1.getMessage());

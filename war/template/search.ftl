@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
 <style type="text/css">
 	  body {
-  background: #${user.profileBackgroundColor} url('${user.profileBackgroundImageUrl}') fixed <#if user.profileBackgroundTile == 'false'>no-repeat<#else>repeat-x</#if> top left;
+  background: #${user.profileBackgroundColor} url('${user.profileBackgroundImageUrl}') fixed <#if user.profileBackgroundTile == 'false'>no-repeat<#else>repeat</#if> top left;
 
 }
 

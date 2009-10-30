@@ -2,6 +2,9 @@ package jtweet.web;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -16,6 +19,8 @@ import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
 import twitter4j.Paging;
+import twitter4j.Trend;
+import twitter4j.Trends;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -151,6 +156,21 @@ public class JTweetServlet extends HttpServlet {
 		this.init_twitter(username, passwd);
 	}
 	
+	@SuppressWarnings("unchecked")
+	protected List<Trend > getTrend(){
+		try {
+			List<Trend > trendlist = (List<Trend>) GCache.get("search_trend");
+			if(trendlist==null){
+				Trends trends = this.twitter.getTrends();
+				trendlist = Arrays.asList(trends.getTrends());
+				GCache.put("search_trend", trendlist, 3600);
+			}
+			return trendlist;
+		} catch (TwitterException e) {
+			JTweetServlet.logger.warning(e.getMessage());
+		}
+		return null;
+	}
 
 	/**
 	 * 未登录跳转到登录页面

@@ -2,16 +2,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+<%@page import="java.util.List"%>
+<%@page import="twitter4j.Trend"%><html xmlns="http://www.w3.org/1999/xhtml">
 <head>          
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<meta content="Twitter is without a doubt the best way to share and discover what is happening right now." name="description" />
+<meta content="t.jteet.com-为中文用户打造的twitter客户端" name="description" />
 <meta content="width = 780" name="viewport" />
 <meta content="NOODP" name="robots" />
-<meta content="n" name="session-loggedin" />
-<title id="page_title">JTeet - 请登录</title>
-<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
+<meta content="" name="keywords"/>
+<title id="page_title">JTeet -  欢迎光临 t.jteet.com-为中文用户打造的twitter客户端</title>
+<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 <style type="text/css">
       
@@ -22,12 +23,12 @@
 		text-align:center;
 		font-size:12px;
 		background-color:#fff;
+		margin-top:10px;
 	
 	}
 	.login_tip
 	{
 		word-break:normal;
-		text-align:left;
 		font-weight:bold;
 		font-size:14px;
 		padding: 0px 30px 30px 30px;
@@ -41,6 +42,15 @@
 	#loginform p
 	{
 	padding:5px;
+	}
+	#search_trend
+	{
+	font-size: 2em;
+	}
+	#search_trend a
+	{
+	font-weight: bold;
+	text-decoration:underline;
 	}
 	#loginform input[type="password"],#loginform input[type="text"]
 	{
@@ -61,7 +71,7 @@
 	
 	.login_button
 	{
-		margin:0 5px 0 0;
+		margin:0 20px 0 0;
 		font-size:12px;
 	}
      .error_tip
@@ -73,18 +83,15 @@
 <body class="sessions" id="new">
 	<div id="container" class="subpage">
 		<div id="header">
-			<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="Jteet" height="40" src="/img/jteet_logo.png" /> </a>
  			 <ul class="top-navigation round">
 				<li><a href="/" accesskey="l">首页</a></li>
-				<!--<li class="signup-link"><a href="https://twitter.com/signup">加入 Twitter!</a></li>
-			--></ul>
+				</ul>
 		</div>
   
-		<div class="content-bubble-arrow"></div>
 			<div id="login_warp" class="round">
 				<div class="login_tip">
-				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。</p><br />
-				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http://<% out.print(request.getServerName()); %>/api" > http://<% out.print(request.getServerName()); %>/api</a></b>。</p>
+				<p><img alt="Jteet" src="/img/jteet_logo.png" /></p>
+				<p>欢迎光临 jteet 为中文用户打造的twitter客户端</p>
 				</div>
 				<div >
 				<% String error = (String)request.getAttribute("error"); 
@@ -106,12 +113,25 @@
 				</p>
 				</form>
 				</div>
+				<% List<Trend> trendlist = (List<Trend>)request.getAttribute("trends"); 
+					if(trendlist!=null){
+				%>
+				<div id="search_trend" >
+				热门：
+				<%for(Trend trend:trendlist){ %>
+				<!-- <%=trend.getName()+"+"+trend.getQuery()+"+"+trend.getUrl() %> -->
+				<a href="/search?s=<%=trend.getUrlName() %>" name="搜索<%=trend.getName() %>"><%=trend.getName() %></a>
+				<%} %>
+				</div>
+				<%} %>
 			</div>
+			
 			<div class="fixed"></div>
 		
 		<div id="footer" class="round">
 			<ul>
-				<li class="first">©2009 by  <a href="/user?id=sospartan" title="@sospartan">@sospartan</a>,<a href="/user?id=yulei666" title="@yulei666">@yulei666</a>,<a href="/user?id=gowers" title="@gowers">@gowers</a></li>
+				<li class="first">©2009 by  <a href="/user?id=sospartan" title="@sospartan">@sospartan</a></li>
+				<li><a href="/api">api</a></li>
 				<li>powered by<a href="http://code.google.com/p/javatweet/">javatweet</a>&<a href="http://code.google.com/appengine/" target="_blank">GAE</a>&<a href="http://yusuke.homeip.net/twitter4j/en/index.html" title="twitter4j" target="_blank">twitter4j</a></li>
 			</ul>
 <script type="text/javascript">

@@ -26,6 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package twitter4j;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import twitter4j.org.json.JSONException;
 import twitter4j.org.json.JSONObject;
 
@@ -54,7 +57,13 @@ public class Trend implements java.io.Serializable{
     public String getName() {
         return name;
     }
-
+    public String getUrlName(){
+    	try {
+			return URLEncoder.encode(name, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
+    }
     public String getUrl() {
         return url;
     }
