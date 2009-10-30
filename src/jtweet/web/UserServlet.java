@@ -21,7 +21,7 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class UserServlet extends JTweetServlet {
 	protected String uri;
-	private boolean isLogin=true;
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");

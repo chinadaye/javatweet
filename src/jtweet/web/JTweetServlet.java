@@ -39,6 +39,7 @@ public class JTweetServlet extends HttpServlet {
 	public static final int JSON_FAIL = 2;
 	public static final int JSON_ERROR = 3;
 	protected static Logger logger = Logger.getLogger(JTweetServlet.class.getName());
+	protected boolean isLogin=false;
 	
 	public void init_twitter(String id, String passwd) {
 		twitter.setUserId(id);
@@ -154,6 +155,7 @@ public class JTweetServlet extends HttpServlet {
 			}
 		}
 		this.init_twitter(username, passwd);
+		this.isLogin = true;
 	}
 	
 	@SuppressWarnings("unchecked")

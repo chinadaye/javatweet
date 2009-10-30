@@ -17,6 +17,7 @@
 			<span class="tweet_link">发表于<a href="/status?id=${s.id?c}">${s.createdTimeago}</a></span>
 		</span>
 		<span class="tweet_id">${s.id?c}</span>
+		<#if user?exists>
 		<span class="tweet_action">
 			<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
 			<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>			
@@ -25,6 +26,7 @@
 				<a href="javascript:void(0);" class="tweet_action_del">删除</a>
 			</#if>
 		</span>
+		</#if>
 	</div>
 	</div>
 	<div class="fixed"></div>

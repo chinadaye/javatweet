@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
 import jtweet.Exception.NotLoginException;
 
@@ -29,17 +28,19 @@ public class SearchServlet extends JTweetServlet {
 		resp.setContentType("text/html; charset=UTF-8");
 		s = req.getParameter("s");
 		try {
-			this.revertAccount(req);
+			
+			try{
+				this.revertAccount(req);
+			}catch (NotLoginException e) {
+				this.isLogin=false;
+			}
 			if (s.length() > 0) {
 				getSearch(req, resp);
 			} else {
-				resp.sendRedirect("/home");
+				this.showError(req, resp, "搜索关键字不能为空");
 				return;
 			}
-		} catch (NotLoginException e) {
-			e.printStackTrace();
-			this.redirectLogin(req, resp);
-		} catch (Exception e) {
+		}  catch (Exception e) {
 			this.showError(req, resp, e.getMessage());
 		}
 	}
@@ -67,6 +68,7 @@ public class SearchServlet extends JTweetServlet {
 
 		QueryResult result = twitter.search(query);
 		List<Tweet> tweets = result.getTweets();
+		if(isLogin)
 		root.put("user", this.getCachedUser());
 
 		root.put("search", s);

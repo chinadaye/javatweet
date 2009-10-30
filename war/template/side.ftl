@@ -1,3 +1,4 @@
+<#if user?exists>
 <div class="side_user_info">
 	<div class="side_user_img_div">
 		<img alt="${user.screenName}" src="${user.profileImageURL}" class="usr_img" />
@@ -23,6 +24,7 @@
 	<a href="/favor" class="side_link side_link_last">收藏</a>
 </div>
 <div class="fixed"></div>
+</#if>
 <form action="/search" method="get" id="searchform">
 		<input type="text" name="s" class="searchtext" size=15/>
 		<button type="submit">搜索</button>
