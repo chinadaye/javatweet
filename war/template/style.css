@@ -530,3 +530,9 @@ a.pre_page:hover, a.next_page:hover
 {
 	margin-right:5px;
 }
+#income_alert
+{
+	font-weight: bold;
+	color:#FFFFFF;
+	background-color: #31CEFF;
+}
