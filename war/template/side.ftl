@@ -26,7 +26,7 @@
 <div class="fixed"></div>
 </#if>
 <form action="/search" method="get" id="searchform">
-		<input type="text" name="s" class="searchtext" size=15/>
+		<input type="text" name="s" class="searchtext" size=15 value="<#if search?exists>${search}</#if>"/>
 		<button type="submit">搜索</button>
 	</form>
 <div class="fixed"></div>

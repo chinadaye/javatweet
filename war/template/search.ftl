@@ -4,7 +4,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>JTeet /搜索 ${search} /${user.screenName}</title>
+	<title>JTeet /搜索 ${search} <#if user?exists>/${user.screenName}</#if></title>
 	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
@@ -220,11 +220,13 @@ ul.sidebar-list li a:hover {
             <tr>
               <td id="content" class="round-left column">
                                 <div class="wrapper">
+                                <#if user?exists>
 	<div id="statuses" class="statuses">
 			<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
-			<textarea id="tweet_msg" name="tweet_msg">#${search}</textarea><br />
+			<textarea id="tweet_msg" name="tweet_msg"><#if search?exists>${search}</#if></textarea><br />
 			<button id="tweet_submit">我推！</button>
 		</div>
+		</#if>
 		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "tweet_element.ftl" /> 
