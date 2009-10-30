@@ -5,12 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Twitter - Twitpic - ${user.screenName}</title>
-	<link type="text/css" href="/template/style.css" rel="stylesheet" />
+	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>	
 	<link href="http://www.gowers.cn/favicon.ico" rel="shortcut icon" type="image/x-icon" /> 
-	<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
 <style type="text/css">
       
         body { background: #C0DEED url(/img/bg-clouds.jpg) repeat-x; }

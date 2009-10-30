@@ -13,6 +13,7 @@ $(document).ready(
 				300
 			);
 			markupUI();
+			retrieveShortUrl();
 		}
 );
 

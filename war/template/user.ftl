@@ -4,11 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>JTweet /${title} /${user_show.screenName}</title>
-	<link type="text/css" href="template/style.css" rel="stylesheet" />
+	<link type="text/css" href="template/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script> 
-	<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
 <style type="text/css">
 	  body {
   background: #${user_show.profileBackgroundColor} url('${user_show.profileBackgroundImageUrl}') fixed <#if user_show.profileBackgroundTile == 'false'>no-repeat<#else>repeat-x</#if> top left;

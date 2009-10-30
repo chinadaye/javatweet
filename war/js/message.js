@@ -22,6 +22,7 @@ $(document).ready(
 			);
 			flash_title();
 			markupUI();
+			retrieveShortUrl();
 		}
 ); 
 

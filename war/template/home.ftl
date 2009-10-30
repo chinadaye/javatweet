@@ -139,6 +139,9 @@ ul.sidebar-menu li.loading a {
 	</script>
 </head>
 <body class="sessions" id="new">
+<div id="ajax_loader" >
+<img alt="loader" src="/img/ajax-loader-big.gif"/>
+</div>
 	<div id="container" class="subpage">
 		<#include "head.ftl" /> 
 	
@@ -153,7 +156,7 @@ ul.sidebar-menu li.loading a {
 			<button id="tweet_submit">我推！</button>
 		</div>
 		<div class="fixed"></div>
-		<#if page == 1><div id="action_div"><a href="javascript:;" id="income_alert" style="visibility:hidden;">有新消息，点击更新</a><img src="/img/ajax-loader.gif" alt="loader" id="ajax_loader" style="visibility:hidden;"/></div></#if>
+		<#if page == 1><div id="action_div"><a href="javascript:;" id="income_alert" style="visibility:hidden;">有新消息，点击更新</a></div></#if>
 		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "status_element.ftl" /> 

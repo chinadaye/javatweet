@@ -4018,3 +4018,9 @@ visibility:visible
 .hentry .del,.direct_message .hentry .del {
 background-image:url(http://s.twimg.com/a/1255644274/images/icon_trash.gif)
 }
+div#ajax_loader{
+	 right: 50%;
+	  position: fixed; 
+	  top: 50%; 
+	   z-index: 1000; 
+}

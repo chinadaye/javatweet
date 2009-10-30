@@ -64,6 +64,7 @@ function markupUI(){
 		var act  = matches[1];
 		$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
 	}
+	$("#ajax_loader").css("visibility","hidden");
 };
 
 
