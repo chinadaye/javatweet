@@ -30,16 +30,16 @@
 .login_text
 {
 	float:left;
-	font-size:20px;
+	font-size:16px;
 }
 #username, #passwd
 {
 	float:right;
-	font-size:20px;
+	font-size:16px;
 	width:200px;
 }
 .login_button
 {
-	margin:20px 5px 5px 5px;
+	margin:15px 5px 5px 5px;
 	font-size:12px;
 }

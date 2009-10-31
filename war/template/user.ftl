@@ -24,9 +24,9 @@
 					<span class="user_action">
 						<a href="javascript:void(0);" class="user_action_msg">发送消息</a>
 						<#if user_show.following>
-							<a href="javascript:void(0);" class="user_action_unfollow">取消跟踪</a>
+							<a href="javascript:void(0);" class="user_action_unfollow">取消关注</a>
 						<#else>
-							<a href="javascript:void(0);" class="user_action_follow">跟踪</a>
+							<a href="javascript:void(0);" class="user_action_follow">关注</a>
 						</#if>
 						<#if user_show.blocked>
 							<a href="javascript:void(0);" class="user_action_unblock">取消屏蔽</a>

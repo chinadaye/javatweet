@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -83,6 +83,7 @@ public class LoginServlet extends JTweetServlet {
 		String action= req.getRequestURI().substring(1);
 		String username = req.getParameter("username");
 		String passwd = req.getParameter("passwd");
+		String stayin = req.getParameter("stayin");
 		String passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
 		
 		if(action.equalsIgnoreCase("login"))			
@@ -96,7 +97,14 @@ public class LoginServlet extends JTweetServlet {
 					twitter.verifyCredentials();
 					session.setAttribute("username", username);
 					session.setAttribute("passwd", passwd_en);
-					
+					//在cookie中存储加密账户信息
+					if(null != stayin && stayin.equals("1"))
+					{
+						Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME,Encrypt.encodeAccount(username, passwd));
+						cookie.setMaxAge(7 * 24 * 3600);
+						cookie.setPath("/");
+						resp.addCookie(cookie);
+					}
 					resp.sendRedirect("/home");
 					return;
 				} catch (TwitterException e) {
