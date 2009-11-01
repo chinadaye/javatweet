@@ -19,6 +19,7 @@ import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
 import twitter4j.Paging;
+import twitter4j.SavedSearch;
 import twitter4j.Trend;
 import twitter4j.Trends;
 import twitter4j.Twitter;
@@ -249,6 +250,23 @@ public class JTweetServlet extends HttpServlet {
 		user = twitter.verifyCredentials();
 		GCache.put("user:"+this.getUsername(), user,3600*24);
 		return user;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws TwitterException
+	 * @throws NotLoginException
+	 */
+	@SuppressWarnings("unchecked")
+	protected List<SavedSearch> getCachedSavedSearch() throws TwitterException, NotLoginException{
+		List<SavedSearch> searches = (List<SavedSearch>) GCache.get("savedsearches:"+this.getUsername());
+		if(searches==null){
+			searches = this.twitter.getSavedSearches();
+			if(searches!=null)
+			GCache.put("savedsearches:"+this.getUsername(),searches,3600);
+		}
+		return searches;
 	}
 
 }

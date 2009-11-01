@@ -30,6 +30,14 @@
 		<button type="submit">搜索</button>
 	</form>
 <div class="fixed"></div>
+<#if searches?exists>
+<div id="saved_searches">
+<h3>保存的搜索</h3>
+<#list searches as s>
+<a href="/search?s=${s.urlName}">#${s.name}</a>
+</#list>
+</div>
+</#if>
 <#-- 
 <#if rate?exists>
 	<div id="side_rate_div">

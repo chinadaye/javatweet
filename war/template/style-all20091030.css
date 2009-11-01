@@ -1045,7 +1045,19 @@ vertical-align:middle
 width:198px;
 overflow:hidden
 }
-
+#saved_searches
+{
+	margin: 20px 0px 10px 0px;
+	padding:5px 10px 5px 10px;
+}
+#saved_searches a
+{
+	display:block;
+	margin:0px;
+	text-decoration:underline;
+	font-size:15px;
+	font-weight:bold;
+}
 ul.sidebar-menu li .side-tab-ajax {
 vertical-align:top;
 float:right;
