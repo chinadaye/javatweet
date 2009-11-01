@@ -20,7 +20,8 @@
 	<a href="/user?id=${user.screenName}" class="side_link">我的推</a>
 	<a href="/reply" class="side_link">@${user.screenName}</a>
 	<a href="/message" class="side_link">消息</a>
-	<a href="/favor" class="side_link side_link_last">我的收藏</a>
+	<a href="/favor" class="side_link">我的收藏</a>
+	<a href="/block" class="side_link side_link_last">屏蔽列表</a>
 </div>
 <div class="fixed"></div>
 <form action="/search" method="get" id="searchform">

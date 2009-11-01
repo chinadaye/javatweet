@@ -16,6 +16,7 @@ public class Encrypt {
 	
 	private static String key = "1234abcd"; //8个字母或数字
 
+
 	private static String decrypt(String message) throws Exception {
 		byte[] bytesrc =convertHexString(message); 
 		Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding"); 

@@ -783,8 +783,10 @@ public class Twitter extends TwitterSupport implements java.io.Serializable {
      */
     public List<Status> getUserTimeline(String id, Paging paging)
             throws TwitterException {
+/*        return Status.constructStatuses(get(baseURL + "statuses/user_timeline/" + id + ".xml",
+                null, paging, http.isAuthenticationEnabled()), this);*/
         return Status.constructStatuses(get(baseURL + "statuses/user_timeline/" + id + ".xml",
-                null, paging, http.isAuthenticationEnabled()), this);
+                null, paging, true), this);
     }
 
     /**

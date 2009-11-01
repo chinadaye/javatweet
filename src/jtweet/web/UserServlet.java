@@ -76,7 +76,15 @@ public class UserServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
-			User user = twitter.showUser(uid);
+			User user;
+			if(uid.equalsIgnoreCase(getTuser().getScreenName()))
+			{
+				user = getTuser();
+			}
+			else
+			{
+				user = twitter.showUser(uid);
+			}
 			root.put("user", getTuser());
 			root.put("browser", browser);
 			root.put("rate", twitter.rateLimitStatus());
@@ -85,7 +93,12 @@ public class UserServlet extends JTweetServlet {
 			root.put("uri", uri + "?id=" + uid);
 			root.put("page", paging.getPage());
 			
-			if(user.getScreenName().equalsIgnoreCase(getUsername()) || (!user.isProtected()))
+			if(uid.equalsIgnoreCase(getTuser().getScreenName()))
+			{
+				List<Status> status = twitter.getUserTimeline(paging);
+				root.put("status", status);
+			}
+			else if((!user.isProtected()) || user.getFollowing())
 			{
 				List<Status> status = twitter.getUserTimeline(uid, paging);
 				root.put("status", status);
@@ -112,7 +125,15 @@ public class UserServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
-			User user = twitter.showUser(uid);
+			User user;
+			if(uid.equalsIgnoreCase(getTuser().getScreenName()))
+			{
+				user = getTuser();
+			}
+			else
+			{
+				user = twitter.showUser(uid);
+			}
 			root.put("user", getTuser());
 			root.put("browser", browser);
 			root.put("rate", twitter.rateLimitStatus());
@@ -121,7 +142,12 @@ public class UserServlet extends JTweetServlet {
 			root.put("uri", uri + "?id=" + uid + "&show=favor");
 			root.put("page", paging.getPage());
 			
-			if(!user.isProtected())
+			if(uid.equalsIgnoreCase(getTuser().getScreenName()))
+			{
+				List<Status> status = twitter.getFavorites(paging.getPage());
+				root.put("status", status);
+			}
+			else if((!user.isProtected()) || user.getFollowing())
 			{
 				List<Status> status = twitter.getFavorites(uid, paging.getPage());
 				root.put("status", status);

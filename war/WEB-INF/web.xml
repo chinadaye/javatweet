@@ -59,6 +59,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Follow</servlet-name>
 		<url-pattern>/following</url-pattern>
 		<url-pattern>/follower</url-pattern>
+		<url-pattern>/block</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Action</servlet-name>

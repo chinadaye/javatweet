@@ -80,7 +80,7 @@
 						<#if status?size gt 1><a href="${uri}&page=${page + 1}" class="next_page">下一页</a></#if>
 					</div>
 				<#else>
-				<span class="user_protected">对不起，该用户已保密。</span>
+				<span class="user_protected">对不起，该用户已设置保护。</span>
 				</#if>
 			</div>
 		</div>

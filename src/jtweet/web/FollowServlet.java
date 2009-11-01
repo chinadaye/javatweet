@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import freemarker.template.Template;
@@ -54,6 +55,10 @@ public class FollowServlet extends JTweetServlet {
 			{
 				getFollowing(uid, resp);
 			}
+			else if(action.equalsIgnoreCase("block"))
+			{
+				getBlock(uid, resp);
+			}
 		}
 		else
 		{
@@ -74,19 +79,24 @@ public class FollowServlet extends JTweetServlet {
 			root.put("browser", browser);
 			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
-			if(uid == null)	
+			if(uid == null || uid.equalsIgnoreCase(getTuser().getScreenName()))	
 			{
-				root.put("user_show", twitter.verifyCredentials());
+				root.put("user_show", getTuser());
 				follower = twitter.getFollowersStatuses(paging);
+				root.put("follow", follower);
 			}
-			else
+			else 
 			{
-				root.put("user_show", twitter.showUser(uid));
-				follower = twitter.getFollowersStatuses(uid, paging);
+				User user = twitter.showUser(uid);
+				root.put("user_show", user);
+				if((!user.isProtected()) || user.getFollowing())
+				{
+					follower = twitter.getFollowersStatuses(uid, paging);
+					root.put("follow", follower);
+				}
 			}
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
-			root.put("follow", follower);
 			
 			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
@@ -114,19 +124,61 @@ public class FollowServlet extends JTweetServlet {
 			root.put("browser", browser);
 			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
-			if(uid == null)	
+			if(uid == null || uid.equalsIgnoreCase(getTuser().getScreenName()))	
 			{
-				root.put("user_show", twitter.verifyCredentials());
+				root.put("user_show", getTuser());
 				following = twitter.getFriendsStatuses(paging);
+				root.put("follow", following);
 			}
-			else
+			else 
 			{
-				root.put("user_show", twitter.showUser(uid));
-				following = twitter.getFriendsStatuses(uid, paging);
+				User user = twitter.showUser(uid);
+				root.put("user_show", user);
+				if((!user.isProtected()) || user.getFollowing())
+				{
+					following = twitter.getFriendsStatuses(uid, paging);
+					root.put("follow", following);
+				}
 			}
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
-			root.put("follow", following);
+			
+			Template t = config.getTemplate("follow.ftl");
+			t.process(root, resp.getWriter());
+			
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
+			e.printStackTrace();
+		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	protected void getBlock(String uid, HttpServletResponse resp) throws IOException
+	{
+		if(uid != null)
+		{
+			resp.sendRedirect("/block");
+			return;
+		}
+		
+		HashMap<String,Object> root = new HashMap<String,Object>();
+		freemarker.template.Configuration config=new freemarker.template.Configuration();
+		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDefaultEncoding("UTF-8");
+		
+		List<User> block;
+		try {
+			root.put("title", "屏蔽列表");
+			root.put("browser", browser);
+			root.put("user", getTuser());
+			root.put("rate", twitter.rateLimitStatus());
+			root.put("user_show", getTuser());
+			block = twitter.getBlockingUsers(paging.getPage());
+			root.put("follow", block);
+			root.put("uri", uri);
+			root.put("page", paging.getPage());
 			
 			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
