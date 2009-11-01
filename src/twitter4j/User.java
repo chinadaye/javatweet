@@ -482,23 +482,37 @@ public class User extends TwitterResponse implements java.io.Serializable {
     }
     
     public boolean getFollowing(){
-		try {
-			following = twitter.existsFriendship(twitter.getUserId(), screenName);
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			following = false;
-			e.printStackTrace();
+    	if(screenName.equalsIgnoreCase(twitter.getUserId()))
+		{
+    		following = false;
+		}
+		else
+		{
+	    	try {
+				following = twitter.existsFriendship(twitter.getUserId(), screenName);
+			} catch (TwitterException e) {
+				// TODO Auto-generated catch block
+				following = false;
+				e.printStackTrace();
+			}
 		}
     	return following;
     }
     
     public boolean getBlocked(){
-		try {
-			blocked = twitter.existsBlock(screenName);
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
+		if(screenName.equalsIgnoreCase(twitter.getUserId()))
+		{
 			blocked = false;
-			e.printStackTrace();
+		}
+		else
+		{
+			try {
+			blocked = twitter.existsBlock(screenName);
+			} catch (TwitterException e) {
+				// TODO Auto-generated catch block
+				blocked = false;
+				e.printStackTrace();
+			}
 		}
     	return blocked;
     }

@@ -20,18 +20,20 @@
 			<div id="info_warp">
 				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big"/>
 				<div class="user_div">
-					<span class="user_name">${user_show.screenName}</span>
+					<span class="user_name">${user_show.screenName}(${user_show.name})</span>
 					<span class="user_action">
-						<a href="javascript:void(0);" class="user_action_msg">发送消息</a>
-						<#if user_show.following>
-							<a href="javascript:void(0);" class="user_action_unfollow">取消关注</a>
-						<#else>
-							<a href="javascript:void(0);" class="user_action_follow">关注</a>
-						</#if>
-						<#if user_show.blocked>
-							<a href="javascript:void(0);" class="user_action_unblock">取消屏蔽</a>
-						<#else>
-							<a href="javascript:void(0);" class="user_action_block">屏蔽</a>
+						<#if user.screenName?lower_case != user_show.screenName?lower_case>
+							<a href="javascript:void(0);" class="user_action_msg">发送消息</a>
+							<#if user_show.following>
+								<a href="javascript:void(0);" class="user_action_unfollow">取消关注</a>
+							<#else>
+								<a href="javascript:void(0);" class="user_action_follow">关注</a>
+							</#if>
+							<#if user_show.blocked>
+								<a href="javascript:void(0);" class="user_action_unblock">取消屏蔽</a>
+							<#else>
+								<a href="javascript:void(0);" class="user_action_block">屏蔽</a>
+							</#if>
 						</#if>
 					</span>	
 				</div>

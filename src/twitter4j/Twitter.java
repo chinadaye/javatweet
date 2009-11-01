@@ -1087,7 +1087,7 @@ public class Twitter extends TwitterSupport implements java.io.Serializable {
      * @see <a href="http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0show">Twitter API Wiki / Twitter REST API Method: statuses show</a>
      */
     public Status showStatus(long id) throws TwitterException {
-        return new Status(get(baseURL + "statuses/show/" + id + ".xml", false), this);
+        return new Status(get(baseURL + "statuses/show/" + id + ".xml", true), this);
     }
 
     /**

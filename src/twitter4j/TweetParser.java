@@ -20,6 +20,10 @@ public class TweetParser {
 		String twitgoo_reg = "m/http:\\/\\/twitgoo.com\\/[\\w]{5}/i";
 		String imgly_reg = "m/http:\\/\\/img.ly\\/[\\w]{3,5}/i";
 		String brizzly_reg = "m/http:\\/\\/brizzly.com\\/pic\\/[\\w]{3,5}/i";
+		String owly_reg = "m/http:\\/\\/ow.ly\\/i\\/[\\w]{3,5}/i";
+		String picgd_reg = "m/http:\\/\\/pic.gd\\/[\\w]{3,5}/i";
+		String tweetphoto_reg = "m/http:\\/\\/tweetphoto.com\\/[\\w]{3,5}/i";
+		String ts1in_reg = "m/http:\\/\\/ts1.in\\/[\\w]{3,5}/i";
 		String moby_reg = "m/http:\\/\\/(mobypicture.com\\/\\?|moby.to\\/)[\\w]{6}/i";
 		String url_reg = "s/\\b([a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!:;]*)\\b/<a href=\"$1\" class=\"twitter-link\" class=\"web_link\" target=\"_blank\">$1<\\/a>/ig";
 		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
@@ -64,6 +68,38 @@ public class TweetParser {
 		while(perl.match(brizzly_reg, temp))
 		{
 			rst += "<img src=\"http://pics.brizzly.com/thumb_sm_" + perl.group(0).substring(23) + ".jpg\" class=\"twitpic\" />";
+			temp = perl.postMatch();
+		}
+
+		temp = text_e;
+		
+		while(perl.match(owly_reg, temp))
+		{
+			rst += "<img src=\"http://static.ow.ly/photos/thumb/" + perl.group(0).substring(15) + ".jpg\" class=\"twitpic\" />";
+			temp = perl.postMatch();
+		}
+		
+		temp = text_e;
+		
+		while(perl.match(picgd_reg, temp))
+		{
+			rst += "<img src=\"http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url=" + perl.group(0).substring(14) + "\" class=\"twitpic\" />";
+			temp = perl.postMatch();
+		}
+		
+		temp = text_e;
+		
+		while(perl.match(tweetphoto_reg, temp))
+		{
+			rst += "<img src=\"http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url=" + perl.group(0).substring(22) + "\" class=\"twitpic\" />";
+			temp = perl.postMatch();
+		}
+		
+		temp = text_e;
+		
+		while(perl.match(ts1in_reg, temp))
+		{
+			rst += "<img src=\"http://ts1.in/thumb/" + perl.group(0).substring(14) + "\" class=\"twitpic\" />";
 			temp = perl.postMatch();
 		}
 		
