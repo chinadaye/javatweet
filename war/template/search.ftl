@@ -212,6 +212,9 @@ ul.sidebar-list li a:hover {
 	</#if>
 </head>
 <body class="sessions" id="new">
+<div id="ajax_loader" >
+<img alt="loader" src="/img/ajax-loader-big.gif"/>
+</div>
 	<div id="container" class="subpage">
 		<#include "head.ftl" /> 
 	

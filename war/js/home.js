@@ -24,7 +24,7 @@ $(document).ready(
 );
 $("a#income_alert").click(function(){
 	$(this).css("visibility","hidden")
-	$("#ajax_loader").css("visibility","visible");
+	//$("#ajax_loader").css("visibility","visible");
 	updateHome();
 	is_income = false;
 	window.setTimeout

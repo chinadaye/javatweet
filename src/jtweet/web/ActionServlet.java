@@ -46,11 +46,11 @@ public class ActionServlet extends JTweetServlet {
 				if (tweet != null) {
 					// tweet = ShortURL(tweet);
 					// 匹配私信
-					String directRegex = "d\\s+([a-z0-9A-Z]+)\\s+(\\S+)";
+					String directRegex = "^d\\s+([a-z0-9A-Z]+)\\s+([\\S+\\s?]+)$";
 					Matcher mt = Pattern.compile(directRegex).matcher(
 							tweet.trim());
 					if (mt.find()) {
-						JTweetServlet.logger.info("found");
+						JTweetServlet.logger.info(" direct found");
 						twitter.sendDirectMessage(mt.group(1), mt.group(2));
 					} else if (id != null) {
 						try {
