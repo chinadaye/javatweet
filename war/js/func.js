@@ -32,6 +32,10 @@ $("div.tweets").live(
 		function()
 		{
 			$(this).find("span.tweet_action,span.msg_action").show();
+			var mayshorts = $(this).find("a.mayshort");
+			for(var i=0;i<mayshorts.length;i++){
+				revertShortUrl(mayshorts[i]);
+			}
 		}
 );
 $("div.tweets").live(
@@ -120,7 +124,21 @@ function checkHome(){
 				}
 			});
 }
-
+function revertShortUrl(link){
+	var url = $(link).attr('href');
+	var matches = url.match(/.*\/\/([A-Za-z0-9-_.]+)\/.*/);
+	if(matches!=null&&short_url_services.match(".*,?"+matches[1]+",?.*")){
+		$.getJSON('/untinyme',
+				{url:matches[0]},
+				function(data){
+					if(data.org_url){
+						$(link).attr('href',data.org_url);
+						$(link).text(data.org_url);
+					}
+				});
+	}
+	$(link).removeClass('mayshort');
+}
 function retrieveShortUrl(){
 	var short_urls = $("a.mayshort");
 	var short_urls_length = short_urls.length;
@@ -172,7 +190,7 @@ function updateHome()
 				$("div.newcome").removeClass("newcome");
 				updateUnread();
 				//$("#ajax_loader").css("visibility","hidden");
-				retrieveShortUrl();
+				//retrieveShortUrl();
 			}
 		);
 };

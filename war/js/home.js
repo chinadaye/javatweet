@@ -19,7 +19,7 @@ $(document).ready(
 			);
 			flash_title();
 			markupUI();
-			retrieveShortUrl();
+			//retrieveShortUrl();
 		}
 );
 $("a#income_alert").click(function(){
