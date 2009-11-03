@@ -23,6 +23,7 @@ public class Untinyme extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		resp.setContentType("application/x-javascript; charset=UTF-8");
 		String shortUrl = req.getParameter("url");
 		if (shortUrl != null) {
 			String responContent = (String) GCache.get("untinyme_"
@@ -37,6 +38,8 @@ public class Untinyme extends HttpServlet {
 					+ shortUrl.hashCode(), responContent);
 			}
 			resp.getWriter().write(responContent);
+		}else{
+			resp.getWriter().write("{}");
 		}
 
 	}

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
 import jtweet.Exception.NotLoginException;
 

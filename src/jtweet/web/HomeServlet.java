@@ -92,6 +92,7 @@ public class HomeServlet extends JTweetServlet {
 
 			List<Status> status = twitter.getMentions(paging);
 			root.put("user", this.getCachedUser());
+			root.put("searches",this.getCachedSavedSearch());
 			root.put("title", "回复");
 			root.put("addjs", "/js/reply.js");
 			root.put("uri", uri);
@@ -112,7 +113,7 @@ public class HomeServlet extends JTweetServlet {
 
 			List<Status> status = twitter.getPublicTimeline(paging);
 			root.put("user", this.getCachedUser());
-			// root.put("rate", twitter.rateLimitStatus());
+			root.put("searches",this.getCachedSavedSearch());
 			root.put("title", "公共页面");
 			root.put("addjs", "/js/public.js");
 			root.put("uri", uri);
@@ -133,7 +134,7 @@ public class HomeServlet extends JTweetServlet {
 
 			List<Status> status = twitter.getFavorites(paging.getPage());
 			root.put("user", this.getCachedUser());
-			// root.put("rate", twitter.rateLimitStatus());
+			root.put("searches",this.getCachedSavedSearch());
 			root.put("title", "收藏");
 			root.put("addjs", "/js/favor.js");
 			root.put("uri", uri);
@@ -145,16 +146,16 @@ public class HomeServlet extends JTweetServlet {
 	}
 
 	protected void getMsgTimeline(HttpServletResponse resp) throws IOException,
-			NotLoginException {
+			NotLoginException, TwitterException, TemplateException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		try {
 			List<DirectMessage> msg = twitter.getDirectMessages(paging);
 			root.put("user", this.getCachedUser());
-			// root.put("rate", twitter.rateLimitStatus());
+			root.put("searches",this.getCachedSavedSearch());
+			root.put("title", "私信收件箱");
 			root.put("addjs", "/js/message.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
@@ -162,14 +163,6 @@ public class HomeServlet extends JTweetServlet {
 			Template t = config.getTemplate("message.ftl");
 			t.process(root, resp.getWriter());
 
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			resp.sendError(e.getStatusCode());
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -13,7 +13,6 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
 
 @SuppressWarnings("serial")

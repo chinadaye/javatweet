@@ -12,8 +12,6 @@ import jtweet.Exception.NotLoginException;
 import org.apache.oro.text.perl.Perl5Util; //import org.json.JSONException;
 import org.json.simple.JSONObject;
 
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
-
 import twitter4j.TwitterException;
 
 @SuppressWarnings("serial")
@@ -189,6 +187,7 @@ public class ActionServlet extends JTweetServlet {
 		resp.getWriter().print(json.toJSONString());
 	}
 
+	@Deprecated
 	protected String ShortURL(String text) {
 		String rst = text;
 		String url_reg = "m/\\b[a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!:;]*\\b/i";

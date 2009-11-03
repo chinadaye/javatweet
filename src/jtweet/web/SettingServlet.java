@@ -19,7 +19,6 @@ import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.appengine.repackaged.com.google.common.util.Base64;
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

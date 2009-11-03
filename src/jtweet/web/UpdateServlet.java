@@ -12,9 +12,7 @@ import jtweet.Exception.NotLoginException;
 
 import twitter4j.DirectMessage;
 import twitter4j.Status;
-import twitter4j.TwitterException;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 @SuppressWarnings("serial")
 public class UpdateServlet extends JTweetServlet {

@@ -63,7 +63,7 @@
 								<#if s.inReplyToScreenName?trim != "">
 									<span class="tweet_reply_to"><a href="/status?id=${s.inReplyToStatusId?c}">对${s.inReplyToScreenName}的回复</a></span>
 								</#if>
-								<span class="tweet_link"><a href="/status?id=${s.id?c}">发表于${s.createdAt?datetime}</a></span>
+								<span class="tweet_link"><a href="/status?id=${s.id?c}">发表于${s.createdTimeago}</a></span>
 							</span>
 							<span class="tweet_id">${s.id?c}</span>
 							<!--<div class="fixed"></div>-->
