@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.gae.GCache;
+
 import twitter4j.DirectMessage;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -149,7 +151,13 @@ public class HomeServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
-			List<Status> status = twitter.getPublicTimeline(paging);
+			List<Status> status = (List<Status>)GCache.get("pub," + paging.getPage());
+			if(null == status)
+			{
+				status = twitter.getPublicTimeline(paging);
+				GCache.put("pub," + paging.getPage(), status, 120);
+			}
+			
 			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
 			root.put("title","公共页面");

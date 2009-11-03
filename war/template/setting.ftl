@@ -20,7 +20,7 @@
                                 <div class="wrapper">
 		<#if msg?exists><center><div id="setting_rst">${msg}</div></center></#if>
 		<div id="setting_img">
-			<img src="${user.biggerImageURL}" alt="${user.screenName}" class="user_img_big"/>
+			<img src="${user.biggerImageURL}" alt="${user.screenName}" class="user_img_big" width ="73" height="73"/>
 			<form action="/setimg" method="post" enctype="multipart/form-data" id="img_form">
 				<div class="img_tip">必须为GIF，JPG或PNG格式，大小小于700KB。 </div>
 				<div class="img_tip">由于GAE URLFetch的缓存机制，新上传的头像并不会在JTweet上马上显示。 </div>

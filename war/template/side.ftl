@@ -1,6 +1,6 @@
 <div class="side_user_info">
 	<div class="side_user_img_div">
-		<img alt="${user.screenName}" src="${user.profileImageURL}" class="usr_img" />
+		<img alt="${user.screenName}" src="${user.profileImageURL}" class="usr_img" width ="48" height="48" />
 	</div>
 	<div class="side_user_name">
 		<span id="side_user_screenname">${user.screenName}</span><br />

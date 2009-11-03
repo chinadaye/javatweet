@@ -30,7 +30,7 @@ $("a.tweet_action_reply").live(
 			reply_id = $(this).parents("div.tweets").children("span.tweet_id").text();
 			$("button#tweet_submit").text("我推！");
 			oringal_msg = $("#tweet_msg").val();
-			$("#tweet_msg").val("@" + $("span.user_name").text() + " " + oringal_msg);
+			$("#tweet_msg").val("@" + $("span#user_name").text() + " " + oringal_msg);
 			$("button#tweet_submit").click
 			(
 					function()
@@ -56,7 +56,7 @@ $("a.tweet_action_rt").live(
 		{
 			reply_id = $(this).parents("div.tweets").children("span.tweet_id").text();
 			$("button#tweet_submit").text("我推！");
-			$("#tweet_msg").val("RT @" + $("span.user_name").text() + " " + $(this).parents("div.tweets").children("span.tweet_text").text() + "");
+			$("#tweet_msg").val("RT @" + $("span#user_name").text() + " " + $(this).parents("div.tweets").children("span.tweet_text").text() + "");
 			$("button#tweet_submit").click
 			(
 					function()
@@ -124,9 +124,9 @@ $("a.user_action_msg").live(
 		"click",
 		function()
 		{
-			send_id = $("span.user_name").text();
+			send_id = $("span#user_name").text();
 			$("button#tweet_submit").text("发送！");
-			$("#tweet_msg").val("d " + $("span.user_name").text() + " ");
+			$("#tweet_msg").val("d " + $("span#user_name").text() + " ");
 			$("button#tweet_submit").click
 			(
 					function()
@@ -148,7 +148,7 @@ $("a.user_action_follow").live(
 		"click",
 		function()
 		{
-			send_id = $("span.user_name").text();
+			send_id = $("span#user_name").text();
 			function callback(param)
 			{
 				param.text("取消关注");
@@ -163,7 +163,7 @@ $("a.user_action_unfollow").live(
 		"click",
 		function()
 		{
-			send_id = $("span.user_name").text();
+			send_id = $("span#user_name").text();
 			function callback(param)
 			{
 				param.text("关注");
@@ -178,7 +178,7 @@ $("a.user_action_block").live(
 		"click",
 		function()
 		{
-			send_id = $("span.user_name").text();
+			send_id = $("span#user_name").text();
 			function callback(param)
 			{
 				param.text("取消屏蔽");
@@ -193,7 +193,7 @@ $("a.user_action_unblock").live(
 		"click",
 		function()
 		{
-			send_id = $("span.user_name").text();
+			send_id = $("span#user_name").text();
 			function callback(param)
 			{
 				param.text("屏蔽");

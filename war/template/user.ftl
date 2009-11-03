@@ -18,9 +18,9 @@
               <td id="content" class="round-left column">
                                 <div class="wrapper">
 			<div id="info_warp">
-				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big"/>
+				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big" width ="73" height="73"/>
 				<div class="user_div">
-					<span class="user_name">${user_show.screenName}(${user_show.name})</span>
+					<span class="user_name"><span id="user_name">${user_show.screenName}</span> (${user_show.name})</span>
 					<span class="user_action">
 						<#if user.screenName?lower_case != user_show.screenName?lower_case>
 							<a href="javascript:void(0);" class="user_action_msg">发送消息</a>

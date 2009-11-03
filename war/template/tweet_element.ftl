@@ -2,7 +2,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <#list tweets as s>
 	<div id="tweet_${s.id?c}" class="tweets">
-	<div class="user_img_div"><img src="${s.profileImageUrl}" class="user_img" alt="${s.fromUser}"/></div>
+	<div class="user_img_div"><img src="${s.profileImageUrl}" class="user_img" alt="${s.fromUser}" width ="48" height="48"/></div>
 	<div class="tweet_content">
 		<span class="tweet_user"><a href="/user?id=${s.fromUser}">${s.fromUser}</a></span>
 		<span class="tweet_text">${s.html}</span>

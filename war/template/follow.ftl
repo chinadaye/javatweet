@@ -28,7 +28,7 @@
 					<span class="name">${user_show.screenName}的${title}:</span><br />
 					<#list follow as f>
 					<div id="follow_${f.id}" class="follow_status">
-						<div class="user_img_div"><img src="${f.profileImageURL}" alt="${f.screenName}" class="user_img"/></div>
+						<div class="user_img_div"><img src="${f.profileImageURL}" alt="${f.screenName}" class="user_img" width ="48" height="48"/></div>
 						<div class="follow_content">
 							<span class="follow_name"><a href="/user?id=${f.screenName}">${f.screenName}</a></span>
 							<span class="follow_action">
