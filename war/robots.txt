@@ -1,5 +1,3 @@
 User-agent: *
-Allow: /api.jsp
-Allow: /login
-Disallow: /
+Allow: /
 
