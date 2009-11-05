@@ -11,12 +11,15 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String directRegex = "^d\\s+([a-z0-9A-Z]+)\\s+([\\S+\\s?]+)$";
-		Matcher mt = Pattern.compile(directRegex).matcher(
-				"d kkdk f;slkdf ;slkdfls:jkfsdkljf kdjlfsj#43948 ");
-		if (mt.find()) {
-			System.out.print(mt.group(2));
-		}
+		System.out.println(Math.sqrt(Integer.valueOf("EDFEFF", 16).intValue()));
+		System.out.println(Integer.valueOf("DDEEF6", 16).intValue());
+		System.out.println(Integer.valueOf("EDFEFF", 16).floatValue()/Integer.valueOf("DDEEF6", 16).floatValue());
+		System.out.println(Integer.valueOf("AB65C5", 16).intValue());
+		System.out.println(Integer.valueOf("934DAD", 16).intValue());
+		System.out.println(Integer.valueOf("AB65C5", 16).floatValue()/Integer.valueOf("934DAD", 16).floatValue());
+		System.out.println(Integer.valueOf("B1F44B", 16).intValue());
+		System.out.println(Integer.valueOf("99CC33", 16).intValue());
+		System.out.println(Integer.valueOf("B1F44B", 16).floatValue()/Integer.valueOf("99CC33", 16).floatValue());
 	}
 
 }

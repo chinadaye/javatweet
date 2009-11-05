@@ -133,6 +133,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/untinyme</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>Shorturl</servlet-name>
+		<servlet-class>jtweet.web.ShorturlServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Shorturl</servlet-name>
+		<url-pattern>/short</url-pattern>
+		<url-pattern>/revert</url-pattern>
+		<url-pattern>/i/*</url-pattern>
+	</servlet-mapping>
+	
 	
 	<error-page>
 		<error-code>500</error-code>
