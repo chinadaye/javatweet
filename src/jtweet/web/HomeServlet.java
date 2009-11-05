@@ -77,6 +77,7 @@ public class HomeServlet extends JTweetServlet {
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
 			root.put("status", status);
+			root.put("needreply", true);
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 

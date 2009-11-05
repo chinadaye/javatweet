@@ -232,6 +232,11 @@ ul.sidebar-menu li.loading a {
 #followers span.view-all {
   border-left: 0;
 }   
+<#if needreply?exists>
+.reply_to_${user.screenName} {
+background-color:#dddd77;
+}
+</#if>
 	</style>
 	<#else>
 	<style type="text/css">
@@ -315,6 +320,6 @@ ul.sidebar-list li a:hover {
 #followers span.view-all {
   border-left: 0;
 }      
-    
+
 	</style>
 	</#if>

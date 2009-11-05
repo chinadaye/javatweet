@@ -48,16 +48,7 @@ public class TweetParser {
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 				String url = mt.group();
-//				if(url.matches(".*tinyurl\\.com\\/.*")
-//						||url.matches(".*bit\\.ly\\/.*")
-//						||url.matches(".*ff\\.im\\/.*")
-//						||url.matches(".*j\\.mp\\/.*")
-//						||url.matches(".*is\\.gd\\/.*")
-//						){
-//					text = text.replace(mt.group(), "<a class=\"shorturl\" href=\""+url+"\">"+url+"</a>");
-//				}else{
 				text = text.replace(mt.group(), "<a target=\"_blank\" class=\"mayshort\" href=\""+url+"\">"+url+"</a>");
-//				}
 			
 		}
 		
@@ -68,13 +59,15 @@ public class TweetParser {
 			text = text.replace(mt.group(), "<a class=\"search_link\" href=\"/search?s="+mt.group(1)+"\">"+mt.group()+"</a>");
 		}
 		//people
+		String mentionUsers = "";
 		regex = "@([A-Za-z0-9_]+)";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
+			mentionUsers += " reply_to_"+mt.group(1); 
 			text = text.replace(mt.group(), "<a class=\"user_link\" href=\"/user?id="+mt.group(1)+"\">"+mt.group()+"</a>");
 		}
 		
-		return "<div class=\"twittertext\">" + text +"</div>"+images;
+		return "<div class=\"twittertext "+mentionUsers+"\">" + text +"</div>"+images;
 	}
 	public static String parseText(String text)
 	{

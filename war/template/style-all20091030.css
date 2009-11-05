@@ -82,9 +82,8 @@ width:578px
 
 #tweet_msg {
 width:520px;
-height:100px;
-overflow-x:hidden;
-overflow-y:hidden
+height:4em;
+overflow-x:auto;
 }
 
 #tweet_submit {
@@ -453,9 +452,10 @@ height:23px
 }
 
 #income_alert {
-font-weight:700;
-color:#FFF;
-background-color:#31CEFF
+	display:block;
+color:#333333;
+background-color:#FFFFCC;
+border-color: #EEEEBB;
 }
 
 .transparent {
@@ -885,7 +885,7 @@ line-height:1.6em!important
 }
 
 #side .promotion {
-background-color:#EDFEFF;
+background-color:#1B201F;
 font-size:11px;
 text-align:left;
 width:152px;
@@ -3858,7 +3858,7 @@ margin:10px 0
 }
 
 a.side_link:hover,a.side_link_current,a.side_user_link:hover,ul.sidebar-menu li a:hover {
-background-color:#EDFEFF;
+background-color:#1B201F;
 text-decoration:none
 }
 
