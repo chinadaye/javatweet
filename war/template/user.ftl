@@ -3,7 +3,7 @@
 <#setting time_zone="GMT+8">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>JTweet /${title} /${user_show.screenName}</title>
+	<title>@${user_show.screenName}-Jteet</title>
 	<link type="text/css" href="template/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script> 

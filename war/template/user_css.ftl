@@ -62,7 +62,7 @@ ul.sidebar-menu li a:hover,
 #side div#custom_search.active,
 #side .promotion,
 .notify div {
-  background-color: #1B201F;
+ 
 }
 
 .list-header,
@@ -180,7 +180,6 @@ ul.sidebar-menu li a:hover,
 #side div#custom_search.active,
 #side .promotion,
 .notify div {
-  background-color: #1B201F;
 }
 
 .list-header,

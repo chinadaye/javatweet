@@ -17,8 +17,8 @@ $(document).ready(
 				},
 				300
 			);
-			flash_title();
-			markupUI();
+			//flash_title();
+			//markupUI();
 			//retrieveShortUrl();
 		}
 );

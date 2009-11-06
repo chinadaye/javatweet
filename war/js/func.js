@@ -19,26 +19,32 @@ $("textarea#tweet_msg").keypress(function(e){
     }          
 });
 
-$("div.unread").live(
+/*$("div.unread").live(
 		"mouseover",
 		function()
 		{
 			$(this).removeClass("unread");
 			unread_count = unread_count - 1;
 		}
-);
+);*/
 $("div.tweets").live(
 		"mouseover",
 		function()
 		{
 			$(this).find("span.tweet_action,span.msg_action").show();
-			if(!$(this).hasClass("had_checked_short")){
+			/*if(!$(this).hasClass("had_checked_short")){
 				var mayshorts = $(this).find("a.mayshort");
 				for(var i=0;i<mayshorts.length;i++){
 					revertShortUrl(mayshorts[i]);
 				}
 				$(this).addClass('had_checked_short');
-			}
+			}*/
+		}
+);
+$("a.mayshort").live(
+		"click",
+		function(){
+			return revertShortUrl(this);
 		}
 );
 $("div.tweets").live(
@@ -69,12 +75,12 @@ function updateUnread()
  */
 function markupUI(){
 	//高亮当前页面的tab链接
-	var href = window.location.href;
+	/*var href = window.location.href;
 	var matches = href.match(/http\:\/\/[0-9a-z\.]*\/([0-9a-z\?=&]+)/i);
 	if(matches!=null){
 		var act  = matches[1];
 		$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
-	}
+	}*/
 	//$("#ajax_loader").css("visibility","hidden");
 };
 
@@ -123,7 +129,7 @@ function checkHome(){
 							function(){
 								checkHome();
 							},
-							15000
+							30000
 					);
 				}
 			});
@@ -136,8 +142,26 @@ function revertShortUrl(link){
 	var url = $(link).attr('href');
 	var matches = url.match(/.*\/\/([A-Za-z0-9-_.]+)\/.*/);
 	if(matches!=null&&short_url_services.match(".*,?"+matches[1]+",?.*")){
-		$(link).after(img_small_loader);
-		$.getJSON('/untinyme',
+		
+		$.ajax({
+			url:'http://api.longurl.org/v2/expand?format=json&user-agent=jteet&url='+matches[0],
+			dataType:'jsonp',
+			//data:{format:'json',user-agent:'jteet',url:matches[0]},
+			success:function(data,textStatus){
+				if(data['long-url']){
+					$(link).attr('href',data['long-url']);
+					$(link).text(data['long-url']);
+				}
+				$(link).next('img.small_loader').remove();
+			},
+			error:function(){
+				$(link).next('img.small_loader').remove();
+			},
+			beforeSend:function(){
+				$(link).after(img_small_loader);
+			}
+			});
+		/*$.getJSON('/untinyme',
 				{url:matches[0]},
 				function(data){
 					if(data.org_url){
@@ -145,9 +169,11 @@ function revertShortUrl(link){
 						$(link).text(data.org_url);
 					}
 					$(link).next('img.small_loader').remove();
-				});
+				});*/
+		$(link).removeClass('mayshort');
+		return false;
 	}
-	$(link).removeClass('mayshort');
+	return true;
 }
 
 /**

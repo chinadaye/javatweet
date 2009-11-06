@@ -246,7 +246,7 @@ public class JTweetServlet extends HttpServlet {
 		if(null!=user){
 			return user;
 		}
-		user = twitter.verifyCredentials();
+		user = twitter.showUser(this.getUsername());
 		GCache.put("user:"+this.getUsername(), user,3600*24);
 		return user;
 	}

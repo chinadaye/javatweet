@@ -34,7 +34,7 @@ public class Untinyme extends HttpServlet {
 				HTTPResponse respon = URLFetchServiceFactory
 						.getURLFetchService().fetch(new URL(url));
 				responContent = new String(respon.getContent());
-				GCache.put("untinyme_"
+				GCache.put("untinyme:"
 					+ shortUrl.hashCode(), responContent);
 			}
 			resp.getWriter().write(responContent);

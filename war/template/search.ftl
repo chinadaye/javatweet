@@ -4,7 +4,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>JTeet /搜索 ${search} <#if user?exists>/${user.screenName}</#if></title>
+	<title>搜索 ${search} -Jteet</title>
 	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>

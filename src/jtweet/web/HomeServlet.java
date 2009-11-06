@@ -51,8 +51,9 @@ public class HomeServlet extends JTweetServlet {
 			} else if (action.equalsIgnoreCase("public")) {
 				getPubTimeline(resp);
 			} else {
-				JTweetServlet.logger.info("redirect home");
-				resp.sendRedirect("/home");
+//				JTweetServlet.logger.info("redirect home");
+//				resp.sendRedirect("/home");
+				this.showError(req, resp, "该页面不存在（"+req.getRequestURI()+"）");
 			}
 		} catch (NotLoginException e) {
 			this.redirectLogin(req, resp);
