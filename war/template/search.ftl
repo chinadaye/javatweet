@@ -47,8 +47,6 @@
 		<#include "side.ftl" />
 	</div>
 	</td>
-
-              
             </tr>
           </tbody>
         </table>

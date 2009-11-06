@@ -56,11 +56,7 @@ function updateUnread()
 	unread_count = $("div.unread").length;
 };
 
-/**
- * 调整UI
- */
-function markupUI(){
-};
+
 
 
 function flash_title()

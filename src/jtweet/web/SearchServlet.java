@@ -70,7 +70,7 @@ public class SearchServlet extends JTweetServlet {
 		List<Tweet> tweets = result.getTweets();
 		if(isLogin)
 		root.put("user", this.getCachedUser());
-
+		root.put("searches",this.getCachedSavedSearch());
 		root.put("search", s);
 		root.put("addjs", "/js/search.js");
 		root.put("page", page);
