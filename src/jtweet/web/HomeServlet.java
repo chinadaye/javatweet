@@ -40,7 +40,7 @@ public class HomeServlet extends JTweetServlet {
 			} catch (NumberFormatException e) {
 				paging.setPage(1);
 			}
-			if (action.equalsIgnoreCase("home")) {
+			if (action.equalsIgnoreCase("home")||action.equalsIgnoreCase("")) {
 				getHomeTimeline(resp);
 			} else if (action.equalsIgnoreCase("reply")) {
 				getReplyTimeline(resp);

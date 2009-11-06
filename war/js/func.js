@@ -3,7 +3,8 @@ unread_count = 0;
 title = document.title;
 t = false;
 var is_income = false;
-var short_url_services = "1u.ro,1url.com,2pl.us,2tu.us,3.ly,a.gg,a.nf,a2a.me,abe5.com,adjix.com,alturl.com,atu.ca,awe.sm,b23.ru,bacn.me,bit.ly,bkite.com,blippr.com,blippr.com,bloat.me,bt.io,budurl.com,buk.me,burnurl.com,c.shamekh.ws,cd4.me,chilp.it,clck.ru,cli.gs,clickthru.ca,cort.as,cuturl.com,decenturl.com,df9.net,doiop.com,dwarfurl.com,easyurl.net,eepurl.com,eezurl.com,ewerl.com,fa.by,fav.me,ff.im,fff.to,fhurl.com,flic.kr,flq.us,fly2.ws,fuseurl.com,fwd4.me,gl.am,go.9nl.com,go2.me,golmao.com,goshrink.com,gri.ms,gurl.es,hellotxt.com,hex.io,href.in,htxt.it,hugeurl.com,hurl.ws,icanhaz.com,icio.us,idek.net,is.gd,ito.mx,j.mp,jijr.com,kissa.be,kl.am,korta.nu,l9k.net,liip.to,liltext.com,lin.cr,linkbee.com,liurl.cn,ln-s.net,ln-s.ru,lnkurl.com,loopt.us,lru.jp,lt.tl,lurl.no,memurl.com,migre.me,minilien.com,miniurl.com,minurl.fr,moourl.com,myurl.in,ncane.com,netnet.me,nn.nf,o-x.fr,ofl.me,omf.gd,ow.ly,oxyz.info,p8g.tw,parv.us,pic.gd,ping.fm,piurl.com,plurl.me,pnt.me,poll.fm,pop.ly,poprl.com,post.ly,posted.at,ptiturl.com,qurlyq.com,rb6.me,readthis.ca,redirects.ca,redirx.com,relyt.us,retwt.me,ri.ms,rickroll.it,rly.cc,rsmonkey.com,rubyurl.com,rurl.org,s3nt.com,s7y.us,short.ie,short.to,shortna.me,shoturl.us,shrinkster.com,shrinkurl.us,shrtl.com,shw.me,simurl.net,simurl.org,simurl.us,sn.im,sn.vc,snipr.com,snipurl.com,snurl.com,sp2.ro,spedr.com,starturl.com,stickurl.com,sturly.com,su.pr,takemyfile.com,tcrn.ch,thrdl.es,tighturl.com,tiny.cc,tiny.pl,tinyarro.ws,tinytw.it,tinyurl.com,tnw.to,to.ly,togoto.us,tr.im,tr.my,trcb.me,tumblr.com,tw0.us,tw1.us,tw2.us,tw5.us,tw6.us,tw8.us,tw9.us,twi.gy,twit.ac,twitthis.com,twiturl.de,twitzap.com,twtr.us,twurl.nl,u.mavrev.com,u.nu,ub0.cc,updating.me,ur1.ca,url.co.uk,url.ie,url.inc-x.eu,url4.eu,urlborg.com,urlbrief.com,urlcut.com,urlhawk.com,urlkiss.com,urlpire.com,urlvi.be,urlx.ie,uservoice.com,ustre.am,virl.com,vl.am,wa9.la,wapurl.co.uk,wipi.es,wkrg.com,wp.me,x.hypem.com,x.se,xeeurl.com,xr.com,xrl.in,xrl.us,xurl.jp,xzb.cc,yatuc.com,yep.it,yfrog.com,zi.pe,zz.gd";
+var short_url_services = "1u.ro,1url.com,2pl.us,3.ly,a2a.me,abe5.com,awe.sm,bkite.com,blippr.com,blippr.com,bt.io,burnurl.com,c.shamekh.ws,cd4.me,clickthru.ca,cuturl.com,df9.net,eezurl.com,fa.by,fav.me,flic.kr,fuseurl.com,go2.me,golmao.com,gri.ms,gurl.es,hellotxt.com,icio.us,ito.mx,j.mp,linkbee.com,loopt.us,lt.tl,miniurl.com,minurl.fr,ncane.com,ofl.me,oxyz.info,p8g.tw,pic.gd,poll.fm,pop.ly,posted.at,readthis.ca,relyt.us,retwt.me,rly.cc,rsmonkey.com,rurl.org,shortna.me,shrinkster.com,shrtl.com,simurl.net,simurl.org,simurl.us,stickurl.com,sturly.com,su.pr,takemyfile.com,thrdl.es,tinyarro.ws,tinytw.it,tnw.to,tr.my,trcb.me,tumblr.com,tw0.us,tw1.us,tw2.us,tw5.us,tw6.us,tw8.us,tw9.us,twi.gy,twit.ac,twitthis.com,twitzap.com,twtr.us,url.inc-x.eu,url4.eu,uservoice.com,ustre.am,vl.am,wa9.la,wkrg.com,wp.me,x.hypem.com,xeeurl.com,xr.com,zi.pe";
+var longurl_services = "0rz.tw,2tu.us,307.to,6url.com,a.gg,a.nf,a2n.eu,ad.vu,adf.ly,adjix.com,alturl.com,atu.ca,azqq.com,b23.ru,b65.com,bacn.me,bit.ly,bloat.me,budurl.com,buk.me,canurl.com,chilp.it,clck.ru,cli.gs,cliccami.info,clipurl.us,clop.in,cort.as,cuturls.com,decenturl.com,digg.com,doiop.com,dwarfurl.com,easyurl.net,eepurl.com,ewerl.com,ff.im,fff.to,fhurl.com,flingk.com,flq.us,fly2.ws,fwd4.me,fwdurl.net,g8l.us,gl.am,go.9nl.com,goshrink.com,hex.io,href.in,htxt.it,hugeurl.com,hurl.ws,icanhaz.com,idek.net,is.gd,jijr.com,kissa.be,kl.am,klck.me,korta.nu,l9k.net,liip.to,liltext.com,lin.cr,linkgap.com,liurl.cn,ln-s.net,ln-s.ru,lnkurl.com,lru.jp,lu.to,lurl.no,memurl.com,merky.de,migre.me,minilien.com,moourl.com,myurl.in,nanoref.com,nanourl.se,netnet.me,ni.to,nn.nf,notlong.com,nutshellurl.com,o-x.fr,offur.com,omf.gd,onsaas.info,ow.ly,parv.us,peaurl.com,ping.fm,piurl.com,plumurl.com,plurl.me,pnt.me,poprl.com,post.ly,ptiturl.com,qlnk.net,qurlyq.com,r.im,rb6.me,rde.me,reallytinyurl.com,redir.ec,redirects.ca,redirx.com,ri.ms,rickroll.it,rubyurl.com,s3nt.com,s7y.us,shink.de,short.ie,short.to,shortenurl.com,shorterlink.com,shortlinks.co.uk,shoturl.us,shredurl.com,shrinkify.com,shrinkr.com,shrinkurl.us,shrtnd.com,shurl.net,shw.me,smallr.com,smurl.com,sn.im,sn.vc,snadr.it,snipr.com,snipurl.com,snurl.com,sp2.ro,spedr.com,srnk.net,srs.li,starturl.com,surl.co.uk,ta.gd,tcrn.ch,tgr.me,tighturl.com,tiny.cc,tiny.pl,tinylink.com,tinyurl.com,to.ly,togoto.us,tr.im,tra.kz,trunc.it,tubeurl.com,twitclicks.com,twitterurl.net,twiturl.de,twurl.cc,twurl.nl,u.mavrev.com,u.nu,u76.org,ub0.cc,ulu.lu,updating.me,ur1.ca,url.az,url.co.uk,url.ie,urlborg.com,urlbrief.com,urlcut.com,urlcutter.com,urlhawk.com,urlkiss.com,urlpire.com,urlvi.be,urlx.ie,virl.com,wapurl.co.uk,wipi.es,x.se,xil.in,xrl.in,xrl.us,xurl.jp,xzb.cc,yatuc.com,yep.it,yfrog.com,zi.ma,zurl.ws,zz.gd,zzang.kr,›.ws,✩.ws,✿.ws,❥.ws,➔.ws,➞.ws,➡.ws,➨.ws,➯.ws,➹.ws,➽.ws";
 var img_small_loader = '<img class="small_loader" src="/img/ajax-loader.gif" />';
 $(document).ready(function(){
 	$("#ajax_loader").hide();
@@ -19,26 +20,11 @@ $("textarea#tweet_msg").keypress(function(e){
     }          
 });
 
-/*$("div.unread").live(
-		"mouseover",
-		function()
-		{
-			$(this).removeClass("unread");
-			unread_count = unread_count - 1;
-		}
-);*/
 $("div.tweets").live(
 		"mouseover",
 		function()
 		{
 			$(this).find("span.tweet_action,span.msg_action").show();
-			/*if(!$(this).hasClass("had_checked_short")){
-				var mayshorts = $(this).find("a.mayshort");
-				for(var i=0;i<mayshorts.length;i++){
-					revertShortUrl(mayshorts[i]);
-				}
-				$(this).addClass('had_checked_short');
-			}*/
 		}
 );
 $("a.mayshort").live(
@@ -74,14 +60,6 @@ function updateUnread()
  * 调整UI
  */
 function markupUI(){
-	//高亮当前页面的tab链接
-	/*var href = window.location.href;
-	var matches = href.match(/http\:\/\/[0-9a-z\.]*\/([0-9a-z\?=&]+)/i);
-	if(matches!=null){
-		var act  = matches[1];
-		$(".side_link_content a.side_link[href='/"+act+"']").addClass("side_link_current");
-	}*/
-	//$("#ajax_loader").css("visibility","hidden");
 };
 
 
@@ -142,11 +120,28 @@ function revertShortUrl(link){
 	var url = $(link).attr('href');
 	var matches = url.match(/.*\/\/([A-Za-z0-9-_.]+)\/.*/);
 	if(matches!=null&&short_url_services.match(".*,?"+matches[1]+",?.*")){
-		
+		$(link).after(img_small_loader);
+		$.ajax({
+			url:'/untinyme?url='+matches[0],
+			dataType:'jsonp',
+			success:function(data,textStatus){
+				if(data.org_url){
+					$(link).attr('href',data.org_url);
+					$(link).text(data.org_url);
+				}
+				$(link).next('img.small_loader').remove();
+			},
+			error:function(){
+				$(link).next('img.small_loader').remove();
+			}
+			});
+		$(link).removeClass('mayshort');
+		return false;
+	}else if(matches!=null&&longurl_services.match(".*,?"+matches[1]+",?.*")){//longurl_services
+		$(link).after(img_small_loader);
 		$.ajax({
 			url:'http://api.longurl.org/v2/expand?format=json&user-agent=jteet&url='+matches[0],
 			dataType:'jsonp',
-			//data:{format:'json',user-agent:'jteet',url:matches[0]},
 			success:function(data,textStatus){
 				if(data['long-url']){
 					$(link).attr('href',data['long-url']);
@@ -156,23 +151,12 @@ function revertShortUrl(link){
 			},
 			error:function(){
 				$(link).next('img.small_loader').remove();
-			},
-			beforeSend:function(){
-				$(link).after(img_small_loader);
 			}
 			});
-		/*$.getJSON('/untinyme',
-				{url:matches[0]},
-				function(data){
-					if(data.org_url){
-						$(link).attr('href',data.org_url);
-						$(link).text(data.org_url);
-					}
-					$(link).next('img.small_loader').remove();
-				});*/
 		$(link).removeClass('mayshort');
 		return false;
 	}
+	
 	return true;
 }
 
