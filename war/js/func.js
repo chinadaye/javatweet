@@ -119,7 +119,7 @@ function revertShortUrl(link){
 		$(link).after(img_small_loader);
 		$.ajax({
 			url:'/untinyme?url='+matches[0],
-			dataType:'jsonp',
+			dataType:'json',
 			success:function(data,textStatus){
 				if(data.org_url){
 					$(link).attr('href',data.org_url);
