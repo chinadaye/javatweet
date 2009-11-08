@@ -20,6 +20,7 @@
 		<div class="fixed"></div>
 		<span class="tweet_action">
 			<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
+			<a href="javascript:void(0);" class="tweet_action_quote">引用回复</a>
 			<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>			
 			<a href="javascript:void(0);" class="tweet_action_favor">收藏</a>
 			<#if user.screenName?lower_case == s.fromUser?lower_case>

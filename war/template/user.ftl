@@ -43,6 +43,7 @@
 				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
 				<textarea rows="5" cols="20" id="tweet_msg" name="tweet_msg"></textarea><br />
 				<button id="tweet_submit">我推！</button>
+				<button id="tweet_clear">清除</button>
 			</div>
 			<div class="fixed"></div>
 			<div id="tweet_warp">
@@ -63,6 +64,7 @@
 							<div class="fixed"></div>
 							<span class="tweet_action">
 								<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
+								<a href="javascript:void(0);" class="tweet_action_quote">引用回复</a>
 								<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>
 								<#if s.favorited>
 									<a href="javascript:void(0);" class="tweet_action_unfavor">取消收藏</a>			

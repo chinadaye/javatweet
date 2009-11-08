@@ -21,6 +21,7 @@
 				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
 				<textarea rows="5" cols="20" id="tweet_msg" name="tweet_msg"></textarea><br />
 				<button id="tweet_submit">发送！</button>
+				<button id="tweet_clear">清除</button>
 			</div>
 			<div class="fixed"></div>
 			<#if follow?exists>

@@ -22,6 +22,17 @@ $("div.unread").live(
 		}
 );
 
+$("button#tweet_clear").live(
+		"click",
+		function()
+		{
+			reply_id = 0;
+			//send_id = "";
+			$("#tweet_msg").val("");
+			$("#tweet_msg").focus();
+		}
+);
+
 
 function playMsg()
 {
@@ -425,6 +436,10 @@ function onSendMessage(id, callback, param)
 					}
 				}
 			});
+		}
+		else
+		{
+			alert("请指定收件人");
 		}
 	}
 	else

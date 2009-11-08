@@ -47,7 +47,7 @@ public class UpdateServlet extends JTweetServlet {
 			root.put("addclass", "newcome");
 			
 			try {
-				root.put("user", twitter.verifyCredentials());
+				root.put("user", getTuser());
 				Template t = null;
 				if(type.equalsIgnoreCase("home"))
 				{

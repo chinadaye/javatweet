@@ -303,15 +303,16 @@ side
 	overflow-x:hidden;
 	overflow-y:hidden;
 }
-#tweet_submit
+#tweet_submit, #tweet_clear
 {
 	margin-right:20px;
 	margin-top:12px;
 	font-size:12px;
-	width:95px;
+	width:85px;
 	height:30px;
 	float:right;
 }
+
 .tweet_tip
 {
 	padding:5px;
@@ -378,7 +379,7 @@ side
 	margin-bottom:10px;
 	font-size:14px;
 }
-.tweet_info, .tweet_action, .msg_time, .msg_action
+.tweet_info, .tweet_action, .msg_info, .msg_action
 {
 	font-size:12px;
 	display:block;
@@ -473,7 +474,7 @@ side
 }
 .side_link_content
 {
-	margin: 20px 0px 10px 0px;
+	margin: 20px 0px 5px 0px;
 }
 .side_link
 {
@@ -659,7 +660,7 @@ a.pre_page:hover, a.next_page:hover
 }
 #searchform
 {
-	padding-top:10px;
+	padding-top:5px;
 	padding-left:10px;
 	display:block;
 }
@@ -671,4 +672,8 @@ a.pre_page:hover, a.next_page:hover
 .ie6 .searchtext, .ie7 .searchtext
 {
 	margin-right:5px;
+}
+#sogou_ime
+{
+	margin:10px;
 }

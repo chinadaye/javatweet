@@ -20,6 +20,7 @@
 	<a href="/user?id=${user.screenName}" class="side_link">我的推</a>
 	<a href="/reply" class="side_link">@${user.screenName}</a>
 	<a href="/message" class="side_link">消息</a>
+	<a href="/outbox" class="side_link">发件箱</a>
 	<a href="/favor" class="side_link">我的收藏</a>
 	<a href="/block" class="side_link side_link_last">屏蔽列表</a>
 </div>
@@ -34,4 +35,5 @@
 		<#include "rate.ftl" />
 	</div>
 	<div class="fixed"></div>
+	<a href="javascript:void((function(){var n=navigator.userAgent.toLowerCase();ie=n.indexOf('msie')!=-1?1:0;if(document.documentMode)ie=0;charset='';if(ie)charset=document.charset;src=ie&&charset=='utf-8'?'http://web.pinyin.sogou.com/web_ime/init2_utf8.php':'http://web.pinyin.sogou.com/web_ime/init2.php';element=document.createElement('script');element.setAttribute('src',src);document.body.appendChild(element);})());" title="开启搜狗云输入法" id="sogou_ime"><img src="/img/sogou.png" alt="开启搜狗云输入法" /></a>
 </#if>

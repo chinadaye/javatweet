@@ -50,11 +50,37 @@ $("a.tweet_action_reply").live(
 		}
 );
 
-$("a.tweet_action_rt").live(
+$("a.tweet_action_quote").live(
 		"click",
 		function()
 		{
 			reply_id = $(this).parents("div.tweets").children("span.tweet_id").text();
+			$("button#tweet_submit").text("我推！");
+			$("#tweet_msg").val("RT @" + $("span#user_name").text() + " " + $(this).parents("div.tweets").children("span.tweet_text").text() + "");
+			$("button#tweet_submit").click
+			(
+					function()
+					{
+						function callback()
+						{
+							$("div.user_form").slideUp("normal");
+							reply_id = 0;
+							send_id = "";
+						}
+						onPostStatus(reply_id, callback);
+					}
+			);
+			$("div.user_form").slideDown("normal");
+			$("#tweet_msg").focus();
+			//alert(reply_id);
+		}
+);
+
+$("a.tweet_action_rt").live(
+		"click",
+		function()
+		{
+			reply_id = 0;
 			$("button#tweet_submit").text("我推！");
 			$("#tweet_msg").val("RT @" + $("span#user_name").text() + " " + $(this).parents("div.tweets").children("span.tweet_text").text() + "");
 			$("button#tweet_submit").click

@@ -70,6 +70,10 @@ public class HomeServlet extends JTweetServlet {
 			{
 				getPubTimeline(resp);
 			}
+			else if(action.equalsIgnoreCase("outbox"))
+			{
+				getOutboxTimeline(resp);
+			}
 			else
 			{
 				resp.sendRedirect("/home");
@@ -222,8 +226,39 @@ public class HomeServlet extends JTweetServlet {
 			List<DirectMessage> msg = twitter.getDirectMessages(paging);
 			root.put("user", getTuser());
 			root.put("rate", twitter.rateLimitStatus());
+			root.put("title", "消息");
 			root.put("browser", browser);
 			root.put("addjs", "/js/message.js");
+			root.put("uri", uri);
+			root.put("page", paging.getPage());
+			root.put("msg", msg);
+			Template t = config.getTemplate("message.ftl");
+			t.process(root, resp.getWriter());
+			
+			
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			resp.sendError(e.getStatusCode());
+			e.printStackTrace();
+		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	protected void getOutboxTimeline(HttpServletResponse resp) throws IOException
+	{
+		HashMap<String,Object> root = new HashMap<String,Object>();
+		freemarker.template.Configuration config=new freemarker.template.Configuration();
+		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDefaultEncoding("UTF-8");
+		
+		try {
+			List<DirectMessage> msg = twitter.getSentDirectMessages(paging);
+			root.put("user", getTuser());
+			root.put("rate", twitter.rateLimitStatus());
+			root.put("title", "发件箱");
+			root.put("browser", browser);
+			root.put("addjs", "/js/outbox.js");
 			root.put("uri", uri);
 			root.put("page", paging.getPage());
 			root.put("msg", msg);
