@@ -38,6 +38,10 @@
 </#list>
 </div>
 </#if>
+<div class="tweet_tip">
+<span>提示</span>
+<p>点击短链接将自动进行还原</p>
+</div>
 <#-- 
 <#if rate?exists>
 	<div id="side_rate_div">

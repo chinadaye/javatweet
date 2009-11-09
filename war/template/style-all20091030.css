@@ -454,8 +454,9 @@ height:23px
 #income_alert {
 	display:block;
 color:#333333;
-background-color:#FFFFCC;
 border-color: #EEEEBB;
+background: #FFFFCC url(/img/icon/in_come.png) no-repeat scroll 0 0 ;
+padding-left:18px;
 }
 
 .transparent {
@@ -773,7 +774,6 @@ padding:2px 0 2px 4px !important
 
 .top-navigation>li>a {
 border:1px solid transparent;
-font-size:1.05em;
 display:inline-block;
 padding:.5em .15em
 }

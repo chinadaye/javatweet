@@ -30,3 +30,7 @@
 		<button type="submit">搜索</button>
 	</form>
 <div class="fixed"></div>
+<div class="tweet_tip">
+<span>提示</span>
+<p>点击短链接将自动进行还原</p>
+</div>
