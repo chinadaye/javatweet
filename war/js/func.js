@@ -88,6 +88,7 @@ function flash_title()
 function checkHome(){
 	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
 	$.getJSON('/check',
+			cache:false,
 			{
 			type: "home",
 			since: sinceid

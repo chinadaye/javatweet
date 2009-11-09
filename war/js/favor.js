@@ -11,7 +11,7 @@ $(document).ready(
 				},
 				300
 			);
-			markupUI();
+//			markupUI();
 			//retrieveShortUrl();
 		}
 );
