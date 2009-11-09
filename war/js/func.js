@@ -87,27 +87,27 @@ function flash_title()
  */
 function checkHome(){
 	sinceid = $("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
-	$.getJSON('/check',
-			cache:false,
-			{
-			type: "home",
-			since: sinceid
-			},
-			function(respon){
-				if(respon&&respon.code==1&&respon.count>0){
-					$("a#income_alert").css("visibility","visible");
-					is_income  = true;
-				}else{
-					$("a#income_alert").css("visibility","hidden");
-					window.setTimeout
-					(
-							function(){
-								checkHome();
-							},
-							30000
-					);
-				}
-			});
+	$.ajax({
+		url:'/check?type=home&since='+sinceid,
+		cache:false,
+		dataType:'json',
+		success:function(data,textStatus){
+			if(data&&data.code==1&&data.count>0){
+				$("a#income_alert").css("visibility","visible");
+				is_income  = true;
+			}else{
+				$("a#income_alert").css("visibility","hidden");
+				window.setTimeout
+				(
+						function(){
+							checkHome();
+						},
+						30000
+				);
+			}
+		}
+		});
+
 }
 
 /**
