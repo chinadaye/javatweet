@@ -160,7 +160,7 @@ public class ActionServlet extends JTweetServlet {
 
 		} catch (TwitterException e) {
 			rst = false;
-			// TODO Auto-generated catch block
+			JTweetServlet.logger.warning(e.getMessage());
 			if (e.getStatusCode() == 400) {
 				if (action.equalsIgnoreCase("delete")) {
 					rst = true;
@@ -173,6 +173,7 @@ public class ActionServlet extends JTweetServlet {
 				e.printStackTrace();
 			}
 		} catch (NotLoginException e) {
+			JTweetServlet.logger.warning(e.getMessage());
 			logger.info(e.getMessage());
 			json.put("info", e.getMessage());
 		} catch (Exception e) {
