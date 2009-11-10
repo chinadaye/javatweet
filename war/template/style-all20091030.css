@@ -1854,7 +1854,7 @@ float:none
 }
 
 #content .tabMenu {
-text-align:center;
+
 margin:25px 0 0
 }
 
@@ -1868,9 +1868,8 @@ display:inline;
 background-color:#eee;
 text-decoration:none;
 color:#4c4c4c;
-border-top:1px solid #cecece;
-border-right:1px solid #cecece;
-border-left:1px solid #cecece;
+border:1px solid #C4C4C4;
+border-bottom:#FFFFFF;
 -moz-border-radius:3px 3px 0 0;
 -webkit-border-top-left-radius:3px;
 -webkit-border-top-right-radius:3px;
@@ -3819,7 +3818,7 @@ font-size:90%;
 margin-left:150px
 }
 
-.hide,.tweet_id,.msg_id,div.msg_form,div.user_form,.newcome,.hidden,hr,#side #trends em,#side .collapsible a.fetch-contents,#side .collapsed .xref,#side .collapsed .sidebar-menu,#rssfeed,#rssfeed .timeline-rss,#rssfeed .search-rss,body#direct_messages #status_update_box,body#inbox #status_update_box,body#sent #status_update_box,#latest_text_full,#dm_update_box,#dm_tabs {
+.hide,.tweet_id,.msg_id,div.msg_form,div.user_form,.newcome,.hidden,hr,#side #trends em,#side .collapsible a.fetch-contents,#side .collapsed .xref,#side .collapsed .sidebar-menu,#rssfeed,#rssfeed .timeline-rss,#rssfeed .search-rss,body#direct_messages #status_update_box,body#inbox #status_update_box,body#sent #status_update_box,#latest_text_full,#dm_update_box{
 display:none
 }
 

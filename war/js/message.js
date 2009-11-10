@@ -26,7 +26,7 @@ $(document).ready(
 		}
 ); 
 
-$("button#tweet_submit").live(
+/*$("button#tweet_submit").live(
 		"click",
 		function()
 		{
@@ -37,7 +37,7 @@ $("button#tweet_submit").live(
 			}
 			onSendMessage(send_id, callback);
 		}
-);
+);*/
 
 $("a.msg_action_reply").live(
 		"click",

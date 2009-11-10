@@ -4,7 +4,7 @@
 	 <li><a href="/home" >首页</a></li>
 	 <#if user?exists>
 	 <li><a href="/reply" >回复</a></li>
-	 <li><a href="/message">私信</a></li>
+	 <li><a href="/inbox">私信</a></li>
 	 <li><a href="/public">公共页面</a></li>
 	 <li><a href="/twitpic">TwitPic</a></li>
 	 <li><a href="/twitgoo">Twitgoo</a></li>

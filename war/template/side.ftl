@@ -20,7 +20,7 @@
 	<a href="/home" class="side_link">首页</a>
 	<a href="/user?id=${user.screenName}" class="side_link">我的主页</a>
 	<a href="/reply" class="side_link">@${user.screenName}</a>
-	<a href="/message" class="side_link">私信</a>
+	<a href="/inbox" class="side_link">私信</a>
 	<a href="/favor" class="side_link side_link_last">收藏</a>
 </div>
 <div class="fixed"></div>

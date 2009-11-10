@@ -252,6 +252,23 @@ public class JTweetServlet extends HttpServlet {
 	}
 	
 	/**
+	 * 前50个followers
+	 * @return
+	 * @throws TwitterException
+	 * @throws NotLoginException
+	 */
+	@SuppressWarnings("unchecked")
+	protected List<User> getCachedFollowers() throws TwitterException, NotLoginException {
+		List<User> followers = (List<User>) GCache.get("followers_100:"+this.getUsername());
+		if(null!=followers){
+			return followers;
+		}
+		followers = twitter.getFollowersStatuses(new Paging(1, 100));
+		GCache.put("followers_100:"+this.getUsername(),followers,3600);
+		return followers;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 * @throws TwitterException
