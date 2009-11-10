@@ -68,9 +68,10 @@ public class SearchServlet extends JTweetServlet {
 
 		QueryResult result = twitter.search(query);
 		List<Tweet> tweets = result.getTweets();
-		if(isLogin)
+		if(isLogin){
 		root.put("user", this.getCachedUser());
 		root.put("searches",this.getCachedSavedSearch());
+		}
 		root.put("search", s);
 		root.put("addjs", "/js/search.js");
 		root.put("page", page);
