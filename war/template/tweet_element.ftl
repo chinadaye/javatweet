@@ -4,14 +4,14 @@
 	<div id="tweet_${s.id?c}" class="tweets">
 	<div class="user_img_div"><img src="${s.profileImageUrl}" class="user_img" alt="${s.fromUser}"/></div>
 	<div class="tweet_content">
-		<span class="tweet_user"><a href="/user?id=${s.fromUser}">${s.fromUser}</a></span>
+		<span class="tweet_user"><a href="/@${s.fromUser}">${s.fromUser}</a></span>
 		<span class="tweet_text">${s.html}</span>
 		<div class="fixed"></div>
 		<span class="tweet_info">
 			<span class="tweet_source">通过${s.source}</span>
 			<#if s.toUser?exists>
 				<#if s.toUser?trim != "">
-					<span class="tweet_reply_to">对<a href="/user?id=${s.toUser}">${s.toUser}</a>的回复</span>
+					<span class="tweet_reply_to">对<a href="/@${s.toUser}">${s.toUser}</a>的回复</span>
 				</#if>
 			</#if>
 			<span class="tweet_link">发表于<a href="/status?id=${s.id?c}">${s.createdTimeago}</a></span>

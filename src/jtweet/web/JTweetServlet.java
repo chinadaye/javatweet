@@ -234,7 +234,8 @@ public class JTweetServlet extends HttpServlet {
 	 * @param exception
 	 */
 	protected void showException(HttpServletRequest req,HttpServletResponse resp,Exception exception){
-		req.setAttribute("error", exception.getStackTrace()[0].getClassName()+"("+exception.getStackTrace()[0].getLineNumber()+"):"+exception.getMessage());
+		JTweetServlet.logger.warning(exception.getStackTrace()[0].getClassName()+"("+exception.getStackTrace()[0].getLineNumber()+"):"+exception.getMessage());
+		req.setAttribute("error", exception.getMessage());
 		try {
 			getServletContext().getRequestDispatcher("/template/error.jsp").forward(req, resp);
 		} catch (ServletException e) {
@@ -315,11 +316,13 @@ public class JTweetServlet extends HttpServlet {
 	 * @return
 	 * @throws TemplateException
 	 * @throws IOException
+	 * @throws NotLoginException 
+	 * @throws TwitterException 
 	 */
-	protected static String renderStatus(Status status) throws TemplateException, IOException {
+	protected  String renderStatus(Status status) throws TemplateException, IOException, TwitterException, NotLoginException {
 		List<Status> statuses = new ArrayList<Status>();
 		statuses.add(status);
-		return JTweetServlet.renderStatuses(statuses);
+		return this.renderStatuses(statuses);
 	}
 	
 	/**
@@ -328,12 +331,15 @@ public class JTweetServlet extends HttpServlet {
 	 * @return
 	 * @throws TemplateException
 	 * @throws IOException
+	 * @throws NotLoginException 
+	 * @throws TwitterException 
 	 */
-	protected static String renderStatuses(List<Status> statuses) throws TemplateException, IOException {
+	protected  String renderStatuses(List<Status> statuses) throws TemplateException, IOException, TwitterException, NotLoginException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
+		root.put("user", this.getCachedUser());
 		root.put("addclass", "newcome");
 		root.put("status", statuses);
 		Template t = config.getTemplate("status_element.ftl");

@@ -99,7 +99,7 @@ float:right
 font-size:12px;
 font-weight:700;
 float:left;
-padding:5px
+padding:5px 10px;
 }
 
 .tweet_count_info {
@@ -151,7 +151,7 @@ float:right
 
 span.tweet_info {
 display:block;
-font-size:10px;
+font-size:11px;
 color:#999;
 float:left;
 margin:3px 0 0
@@ -453,9 +453,9 @@ height:23px
 
 #income_alert {
 	display:block;
-color:#333333;
+color:#B74902;
 border-color: #EEEEBB;
-background: #FFFFCC url(/img/icon/in_come.png) no-repeat scroll 0 0 ;
+background: #FFE0CC url(/img/icon/in_come.png) no-repeat scroll 0 0 ;
 padding-left:18px;
 }
 

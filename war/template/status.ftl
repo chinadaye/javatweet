@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Status ID@${status.id}-Jteet.com</title>
-	<link type="text/css" href="template/style.css" rel="stylesheet" />
+	<link type="text/css" href="/template/style.css" rel="stylesheet" />
 	<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
@@ -31,7 +31,7 @@
 		<div id="status_user_warp">
 			<img src="${status.user.biggerImageURL}" alt="${status.user.screenName}" class="user_img_big" />
 			<div class="user_name_div">
-				<a href="/user?id=${status.user.screenName}" class="status_user_screenname">${status.user.screenName}</a>
+				<a href="/@${status.user.screenName}" class="status_user_screenname">${status.user.screenName}</a>
 				<span class="status_user_name">${status.user.name}</span>
 			</div>
 		</div>

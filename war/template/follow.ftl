@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>@${user_show.screenName}的${title}-Jteet</title>
-	<link type="text/css" href="template/style-all20091030.css" rel="stylesheet" />
+	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
 <#include "user_css.ftl">
@@ -34,14 +34,14 @@
 				<div id="follow_${f.id}" class="follow_status">
 					<div class="user_img_div"><img src="${f.profileImageURL}" alt="${f.screenName}" class="user_img"/></div>
 					<div class="follow_content">
-						<span class="follow_name"><a href="/user?id=${f.screenName}">${f.screenName}</a></span>
+						<span class="follow_name"><a href="/@${f.screenName}">${f.screenName}</a></span>
 						<span class="follow_action"><a href="javascript:void(0);" class="follow_action_msg">发送消息</a></span>
 						<div class="fixed"></div>
 						<span class="follow_info">
 							<a href="/following?id=${f.screenName}" class="follow_info_following">${f.friendsCount}个朋友</a>
 							<a href="/follower?id=${f.screenName}" class="follow_info_follower">${f.followersCount}个关注者</a>
-							<a href="/user?id=${f.screenName}" class="follow_info_status">${f.statusesCount}条推</a>
-							<a href="/user?id=${f.screenName}&show=favor" class="follow_info_favor">${f.favouritesCount}条收藏</a>
+							<a href="/@${f.screenName}" class="follow_info_status">${f.statusesCount}条推</a>
+							<a href="/@${f.screenName}&show=favor" class="follow_info_favor">${f.favouritesCount}条收藏</a>
 						</span>
 						<span class="follow_description">简介：${f.description}</span>
 					</div>

@@ -72,7 +72,7 @@ public class ActionServlet extends JTweetServlet {
 					}
 					if(respon!=null){
 						json.put("id", respon.getId());
-						json.put("data", JTweetServlet.renderStatus(respon));
+						json.put("data", this.renderStatus(respon));
 					}
 					rst = true;
 				} else {

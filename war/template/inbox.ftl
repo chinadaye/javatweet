@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>私信 -Jteet</title>
-	<link type="text/css" href="template/style-all20091030.css" rel="stylesheet" />
+	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 	<link type="text/css" href="/js/jquery.autocomplete.css" rel="stylesheet"/>
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>

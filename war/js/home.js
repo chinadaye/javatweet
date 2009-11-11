@@ -21,7 +21,7 @@ $(document).ready(
 );
 $("a#income_alert").click(function(){
 	$(this).css("visibility","hidden")
-	showIncomeStatuses
+	showIncomeStatuses();
 	return false;
 });
 

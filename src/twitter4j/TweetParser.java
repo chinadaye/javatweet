@@ -64,7 +64,7 @@ public class TweetParser {
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			mentionUsers += " reply_to_"+mt.group(1); 
-			text = text.replace(mt.group(), "<a class=\"user_link\" href=\"/user?id="+mt.group(1)+"\">"+mt.group()+"</a>");
+			text = text.replace(mt.group(), "<a class=\"user_link\" href=\"/@"+mt.group(1)+"\">"+mt.group()+"</a>");
 		}
 		
 		return "<div class=\"twittertext "+mentionUsers+"\">" + text +"</div>"+images;

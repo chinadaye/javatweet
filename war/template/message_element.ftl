@@ -4,7 +4,7 @@
 	<div id="msg_${m.id?c}" class="msgs<#if addclass?exists> ${addclass}</#if>">
 	<div class="user_img_div"><img src="${m.sender.profileImageURL}" class="user_img" alt="${m.senderScreenName}"/></div>
 	<div class="msg_content">
-		<span class="msg_user"><a href="/user?id=${m.senderScreenName}">${m.senderScreenName}</a></span>
+		<span class="msg_user"><a href="/@${m.senderScreenName}">${m.senderScreenName}</a></span>
 		<span class="msg_text">${m.html}</span>
 		<div class="fixed"></div>
 		<span class="tweet_info">发表于${m.createdTimeago}</span>
