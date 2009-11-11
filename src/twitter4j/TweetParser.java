@@ -53,7 +53,7 @@ public class TweetParser {
 		}
 		
 		//query
-		regex = "#([A-Za-z0-9]+)";
+		regex = "#([\\S]{1,20})";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			text = text.replace(mt.group(), "<a class=\"search_link\" href=\"/search?s="+mt.group(1)+"\">"+mt.group()+"</a>");

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +15,7 @@ import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.User;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -30,7 +32,7 @@ public class HomeServlet extends JTweetServlet {
 		String page = req.getParameter("page");
 
 		try {
-			this.revertAccount(req);
+			
 			try {
 				int p = Integer.parseInt(page);
 				if (p > 0)
@@ -42,26 +44,41 @@ public class HomeServlet extends JTweetServlet {
 				paging.setPage(1);
 			}
 			if (action.equalsIgnoreCase("home") || action.equalsIgnoreCase("")) {
+				this.revertAccount(req);
 				getHomeTimeline(resp);
 			} else if (action.equalsIgnoreCase("reply")) {
+				this.revertAccount(req);
 				getReplyTimeline(resp);
 			} else if (action.equalsIgnoreCase("favor")) {
+				this.revertAccount(req);
 				getFavorTimeline(resp);
 			} else if (action.equalsIgnoreCase("inbox")) {
+				this.revertAccount(req);
 				getMsgInbox(resp);
 			} else if (action.equalsIgnoreCase("sent")) {
+				this.revertAccount(req);
 				getMsgSent(resp);
 			} else if (action.equalsIgnoreCase("public")) {
+				this.revertAccountOrNot(req);
 				getPubTimeline(resp);
-			} else {
-				// JTweetServlet.logger.info("redirect home");
-				// resp.sendRedirect("/home");
+			} else if (action.startsWith("@")) {
+				this.revertAccountOrNot(req);
+				this.getUserTimeline(action.substring(1), resp);
+			}else {
 				this
 						.showError(req, resp, "该页面不存在（" + req.getRequestURI()
 								+ "）");
 			}
 		} catch (NotLoginException e) {
-			this.redirectLogin(req, resp);
+			// 进行登录
+			try {
+				req.setAttribute("trends", this.getTrend());
+				req.getRequestDispatcher("template/login.jsp").forward(req,
+						resp);
+			} catch (ServletException e1) {
+				JTweetServlet.logger.warning(e1.getMessage());
+				this.showError(req, resp, e1.getMessage());
+			}
 		} catch (Exception e) {
 			logger.warning(e.getMessage());
 			this.showError(req, resp, e.getMessage());
@@ -78,11 +95,11 @@ public class HomeServlet extends JTweetServlet {
 			this.revertAccount(req);
 			if (action.equalsIgnoreCase("send")) {
 				String msg = req.getParameter("tweet_msg");
-				if(msg==null||msg.equals("")){
+				if (msg == null || msg.equals("")) {
 					throw new Exception("私信内容不能为空");
 				}
 				String userid = req.getParameter("user_id");
-				if(userid==null||userid.equals("")){
+				if (userid == null || userid.equals("")) {
 					throw new Exception("私信发送对象不能为空");
 				}
 				this.twitter.sendDirectMessage(userid, msg);
@@ -216,7 +233,6 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "私信收件箱");
-		//root.put("addjs", "/js/message.js");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
 		root.put("msg", msg);
@@ -236,14 +252,42 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "私信发件箱");
-		//root.put("addjs", "/js/message.js");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
 		root.put("msg", msg);
 		Template t = config.getTemplate("sent.ftl");
+
 		t.process(root, resp.getWriter());
 
 	}
 
+	protected void getUserTimeline(String uid, HttpServletResponse resp)
+			throws IOException, TwitterException, TemplateException,
+			NotLoginException {
+		HashMap<String, Object> root = new HashMap<String, Object>();
+		freemarker.template.Configuration config = new freemarker.template.Configuration();
+		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDefaultEncoding("UTF-8");
+
+		User user = twitter.showUser(uid);
+		if (this.isLogin)
+			root.put("user", this.getCachedUser());
+
+		root.put("user_show", user);
+		root.put("title", "时间线");
+		root.put("uri", uri + "?id=" + uid);
+		root.put("page", paging.getPage());
+
+		if ((this.isLogin && user.getScreenName().equalsIgnoreCase(
+				getUsername()))
+				|| (!user.isProtected())) {
+			List<Status> status = twitter.getUserTimeline(uid, paging);
+			root.put("status", status);
+		}
+
+		Template t = config.getTemplate("user.ftl");
+		t.process(root, resp.getWriter());
+
+	}
 
 }

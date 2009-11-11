@@ -1,12 +1,16 @@
 package jtweet.web;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
 
 import jtweet.Exception.NotLoginException;
 
@@ -17,9 +21,11 @@ import freemarker.template.Template;
 @SuppressWarnings("serial")
 public class UpdateServlet extends JTweetServlet {
 
+	@SuppressWarnings("unchecked")
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		resp.setContentType("text/html; charset=UTF-8");
+		resp.setContentType("application/x-javascript; charset=UTF-8");
+		JSONObject json = new JSONObject();
 		String type = req.getParameter("type");
 		String since = req.getParameter("since");
 
@@ -37,15 +43,21 @@ public class UpdateServlet extends JTweetServlet {
 					paging.setSinceId(sinceid);
 				}
 			} catch (NumberFormatException e) {
-				
+
 			}
 			root.put("user", this.getCachedUser());
 			Template t = null;
 			if (type.equalsIgnoreCase("home")) {
 				List<Status> status = twitter.getFriendsTimeline(paging);
 				root.put("status", status);
+				json.put("code",1);//success
+				json.put("count",status.size());
+				if(status.size()>0){
+					json.put("last_id", status.get(0).getId());
+				}
+				
 				t = config.getTemplate("status_element.ftl");
-			} else if (type.equalsIgnoreCase("reply")) {
+			} /*else if (type.equalsIgnoreCase("reply")) {
 				List<Status> status = twitter.getMentions(paging);
 				root.put("status", status);
 				t = config.getTemplate("status_element.ftl");
@@ -59,16 +71,28 @@ public class UpdateServlet extends JTweetServlet {
 				t = config.getTemplate("status_element.ftl");
 			} else if (type.equalsIgnoreCase("rate")) {
 				t = config.getTemplate("rate.ftl");
+			}*/
+
+			if (t != null) {
+
+				StringWriter stringWriter = new StringWriter();
+				BufferedWriter writer = new BufferedWriter(stringWriter);
+				t.process(root, writer);
+				stringWriter.flush();
+				String data = stringWriter.toString();
+				json.put("data", data);
 			}
 
-			if (t != null)
-				t.process(root, resp.getWriter());
-
-		} catch (NotLoginException e) {
-			// TODO 返回错误信息 当前不是使用json 前端不能判断
 		} catch (Exception e) {
 			JTweetServlet.logger.warning(e.getMessage());
-			// TODO 返回错误信息 当前不是使用json 前端不能判断
+			json.put("code", 2);
+			json.put("msg", e.getMessage());
+		}
+		
+		try {
+			resp.getWriter().write(json.toJSONString());
+		} catch (IOException e) {
+			JTweetServlet.logger.warning(e.getMessage());
 		}
 	}
 }

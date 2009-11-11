@@ -1,6 +1,12 @@
 package jtweet.web;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +18,9 @@ import jtweet.Exception.NotLoginException;
 import org.apache.oro.text.perl.Perl5Util; //import org.json.JSONException;
 import org.json.simple.JSONObject;
 
+import freemarker.template.Template;
+
+import twitter4j.Status;
 import twitter4j.TwitterException;
 
 @SuppressWarnings("serial")
@@ -41,6 +50,7 @@ public class ActionServlet extends JTweetServlet {
 			this.revertAccount(req);
 			if (action.equalsIgnoreCase("post")) {
 				String tweet = req.getParameter("tweet_msg");
+				Status respon = null;
 				if (tweet != null) {
 					// tweet = ShortURL(tweet);
 					// 匹配私信
@@ -53,12 +63,16 @@ public class ActionServlet extends JTweetServlet {
 					} else if (id != null) {
 						try {
 							long sid = Long.parseLong(id);
-							twitter.updateStatus(tweet, sid);
+							respon = twitter.updateStatus(tweet, sid);
 						} catch (NumberFormatException e) {
-							twitter.updateStatus(tweet);
+							respon = twitter.updateStatus(tweet);
 						}
 					} else {
-						twitter.updateStatus(tweet);
+						respon = twitter.updateStatus(tweet);
+					}
+					if(respon!=null){
+						json.put("id", respon.getId());
+						json.put("data", JTweetServlet.renderStatus(respon));
 					}
 					rst = true;
 				} else {

@@ -1,8 +1,13 @@
 package jtweet.web;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,11 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
+import jtweet.JtweetServlet;
 import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
 import twitter4j.Paging;
 import twitter4j.SavedSearch;
+import twitter4j.Status;
 import twitter4j.Trend;
 import twitter4j.Trends;
 import twitter4j.Twitter;
@@ -27,6 +34,9 @@ import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 @SuppressWarnings("serial")
 public class JTweetServlet extends HttpServlet {
@@ -158,6 +168,20 @@ public class JTweetServlet extends HttpServlet {
 		this.isLogin = true;
 	}
 	
+	/**
+	 * 不登录也可以进行的操作时使用
+	 * @param req
+	 * @throws UnsupportedEncodingException
+	 * @throws Base64DecoderException
+	 */
+	protected void revertAccountOrNot(HttpServletRequest req) throws UnsupportedEncodingException, Base64DecoderException{
+		try {
+			this.revertAccount(req);
+		}  catch (NotLoginException e) {
+			this.isLogin = false;
+		} 
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected List<Trend > getTrend(){
 		try {
@@ -284,5 +308,39 @@ public class JTweetServlet extends HttpServlet {
 		}
 		return searches;
 	}
-
+	
+	/**
+	 * 解析status为html字符串
+	 * @param status
+	 * @return
+	 * @throws TemplateException
+	 * @throws IOException
+	 */
+	protected static String renderStatus(Status status) throws TemplateException, IOException {
+		List<Status> statuses = new ArrayList<Status>();
+		statuses.add(status);
+		return JTweetServlet.renderStatuses(statuses);
+	}
+	
+	/**
+	 * 解析status为html字符串
+	 * @param statuses
+	 * @return
+	 * @throws TemplateException
+	 * @throws IOException
+	 */
+	protected static String renderStatuses(List<Status> statuses) throws TemplateException, IOException {
+		HashMap<String, Object> root = new HashMap<String, Object>();
+		freemarker.template.Configuration config = new freemarker.template.Configuration();
+		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDefaultEncoding("UTF-8");
+		root.put("addclass", "newcome");
+		root.put("status", statuses);
+		Template t = config.getTemplate("status_element.ftl");
+		StringWriter stringWriter = new StringWriter();
+		BufferedWriter writer = new BufferedWriter(stringWriter);
+		t.process(root, writer);
+		stringWriter.flush();
+		return stringWriter.toString();
+	}
 }

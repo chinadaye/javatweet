@@ -3,15 +3,7 @@ var send_id = "";
 $(document).ready(
 		function()
 		{
-			window.setInterval
-			(
-				function()
-				{
-					//alert("update");
-					if(autofresh) updateMessage();
-				},
-				60000
-			);
+			
 			window.setInterval
 			(
 				function()
@@ -20,24 +12,9 @@ $(document).ready(
 				},
 				300
 			);
-//			flash_title();
-//			markupUI();
-			//retrieveShortUrl();
 		}
 ); 
 
-/*$("button#tweet_submit").live(
-		"click",
-		function()
-		{
-			function callback(param)
-			{
-				$("div.msg_form").slideUp("normal");
-				send_id = "";
-			}
-			onSendMessage(send_id, callback);
-		}
-);*/
 
 $("a.msg_action_reply").live(
 		"click",

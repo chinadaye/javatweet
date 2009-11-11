@@ -12,8 +12,6 @@ $(document).ready(
 				},
 				300
 			);
-//			markupUI();
-			//retrieveShortUrl();
 		}
 );
 
@@ -40,7 +38,6 @@ $("a.tweet_action_reply").live(
 			);
 			$("div.user_form").slideDown("normal");
 			$("#tweet_msg").focus();
-			//alert(reply_id);
 		}
 );
 

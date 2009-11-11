@@ -2,12 +2,12 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			window.setTimeout
+			check_interval = window.setInterval
 			(
 					function(){
 						checkHome();
 					},
-					15000
+					30000
 			);
 			window.setInterval
 			(
@@ -21,15 +21,7 @@ $(document).ready(
 );
 $("a#income_alert").click(function(){
 	$(this).css("visibility","hidden")
-	updateHome();
-	is_income = false;
-	window.setTimeout
-	(
-			function(){
-				checkHome();
-			},
-			60000
-	);
+	showIncomeStatuses
 	return false;
 });
 
@@ -40,7 +32,6 @@ $("button#tweet_submit").live(
 			function callback()
 			{
 				reply_id = 0;
-				if(autofresh) updateHome();
 			}
 			onPostStatus(reply_id, callback);
 		}
