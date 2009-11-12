@@ -65,6 +65,7 @@ function showIncomeStatuses(){
 		income_statuses_count = 0;
 		income_statuses = "";
 	}
+	refreshCreateAt();
 };
 
 /**
@@ -104,6 +105,28 @@ function refreshTitle(){
 		document.title = "("+income_statuses_count+")"+title;
 	}else{
 		document.title = title;
+	}
+}
+function refreshCreateAt(){
+	var times = $("a.status_create_at");
+	var count = times.length;
+	var currenttime = new Date().getTime();
+	for(var i=0;i<count;i++){
+		var longtime = $(times[i]).attr('rel');
+		var secs = (currenttime - longtime)/1000;
+		var timetext = '';
+		if(secs < 60) {
+			timetext = '刚刚';
+		}else if(secs < 3600) {
+			timetext =  Math.round(secs/60) + " 分钟前";
+		}else if(secs < 86400) {
+			timetext = Math.round(secs/3600) + " 小时前";
+		}else if(secs<86400*2){
+			timetext = '昨天';
+		}else{
+			timetext = "2天之前";
+		}
+		$(times[i]).text(timetext);
 	}
 }
 

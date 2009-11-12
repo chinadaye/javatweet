@@ -1,7 +1,7 @@
 <#if user?exists>
 <div class="side_user_info">
 	<div class="side_user_img_div">
-		<img alt="${user.screenName}" src="${user.profileImageURL}" class="usr_img" />
+		<img alt="${user.screenName}" src="http://img.tweetimag.es/i/${user.screenName}_n" class="usr_img" />
 	</div>
 	<div class="side_user_name">
 		<span id="side_user_screenname">${user.screenName}</span><br />

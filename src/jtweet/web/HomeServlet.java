@@ -287,19 +287,25 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		User user = twitter.showUser(uid);
-		if (this.isLogin)
+		User user ;
+		if (this.isLogin){
+			user = twitter.showUser(uid);
 			root.put("user", this.getCachedUser());
+		}else{
+			user = this.showCachedUser(uid);
+		}
+			
 
 		root.put("user_show", user);
 		root.put("title", "时间线");
 		root.put("uri", uri + "?id=" + uid);
 		root.put("page", paging.getPage());
 
-		if ((this.isLogin && user.getScreenName().equalsIgnoreCase(
-				getUsername()))
-				|| (!user.isProtected())) {
-			List<Status> status = twitter.getUserTimeline(uid, paging);
+		if(this.isLogin&&uid.equalsIgnoreCase(getUsername())){
+			List<Status> status = this.getCachedUserTimeline(uid,true);
+			root.put("status", status);
+		}else if(!user.isProtected()){
+			List<Status> status = this.getCachedUserTimeline(uid,false);
 			root.put("status", status);
 		}
 

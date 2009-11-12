@@ -113,14 +113,23 @@ public class Status extends TwitterResponse implements java.io.Serializable {
     }
     
     /**
+     * @author sospartan
+     * @return
+     */
+    public String getCreateTime(){
+    	return String.valueOf(this.createdAt.getTime());
+    }
+    
+    /**
      * 返回相对时间
+     * @author sospartan
      * @return 
      */
     public String getCreatedTimeago(){
 		int time = Math
 				.round((System.currentTimeMillis() - this.createdAt.getTime()) / 1000);
 		if (time < 60) {
-			return time + "刚刚";
+			return  "刚刚";
 		}
 		time = Math.round(time / 60);
 		if (time < 30) {

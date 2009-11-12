@@ -166,7 +166,13 @@ public class Tweet extends TwitterResponse{
     public Date getCreatedAt() {
         return createdAt;
     }
-    
+    /**
+     * @author sospartan
+     * @return
+     */
+    public String getCreateTime(){
+    	return String.valueOf(this.createdAt.getTime());
+    }
     /**
      * 返回相对时间
      * @return 

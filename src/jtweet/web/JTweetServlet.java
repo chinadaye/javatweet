@@ -276,6 +276,30 @@ public class JTweetServlet extends HttpServlet {
 		return user;
 	}
 	
+	protected User showCachedUser(String screenname) throws TwitterException{
+		User user = (User) GCache.get("user:"+screenname);
+		if(null!=user){
+			return user;
+		}
+		user = twitter.showUser(screenname);
+		GCache.put("user:"+screenname, user,3600);
+		return user;
+	}
+	@SuppressWarnings("unchecked")
+	protected List<Status> getCachedUserTimeline(String screenname,boolean reflesh) throws TwitterException {
+		List<Status> timeline=null;
+		if(!reflesh){
+			timeline = (List<Status>) GCache.get("user_timeline:"+screenname);
+			if(timeline!=null){
+				return timeline;
+			}
+		}
+		
+		timeline = twitter.getUserTimeline(screenname,paging);
+		GCache.put("user_timeline:"+screenname, timeline);
+		return timeline;
+	}
+	
 	/**
 	 * 前50个followers
 	 * @return

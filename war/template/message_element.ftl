@@ -2,7 +2,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <#list msg as m>
 	<div id="msg_${m.id?c}" class="msgs<#if addclass?exists> ${addclass}</#if>">
-	<div class="user_img_div"><img src="${m.sender.profileImageURL}" class="user_img" alt="${m.senderScreenName}"/></div>
+	<div class="user_img_div"><img src="http://img.tweetimag.es/i/${m.senderScreenName}_n" class="user_img" alt="${m.senderScreenName}"/></div>
 	<div class="msg_content">
 		<span class="msg_user"><a href="/@${m.senderScreenName}">${m.senderScreenName}</a></span>
 		<span class="msg_text">${m.html}</span>

@@ -24,9 +24,6 @@ $("a#income_alert").click(function(){
 	$(this).css("visibility","hidden")
 	showIncomeStatuses();
 	refreshTitle();
-	if(income_statuses_count>=20){
-		checkHome();
-	}
 	return false;
 });
 

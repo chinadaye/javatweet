@@ -22,10 +22,10 @@
               <td id="content" class="round-left column">
                                 <div class="wrapper">
 			<div id="info_warp">
-				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big"/>
+				<img src="http://img.tweetimag.es/i/${user_show.screenName}_b" alt="${user_show.screenName}" class="user_img_big"/>
 				<div class="user_div">
 					<span class="user_name">${user_show.screenName}</span>
-					<#if user?exists>
+					<#if user?exists&&user.screenName!=user_show.screenName>
 					<span class="user_action">
 						<a href="javascript:void(0);" class="user_action_msg">发送私信</a>
 						<#if user_show.following>
@@ -69,6 +69,7 @@
 							<span class="tweet_id">${s.id?c}</span>
 							<!--<div class="fixed"></div>-->
 							<span class="tweet_action">
+							<#if user?exists>
 								<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
 								<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>
 								<#if s.favorited>
@@ -79,6 +80,7 @@
 								<#if user?exists&&user.screenName?lower_case == s.user.screenName?lower_case>
 									<a href="javascript:void(0);" class="tweet_action_del">删除</a>
 								</#if>
+							</#if>
 							</span>
 						</div>
 						<div class="fixed"></div>

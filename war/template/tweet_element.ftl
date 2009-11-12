@@ -2,7 +2,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <#list tweets as s>
 	<div id="tweet_${s.id?c}" class="tweets">
-	<div class="user_img_div"><img src="${s.profileImageUrl}" class="user_img" alt="${s.fromUser}"/></div>
+	<div class="user_img_div"><img src="http://img.tweetimag.es/i/${s.fromUser}_n" class="user_img" alt="${s.fromUser}"/></div>
 	<div class="tweet_content">
 		<span class="tweet_user"><a href="/@${s.fromUser}">${s.fromUser}</a></span>
 		<span class="tweet_text">${s.html}</span>
@@ -14,7 +14,7 @@
 					<span class="tweet_reply_to">对<a href="/@${s.toUser}">${s.toUser}</a>的回复</span>
 				</#if>
 			</#if>
-			<span class="tweet_link">发表于<a href="/status?id=${s.id?c}">${s.createdTimeago}</a></span>
+			<span class="tweet_link">发表于<a href="/status?id=${s.id?c}" class="status_create_at" rel="${s.createTime}">${s.createdTimeago}</a></span>
 		</span>
 		<span class="tweet_id">${s.id?c}</span>
 		<#if user?exists>
