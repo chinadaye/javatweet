@@ -65,7 +65,7 @@
                 <td id="side_base" class="column round-right">
                                   
                   <div id="side">
-			<#if user.screenName?lower_case == user_show.screenName?lower_case>
+			<#if user?exists&&user.screenName?lower_case == user_show.screenName?lower_case>
 				<#include "side.ftl" />
 			<#else>
 				<#include "side_other.ftl" />

@@ -89,9 +89,9 @@ overflow-x:auto;
 #tweet_submit {
 margin-right:20px;
 margin-top:12px;
-font-size:12px;
-width:95px;
-height:30px;
+font-size:14px;
+width:115px;
+height:32px;
 float:right
 }
 
@@ -123,6 +123,9 @@ padding-right:0;
 border-bottom:#EEE solid 1px;
 overflow:auto
 }
+.tweet_user a{
+	font-weight: bold;
+}
 
 .user_img_big {
 width:73px;
@@ -137,7 +140,6 @@ display:inline-block
 }
 
 .tweet_text,.msg_text {
-display:block;
 margin-top:10px;
 margin-bottom:10px;
 font-size:14px
@@ -454,9 +456,13 @@ height:23px
 #income_alert {
 	display:block;
 color:#B74902;
-border-color: #EEEEBB;
 background: #FFE0CC url(/img/icon/in_come.png) no-repeat scroll 0 0 ;
 padding-left:18px;
+height: 20px;
+border-style: solid none;
+padding-top:0.5em;
+border-color: #D98F60;
+border-width:1px 0;
 }
 
 .transparent {

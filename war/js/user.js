@@ -4,14 +4,16 @@ var send_id = "";
 $(document).ready(
 		function()
 		{
-			window.setInterval
-			(
-				function()
-				{
-					updateCount();
-				},
-				300
-			);
+			if(is_updatecount){
+				window.setInterval
+				(
+					function()
+					{
+						updateCount();
+					},
+					300
+				);
+			}
 		}
 );
 

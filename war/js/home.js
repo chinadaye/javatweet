@@ -2,13 +2,14 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			check_interval = window.setInterval
-			(
-					function(){
-						checkHome();
-					},
-					30000
-			);
+			checkHome();
+//			window.setTimeout
+//			(
+//					function(){
+//						checkHome();
+//					},
+//					30000
+//			);
 			window.setInterval
 			(
 				function()
@@ -22,6 +23,10 @@ $(document).ready(
 $("a#income_alert").click(function(){
 	$(this).css("visibility","hidden")
 	showIncomeStatuses();
+	refreshTitle();
+	if(income_statuses_count>=20){
+		checkHome();
+	}
 	return false;
 });
 
@@ -45,7 +50,6 @@ $("a.tweet_action_reply").live(
 			oringal_msg = $("#tweet_msg").val();
 			$("#tweet_msg").val("@" + $(this).parents("div.tweet_content").children("span.tweet_user").text() + " " + oringal_msg);
 			$("#tweet_msg").focus();
-			//alert(reply_id);
 		}
 );
 
@@ -56,7 +60,6 @@ $("a.tweet_action_rt").live(
 			reply_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
 			$("#tweet_msg").val("RT @" + $(this).parents("div.tweet_content").children("span.tweet_user").text() + " " + $(this).parents("div.tweet_content").find("div.twittertext").text() + "");
 			$("#tweet_msg").focus();
-			//alert(reply_id);
 		}
 );
 
@@ -68,7 +71,6 @@ $("a.tweet_action_del").live(
 			function callback(param)
 			{
 				param.parents("div.tweets").slideUp("normal");
-				//alert(del_id);
 			};
 			onDelete(del_id, callback, $(this));
 		}

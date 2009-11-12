@@ -119,11 +119,8 @@ public class Status extends TwitterResponse implements java.io.Serializable {
     public String getCreatedTimeago(){
 		int time = Math
 				.round((System.currentTimeMillis() - this.createdAt.getTime()) / 1000);
-		if (time <= 1) {
-			return "刚刚";
-		}
 		if (time < 60) {
-			return time + "秒前";
+			return time + "刚刚";
 		}
 		time = Math.round(time / 60);
 		if (time < 30) {

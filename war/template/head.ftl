@@ -1,7 +1,7 @@
 <div id="header">
 	<a href="/" title=" Home" accesskey="1" id="logo"> <img alt="JTweet" height="40" src="/img/jteet_logo.png" /> </a>
 	<ul class="top-navigation round">
-	 <li><a href="/home" >首页</a></li>
+	 <li><a href="/" >首页</a></li>
 	 <#if user?exists>
 	 <li><a href="/reply" >回复</a></li>
 	 <li><a href="/inbox">私信</a></li>
@@ -15,11 +15,6 @@
 	 </#if>
 	</ul>
 	<div class="fixed"></div>
-	<!-- <form action="/search" method="get" id="searchform">
-		<input type="text" name="s" class="searchtext"/>
-		<button type="submit">搜索</button>
-	</form>
-	-->
 </div>
 <div class="fixed"></div>
 <div class="content-bubble-arrow"></div>

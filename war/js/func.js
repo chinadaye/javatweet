@@ -58,14 +58,12 @@ if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
 
 function showIncomeStatuses(){
 	if(income_statuses_count>0){
-		$("#tweet_warp").prepend(income_statuses).children('div.newcome').slideDown("normal").removeClass("newcome");
+		$("#tweet_warp").children('div.newcome').removeClass("newcome");
+		if(income_statuses_count>=20){
+			checkHome();
+		}
 		income_statuses_count = 0;
 		income_statuses = "";
-		if(check_interval==null){
-		check_interval = window.setInterval(function(){
-					checkHome();
-				},30000);
-		}
 	}
 };
 
@@ -86,15 +84,27 @@ function checkHome(){
 				$("a#income_alert").css("visibility","visible");
 				last_status_id  = data.last_id;
 				income_statuses_count += data.count;
-				income_statuses += data.data;
-				if(income_statuses_count>=10){
-					clearInterval(check_interval);
-					check_interval = null;
-				}
+				$("#tweet_warp").prepend(data.data)
+				refreshTitle();
 			}
 		}
 		});
-
+	if(income_statuses_count<20){
+		window.setTimeout
+		(
+				function(){
+					checkHome();
+				},
+				60000
+		);
+	}
+}
+function refreshTitle(){
+	if(income_statuses_count>0){
+		document.title = "("+income_statuses_count+")"+title;
+	}else{
+		document.title = title;
+	}
 }
 
 /**
@@ -176,6 +186,11 @@ function retrieveShortUrl(){
 function updateCount()
 {
 	tweet_length = $("textarea#tweet_msg").val().length;
+	if(tweet_length>0){
+		$("#tweet_submit").attr("disabled",'');
+	}else{
+		$("#tweet_submit").attr("disabled",'disabled');
+	}
 	$("span#tweet_count").text(140 - tweet_length);
 	$("span#tweet_count").toggleClass("tweet_count_red", tweet_length >= 140);
 };
@@ -194,11 +209,15 @@ function onPostStatus(reply_id, callback, param)
 				tweet_msg: $("#tweet_msg").val(),
 				id: reply_id
 		};
+		$("span.tweet_count_info").prepend(img_small_loader);
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+				$("span.tweet_count_info img.small_loader").remove();
+			},
 			success: function(json)
 			{
 				if(json.result == "ok")
@@ -208,7 +227,7 @@ function onPostStatus(reply_id, callback, param)
 						if(json.id>last_status_id){
 							last_status_id = json.id;
 						}
-						$("#tweet_warp").prepend(json.data).children('div.newcome').slideDown("normal").removeClass("newcome");
+						$("#tweet_warp").prepend($(json.data).removeClass("newcome"));
 					}
 					$("#tweet_msg").val("");
 					if(callback) callback(param);
@@ -217,13 +236,11 @@ function onPostStatus(reply_id, callback, param)
 				{
 					alert("出错啦！错误代码：" + json.info);
 				}
+				$("span.tweet_count_info img.small_loader").remove();
 			}
 		});
 	}
-	else
-	{
-		alert("请勿发送空消息！");
-	}
+	
 };
 
 function onDelete(id, callback, param)
@@ -241,7 +258,6 @@ function onDelete(id, callback, param)
 			{
 				if(json.result == "ok")
 				{
-					//alert("del ok");
 					if(callback) callback(param);
 				}
 				else
