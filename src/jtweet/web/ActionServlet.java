@@ -20,6 +20,7 @@ import org.json.simple.JSONObject;
 
 import freemarker.template.Template;
 
+import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -45,7 +46,6 @@ public class ActionServlet extends JTweetServlet {
 		String id = req.getParameter("id");
 		JSONObject json = new JSONObject();
 
-
 		try {
 			this.revertAccount(req);
 			if (action.equalsIgnoreCase("post")) {
@@ -60,17 +60,29 @@ public class ActionServlet extends JTweetServlet {
 					if (mt.find()) {
 						JTweetServlet.logger.info(" direct found");
 						twitter.sendDirectMessage(mt.group(1), mt.group(2));
-					} else if (id != null) {
-						try {
-							long sid = Long.parseLong(id);
-							respon = twitter.updateStatus(tweet, sid);
-						} catch (NumberFormatException e) {
+					} else {
+						String last_id = req.getParameter("last_id");
+						List<Status> newData= null;
+						if(last_id!=null&&last_id.matches("\\d+")){
+							newData = this.twitter.getFriendsTimeline(new Paging(1, 10, Long.parseLong(last_id)));
+						}
+						if (id != null) {
+							try {
+								long sid = Long.parseLong(id);
+								respon = twitter.updateStatus(tweet, sid);
+							} catch (NumberFormatException e) {
+								respon = twitter.updateStatus(tweet);
+							}
+						} else {
 							respon = twitter.updateStatus(tweet);
 						}
-					} else {
-						respon = twitter.updateStatus(tweet);
+						if(newData!=null){
+							json.put("new_count", newData.size());
+							json.put("new_data", this.renderStatuses(newData));
+						}
 					}
-					if(respon!=null){
+					
+					if (respon != null) {
 						json.put("id", respon.getId());
 						json.put("data", this.renderStatus(respon));
 					}

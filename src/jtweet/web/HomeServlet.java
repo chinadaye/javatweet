@@ -298,7 +298,7 @@ public class HomeServlet extends JTweetServlet {
 
 		root.put("user_show", user);
 		root.put("title", "时间线");
-		root.put("uri", uri + "?id=" + uid);
+		root.put("uri", uri );
 		root.put("page", paging.getPage());
 
 		if(this.isLogin&&uid.equalsIgnoreCase(getUsername())){

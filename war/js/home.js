@@ -2,14 +2,9 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			checkHome();
-//			window.setTimeout
-//			(
-//					function(){
-//						checkHome();
-//					},
-//					30000
-//			);
+			if(current_page==1){
+				checkHome();
+			}
 			window.setInterval
 			(
 				function()

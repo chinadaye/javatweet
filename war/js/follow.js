@@ -3,14 +3,6 @@ var send_id = "";
 $(document).ready(
 		function()
 		{
-			window.setInterval
-			(
-				function()
-				{
-					updateCount();
-				},
-				300
-			);
 		}
 );
 
