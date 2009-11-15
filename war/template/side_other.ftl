@@ -32,4 +32,5 @@
 <div class="tweet_tip">
 <span>提示</span>
 <p>点击短链接将自动进行还原</p>
+<p>本客户端还处在开发和大规模的修改中，如果发现问题或者大家有什么建议，请<a href="http://code.google.com/p/javatweet/issues/list" target="_blank" title="new issue">及时反馈给我们</a></p>
 </div>
