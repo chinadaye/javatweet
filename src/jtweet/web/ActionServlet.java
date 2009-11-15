@@ -62,10 +62,19 @@ public class ActionServlet extends JTweetServlet {
 						twitter.sendDirectMessage(mt.group(1), mt.group(2));
 					} else {
 						String last_id = req.getParameter("last_id");
-						List<Status> newData= null;
-						if(last_id!=null&&last_id.matches("\\d+")){
-							newData = this.twitter.getFriendsTimeline(new Paging(1, 10, Long.parseLong(last_id)));
+						List<Status> newData = null;
+						try {
+							long since_id = Long.parseLong(last_id);
+							if (since_id > 0) {
+
+								newData = this.twitter
+										.getFriendsTimeline(new Paging(1, 10,
+												Long.parseLong(last_id)));
+							}
+						} catch (NumberFormatException e) {
+
 						}
+
 						if (id != null) {
 							try {
 								long sid = Long.parseLong(id);
@@ -76,12 +85,12 @@ public class ActionServlet extends JTweetServlet {
 						} else {
 							respon = twitter.updateStatus(tweet);
 						}
-						if(newData!=null){
+						if (newData != null) {
 							json.put("new_count", newData.size());
 							json.put("new_data", this.renderStatuses(newData));
 						}
 					}
-					
+
 					if (respon != null) {
 						json.put("id", respon.getId());
 						json.put("data", this.renderStatus(respon));

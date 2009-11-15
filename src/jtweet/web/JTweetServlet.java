@@ -289,7 +289,7 @@ public class JTweetServlet extends HttpServlet {
 	protected List<Status> getCachedUserTimeline(String screenname,boolean reflesh) throws TwitterException {
 		List<Status> timeline=null;
 		if(!reflesh){
-			timeline = (List<Status>) GCache.get("user_timeline:"+screenname);
+			timeline = (List<Status>) GCache.get("user_timeline_"+paging.getPage()+":"+screenname);
 			if(timeline!=null){
 				return timeline;
 			}
