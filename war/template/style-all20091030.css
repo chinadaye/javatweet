@@ -3824,7 +3824,7 @@ font-size:90%;
 margin-left:150px
 }
 
-.hide,.tweet_id,.msg_id,div.msg_form,div.user_form,.newcome,.hidden,hr,#side #trends em,#side .collapsible a.fetch-contents,#side .collapsed .xref,#side .collapsed .sidebar-menu,#rssfeed,#rssfeed .timeline-rss,#rssfeed .search-rss,body#direct_messages #status_update_box,body#inbox #status_update_box,body#sent #status_update_box,#latest_text_full,#dm_update_box{
+.hide,.tweet_id,.msg_id,div.msg_form,.newcome,.hidden,hr,#side #trends em,#side .collapsible a.fetch-contents,#side .collapsed .xref,#side .collapsed .sidebar-menu,#rssfeed,#rssfeed .timeline-rss,#rssfeed .search-rss,body#direct_messages #status_update_box,body#inbox #status_update_box,body#sent #status_update_box,#latest_text_full,#dm_update_box{
 display:none
 }
 

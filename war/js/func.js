@@ -94,7 +94,10 @@ function checkHome(){
 	
 }
 function refreshTitle(){
-	if(income_statuses_count<20&&check_timeout==null){
+	if(income_statuses_count<20){
+		if(check_timeout!=null){
+		clearTimeout(check_timeout);
+		}
 		check_timeout = window.setTimeout
 		(
 				function(){
@@ -102,8 +105,6 @@ function refreshTitle(){
 				},
 				60000
 		);
-	}else{
-		check_timeout = null;
 	}
 	if(income_statuses_count>0){
 		$("a#income_alert").css("visibility","visible");
