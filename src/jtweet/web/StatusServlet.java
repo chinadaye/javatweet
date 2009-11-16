@@ -25,10 +25,8 @@ public class StatusServlet extends JTweetServlet {
 		String sid = req.getParameter("id");
 		
 			try {
-				this.revertAccount(req);
+				this.revertAccountOrNot(req);
 				getStatus(sid, resp);
-			} catch (NotLoginException e) {
-				this.redirectLogin(req, resp);
 			} catch (Exception e) {
 				JTweetServlet.logger.warning(e.getMessage());
 				this.showError(req, resp, e.getMessage());
@@ -36,7 +34,7 @@ public class StatusServlet extends JTweetServlet {
 			
 	}
 	
-	protected void getStatus(String sid, HttpServletResponse resp) throws IOException, TwitterException, TemplateException
+	protected void getStatus(String sid, HttpServletResponse resp) throws IOException, TwitterException, TemplateException, NotLoginException
 	{
 			long id = Long.parseLong(sid);
 			HashMap<String,Object> root = new HashMap<String,Object>();
@@ -44,6 +42,9 @@ public class StatusServlet extends JTweetServlet {
 			config.setDirectoryForTemplateLoading(new File("template"));
 			config.setDefaultEncoding("UTF-8");
 			
+			if(this.isLogin){
+				root.put("user", this.getCachedUser());
+			}
 			Status status = twitter.showStatus(id);
 			root.put("status", status);
 			

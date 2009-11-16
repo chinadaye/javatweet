@@ -158,9 +158,11 @@ public class JTweetServlet extends HttpServlet {
 					}
 					session.setAttribute("username", username);
 				}else{
+					this.init_twitter("defaultclient", "tuitubie");
 					throw new NotLoginException();
 				}
 			}else{
+				this.init_twitter("defaultclient", "tuitubie");
 				throw new NotLoginException();
 			}
 		}
