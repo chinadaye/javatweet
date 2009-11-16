@@ -59,13 +59,11 @@ if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
 function showIncomeStatuses(){
 	if(income_statuses_count>0){
 		$("#tweet_warp").children('div.newcome').removeClass("newcome");
-		if(income_statuses_count>=20){
-			checkHome();
-		}
 		income_statuses_count = 0;
 		income_statuses = "";
 	}
 	refreshCreateAt();
+	refreshTitle();
 };
 
 /**
@@ -86,11 +84,17 @@ function checkHome(){
 				last_status_id  = data.last_id;
 				income_statuses_count += data.count;
 				$("#tweet_warp").prepend(data.data)
-				refreshTitle();
 			}
+			refreshTitle();
+		},
+		error:function(){
+			refreshTitle();
 		}
 		});
-	if(income_statuses_count<20){
+	
+}
+function refreshTitle(){
+	if(income_statuses_count<20&&check_timeout==null){
 		check_timeout = window.setTimeout
 		(
 				function(){
@@ -98,13 +102,14 @@ function checkHome(){
 				},
 				60000
 		);
+	}else{
+		check_timeout = null;
 	}
-}
-function refreshTitle(){
 	if(income_statuses_count>0){
 		$("a#income_alert").css("visibility","visible");
 		document.title = "("+income_statuses_count+")"+title;
 	}else{
+		$("a#income_alert").css("visibility","hidden");
 		document.title = title;
 	}
 }
@@ -224,7 +229,11 @@ function onPostStatus(reply_id, callback, param)
 	if(tweet_length > 0)
 	{
 		var postdata;
-		clearTimeout(check_timeout);
+		if(check_timeout!=null){
+			clearTimeout(check_timeout);
+			check_timeout = null;
+		}
+		
 		if(reply_id == 0) postdata = {
 				type: "post",
 				tweet_msg: $("#tweet_msg").val(),
@@ -246,13 +255,7 @@ function onPostStatus(reply_id, callback, param)
 			data: postdata,
 			error:function(){
 				$("span.tweet_count_info img.small_loader").remove();
-				check_timeout = window.setTimeout
-				(
-						function(){
-							checkHome();
-						},
-						60000
-				);
+				refreshTitle();
 			},
 			success: function(json)
 			{
@@ -270,9 +273,6 @@ function onPostStatus(reply_id, callback, param)
 						$("#tweet_warp").prepend($(json.data).removeClass("newcome"));
 					}
 					$("#tweet_msg").val("");
-					if(income_statuses_count>0){
-						$("a#income_alert").css("visibility","visible");
-					}
 						
 					if(callback) callback(param);
 				}
@@ -281,13 +281,7 @@ function onPostStatus(reply_id, callback, param)
 					alert("出错啦！错误代码：" + json.info);
 				}
 				$("span.tweet_count_info img.small_loader").remove();
-				check_timeout = window.setTimeout
-				(
-						function(){
-							checkHome();
-						},
-						60000
-				);
+				refreshTitle();
 			}
 		});
 	}
