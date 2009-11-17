@@ -25,24 +25,24 @@ $("a.tweet_action_reply").live(
 			$("button#tweet_submit").text("我推！");
 			oringal_msg = $("#tweet_msg").val();
 			$("#tweet_msg").val("@" + $("span.user_name").text() + " " + oringal_msg);
-			$("button#tweet_submit").click
-			(
-					function()
-					{
-						function callback()
-						{
-							$("div.user_form").slideUp("normal");
-							reply_id = 0;
-							send_id = "";
-						}
-						onPostStatus(reply_id, callback);
-					}
-			);
-			$("div.user_form").slideDown("normal");
+			
+			//$("div.user_form").slideDown("normal");
 			$("#tweet_msg").focus();
 		}
 );
-
+$("button#tweet_submit").click
+(
+		function()
+		{
+			function callback()
+			{
+				//$("div.user_form").slideUp("normal");
+				reply_id = 0;
+				send_id = "";
+			}
+			onPostStatus(reply_id, callback);
+		}
+);
 $("a.tweet_action_rt").live(
 		"click",
 		function()
@@ -50,20 +50,8 @@ $("a.tweet_action_rt").live(
 			reply_id = $(this).parents("div.tweets").children("span.tweet_id").text();
 			$("button#tweet_submit").text("我推！");
 			$("#tweet_msg").val("RT @" + $("span.user_name").text() + " " + $(this).parents("div.tweets").children("span.tweet_text").text() + "");
-			$("button#tweet_submit").click
-			(
-					function()
-					{
-						function callback()
-						{
-							$("div.user_form").slideUp("normal");
-							reply_id = 0;
-							send_id = "";
-						}
-						onPostStatus(reply_id, callback);
-					}
-			);
-			$("div.user_form").slideDown("normal");
+			
+			//$("div.user_form").slideDown("normal");
 			$("#tweet_msg").focus();
 			//alert(reply_id);
 		}
@@ -120,18 +108,8 @@ $("a.user_action_msg").live(
 			send_id = $("span.user_name").text();
 			$("button#tweet_submit").text("发送！");
 			$("#tweet_msg").val("d " + $("span.user_name").text() + " ");
-			$("button#tweet_submit").click
-			(
-					function()
-					{
-						function callback()
-						{
-							$("div.user_form").slideUp("normal");
-						}
-						onSendMessage(send_id, callback);
-					}
-			);
-			$("div.user_form").slideDown("normal");
+			
+			//$("div.user_form").slideDown("normal");
 			$("#tweet_msg").focus();
 			//alert(send_id);
 		}
