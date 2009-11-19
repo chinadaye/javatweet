@@ -107,10 +107,10 @@ function refreshTitle(){
 		);
 	}
 	if(income_statuses_count>0){
-		$("a#income_alert").css("visibility","visible");
+		$("a#income_alert:hidden").slideDown();
 		document.title = "("+income_statuses_count+")"+title;
 	}else{
-		$("a#income_alert").css("visibility","hidden");
+		$("a#income_alert").hide();
 		document.title = title;
 	}
 }

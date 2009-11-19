@@ -42,7 +42,7 @@
 			<button id="tweet_submit">我推！</button>
 		</div>
 		<div class="fixed"></div>
-		<#if page == 1><div id="action_div"><a href="javascript:;" id="income_alert" style="visibility:hidden;">有新消息</a></div></#if>
+		<#if page == 1><div id="action_div"><a href="javascript:;" id="income_alert" style="display:none;">有新消息</a></div></#if>
 		<div class="fixed"></div>
 		<div id="tweet_warp">
 			<#include "status_element.ftl" /> 
