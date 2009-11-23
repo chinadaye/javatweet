@@ -2,6 +2,8 @@ package twitter4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,58 +16,76 @@ import org.apache.oro.text.perl.Perl5Util;
 public class TweetParser {
 
 	public static String parseTextJava(String text){
+		List<String> alreadyMatches = new ArrayList<String>();//去除重复匹配
 		//twitpic
 		String regex = "http://twitpic\\.com\\/([\\w]{5})\\s?";
 		Matcher mt = Pattern.compile(regex).matcher(text);
 		String images = "";
 		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
 			images += "<img src=\"/picthumb?id="+mt.group(1)+"\" class=\"twitpic\">";
 		}
 		
+		alreadyMatches.clear();
 		//twitgoo
 		regex = "http://twitgoo\\.com\\/([\\w]{5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
 			images += "<img src=\""+mt.group()+"/thumb\" class=\"twitpic\">";
 		}
 		
+		alreadyMatches.clear();
 		//img.ly
 		regex = "http://img\\.ly\\/([\\w]{3,5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
 			images += "<img src=\"http://img.ly/show/thumb/"+mt.group(1)+"\" class=\"twitpic\">";
 		}
 		
+		alreadyMatches.clear();
 		//brizzly.com
 		regex = "http://brizzly\\.com\\/pic\\/([\\w]{3,5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
 			images += "<img src=\"http://pics.brizzly.com/thumb_sm_" +mt.group(1)+".jpg\" class=\"twitpic\">";
 		}
 		
 		//url
 		regex = "([A-Za-z]+://[A-Za-z0-9-,_]+\\.[A-Za-z0-9-_,:%&\\?\\/.#=\\+]+)";//link
-		mt = Pattern.compile(regex).matcher(text);
-		while(mt.find()){
-				String url = mt.group();
-				text = text.replace(mt.group(), "<a target=\"_blank\" class=\"mayshort\" href=\""+url+"\">"+url+"</a>");
-			
-		}
+		text = text.replaceAll(regex, "<a target=\"_blank\" class=\"mayshort\" href=\"$1\">$1</a>");
 		
 		//query
-		regex = "#([^\\s^，^,^\\/]{1,20})";
-		mt = Pattern.compile(regex).matcher(text);
-		while(mt.find()){
-			text = text.replace(mt.group(), "<a class=\"search_link\" href=\"/search?s="+mt.group(1)+"\">"+mt.group()+"</a>");
-		}
+		regex = "\\s#([^\\s^，^,^\\/]{1,20})";
+		text = text.replaceAll(regex, "<a class=\"search_link\" href=\"/search?s=$1\">#$1</a>");
+		
+		alreadyMatches.clear();
 		//people
 		String mentionUsers = "";
 		regex = "@([A-Za-z0-9_]+)";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
 			mentionUsers += " reply_to_"+mt.group(1); 
-			text = text.replace(mt.group(), "<a class=\"user_link\" href=\"/@"+mt.group(1)+"\">"+mt.group()+"</a>");
 		}
+		text = text.replaceAll(regex, "<a class=\"user_link\" href=\"/@$1\">@$1</a>");
 		
 		return "<div class=\"twittertext "+mentionUsers+"\">" + text +"</div>"+images;
 	}

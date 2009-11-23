@@ -102,14 +102,14 @@
 				<form action="/login" id="loginform" method="post">
 				<p>
 					<label>用户名:</label>
-					<input type="text" id="username" name="username"/>
+					<input type="text" id="username" name="username" tabindex="1"/>
 				</p>
 				<p>
 					<label>密码:</label>
-					<input type="password" id="passwd" name="passwd"/>
+					<input type="password" id="passwd" name="passwd" tabindex="2"/>
 				</p>
 				<p>
-					<button type="submit" id="sub_button" class="login_button">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1"/>保持登录</label>
+					<button type="submit" id="sub_button" class="login_button" tabindex="4">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1" tabindex="3"/>保持登录</label>
 				</p>
 				</form>
 				</div>
