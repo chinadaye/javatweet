@@ -33,9 +33,10 @@
 <div class="fixed"></div>
 <#if searches?exists>
 <div id="saved_searches">
-<h3>保存的搜索</h3>
+<h3>保存的搜索<a id="show_add_search" href="javascript:;">+</a></h3>
+<form method="POST" action="/action" onsubmit="return onAddSearch(this);" id="add_search_form" style="display:none;"><input type="hidden" name="type" value="addquery"><input size="8" id="add_search_query" name="query"/><input id="btn_add_search" type="submit" value="添加"></form>
 <#list searches as s>
-<a href="/search?s=${s.urlName}">#${s.name}</a>
+<p id="saved_search_${s.id?c}" class="search"><a  href="/search?s=${s.name?url('utf-8')}">#${s.name}</a><a href="javascript:;" class="del_saved_search" style="display:none;" rel="${s.id?c}">X</a><p>
 </#list>
 </div>
 </#if>

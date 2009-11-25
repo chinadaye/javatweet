@@ -1056,13 +1056,15 @@ overflow:hidden
 	margin: 20px 0px 10px 0px;
 	padding:5px 10px 5px 10px;
 }
-#saved_searches a
+#saved_searches a.search
 {
-	display:block;
 	margin:0px;
-	text-decoration:underline;
 	font-size:15px;
 	font-weight:bold;
+}
+#saved_searches p
+{
+	padding: 0.1em 0;
 }
 ul.sidebar-menu li .side-tab-ajax {
 vertical-align:top;
@@ -3932,9 +3934,6 @@ text-decoration:none
 margin:0
 }
 
-#side p,body.search#users .hentry td.status-body {
-padding:.5em 0
-}
 
 ul.sidebar-menu li a span.stat_count,#side #local_trend_locations li,#home #rssfeed,#search #rssfeed,#profile #rssfeed,#home #rssfeed .timeline-rss,#search #rssfeed .search-rss,#profile #rssfeed .profile-rss,#side .stats .stats_count,fieldset.vertical-form label,fieldset.vertical-form input,body#direct_messages #dm_update_box,body#inbox #dm_update_box,body#sent #dm_update_box,body#profile .latest-status .entry-meta,body#home #next_steps,#search #content div.trend-description-container,#instructions-form p.special-note strong {
 display:block

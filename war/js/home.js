@@ -3,7 +3,7 @@ $(document).ready(
 		function()
 		{
 			if(current_page==1){
-				checkHome();
+				window.setTimeout(checkHome,5000);
 			}
 			window.setInterval
 			(

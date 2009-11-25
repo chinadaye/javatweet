@@ -30,6 +30,12 @@ $("div.tweets").live(
 		{
 			$(this).find("span.tweet_action,span.msg_action").show();
 		}
+).live(
+		"mouseout",
+		function()
+		{
+			$(this).find("span.tweet_action,span.msg_action").hide();
+		}
 );
 $("a.mayshort").live(
 		"click",
@@ -37,13 +43,48 @@ $("a.mayshort").live(
 			return revertShortUrl(this);
 		}
 );
-$("div.tweets").live(
-		"mouseout",
-		function()
-		{
-			$(this).find("span.tweet_action,span.msg_action").hide();
-		}
+$("p.search").live(
+						"mouseover",
+						function()
+						{
+							$(this).find("a.del_saved_search").show();
+						}
+				).live(
+						"mouseout",
+						function()
+						{
+							$(this).find("a.del_saved_search").hide();
+						}
 );
+$("a.del_saved_search").live(
+		"click",
+		function(){
+			var id=$(this).attr('rel');
+			if(id.match(/\d+/)!=null&&confirm('确定要删除么？')){
+				$(this).hide().after(img_small_loader);
+				var postdata = {type: "delquery", id:id};
+				$.ajax({
+					url: "/action",
+					type: "POST",
+					dataType: "json",
+					data: postdata,
+					success: function(json)
+					{
+						if(json.id==id){
+							$("#saved_search_"+id).slideUp();
+						}else{
+							alert("发生了错误,请刷新页面后重试");
+						}
+					}
+				});
+			}
+		});
+$("#show_add_search").click(function(){
+	$("#add_search_form").toggle();
+	if($("#add_search_form:visible").length>0){
+		$("#add_search_query").focus();
+		}
+	});
 if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
 	$("body").addClass("ie ie6");
 }else{
@@ -73,6 +114,10 @@ function showIncomeStatuses(){
 function checkHome(){
 	if(last_status_id==0){
 		last_status_id =$("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
+	}
+	if($("div#tweet_warp div.tweets").length>50&&$("#tweet_msg").val().match(/\S+/)==null){
+		window.location.reload();
+		return ;
 	}
 	$.ajax({
 		url:'/update?type=home&since='+last_status_id,
@@ -136,7 +181,33 @@ function refreshCreateAt(){
 		$(times[i]).text(timetext);
 	}
 }
-
+function onAddSearch(form){
+	var query = $("#add_search_query").val();
+	if(query.match(/\S+/)!=null){
+		$("#btn_add_search").hide().after(img_small_loader);
+		var postdata = {type: "addquery", query:query};
+		$.ajax({
+			url: "/action",
+			type: "POST",
+			dataType: "json",
+			data: postdata,
+			success: function(json)
+			{
+				if(json.query&&json.id){
+					$("#add_search_query").val('');
+					$("#saved_searches").append('<p id="saved_search_'+json.id+'" class="search"><a href="/search?s='+json.query+'">#'+json.query+'</a><a href="javascript:;" class="del_saved_search" style="display:none;" rel="'+json.id+'">X</a><p>')
+					$("#btn_add_search").show().next('img.small_loader').remove();
+					$(form).hide();
+				}else{
+					alert("发生了错误,请刷新页面后重试");
+				}
+			}
+		});
+	}else{
+		alert('内容不能为空');
+	}
+	return false;
+}
 /**
  * 还原单个连接
  */
@@ -282,7 +353,7 @@ function onPostStatus(reply_id, callback, param)
 					alert("出错啦！错误代码：" + json.info);
 				}
 				$("span.tweet_count_info img.small_loader").remove();
-				refreshTitle();
+				window.setTimeout(refreshTitle,2000);
 			}
 		});
 	}

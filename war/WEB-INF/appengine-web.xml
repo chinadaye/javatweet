@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 	<application>ijteet</application>
-	<version>11</version>
-	
+	<version>1</version>
+	<!-- datastore autoincrease id depend on version,so make it '1' when deploy  -->
 	<!-- Configure java.util.logging -->
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>

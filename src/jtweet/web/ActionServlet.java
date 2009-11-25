@@ -21,6 +21,7 @@ import org.json.simple.JSONObject;
 import freemarker.template.Template;
 
 import twitter4j.Paging;
+import twitter4j.SavedSearch;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -113,7 +114,21 @@ public class ActionServlet extends JTweetServlet {
 				} else {
 					json.put("info", "ID err");
 				}
-			} else if (action.equalsIgnoreCase("delmsg")) {
+			} else if(action.equalsIgnoreCase("addquery")){
+				SavedSearch ss = this.twitter.createSavedSearch(req.getParameter("query"));
+				if(ss!=null){
+					this.cleanCachedSavedSearch();
+					json.put("id", ss.getId());
+					json.put("query", ss.getName());
+					rst = true;
+				}
+			}else if(action.equalsIgnoreCase("delquery")){
+				SavedSearch ss =this.twitter.destroySavedSearch(Integer.parseInt(req.getParameter("id")));
+				if(ss!=null){
+					json.put("id", ss.getId());
+					rst = true;
+				}
+			}else if (action.equalsIgnoreCase("delmsg")) {
 				if (id != null) {
 					try {
 						int sid = Integer.parseInt(id);

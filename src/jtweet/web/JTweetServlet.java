@@ -336,6 +336,10 @@ public class JTweetServlet extends HttpServlet {
 		return searches;
 	}
 	
+	protected void cleanCachedSavedSearch() throws TwitterException, NotLoginException{
+		GCache.clean("savedsearches:"+this.getUsername());
+	}
+	
 	/**
 	 * 解析status为html字符串
 	 * @param status
