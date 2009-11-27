@@ -21,8 +21,10 @@ $("a.msg_action_reply").live(
 		function()
 		{
 			send_id = $(this).parents("div.msg_content").children("span.msg_user").text();
-			$("div.msg_form").slideDown("normal");
-			$("#tweet_msg").val("d " + send_id + " ");
+			//$("div.msg_form").slideDown("normal");
+			$("#user_followers").val(send_id);
+			$("#tweet_msg").focus();
+			//$("#tweet_msg").val("d " + send_id + " ");
 			//alert(send_id);
 		}
 );
@@ -40,21 +42,3 @@ $("a.msg_action_del").live(
 			onDeleteMessage(del_id, callback, $(this));
 		}
 );
-$("#btn_shorturl").click(function(){
-	var matches = $("#tweet_msg").val().match(/[A-Za-z]+:\/\/[A-Za-z0-9-,_]+\.[A-Za-z0-9-_,:%&\?\/.#=\+]+/);
-	if(matches!=null){
-		$.ajax({
-			url: "/short",
-			type: "POST",
-			dataType: "json",
-			data: {url:matches[0]},
-			success: function(json)
-			{
-				if(json.short)
-				{
-					$("#tweet_msg").val($("#tweet_msg").val().replace(matches[0],json.short))
-				}
-			}
-		});
-	}
-});

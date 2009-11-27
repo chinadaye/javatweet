@@ -174,21 +174,3 @@ $("a.user_action_unblock").live(
 			onUnBlock(send_id, callback, $(this));
 		}
 );
-$("#btn_shorturl").click(function(){
-	var matches = $("#tweet_msg").val().match(/[A-Za-z]+:\/\/[A-Za-z0-9-,_]+\.[A-Za-z0-9-_,:%&\?\/.#=\+]+/);
-	if(matches!=null){
-		$.ajax({
-			url: "/short",
-			type: "POST",
-			dataType: "json",
-			data: {url:matches[0]},
-			success: function(json)
-			{
-				if(json.short)
-				{
-					$("#tweet_msg").val($("#tweet_msg").val().replace(matches[0],json.short))
-				}
-			}
-		});
-	}
-});

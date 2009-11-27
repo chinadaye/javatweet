@@ -72,10 +72,6 @@
 		<#include "foot.ftl" />
 	</div>
 	<div class="fixed"></div>
-	<div id="ring_div">
-		<embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="/img/MSNsmsts.swf" width="0" height="0" loop="false" play="false" id="MsgRing"></embed>
-	</div>
-	<div class="fixed"></div>
 </div>
 <script type="text/javascript">
 var current_page = ${page};

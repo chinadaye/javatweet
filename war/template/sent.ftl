@@ -36,7 +36,7 @@
 			<form action="/send" method="POST">
 			<span class="tweet_tip">给<input id="user_followers" type="text" name="user_id" size="15">发送私信</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
 			<textarea id="tweet_msg" name="tweet_msg"></textarea><br />
-			<button id="btn_shorturl">缩短链接</button>
+			<input type="button" id="btn_shorturl" value="缩短链接">
 			<input type="submit" id="tweet_submit" value="发送！">
 			</form>
 		</div>

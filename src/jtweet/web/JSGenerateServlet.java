@@ -20,6 +20,7 @@ public class JSGenerateServlet extends JTweetServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		resp.setContentType("application/x-javascript; charset=UTF-8");
 		String file = req.getRequestURI().substring(1);
 		if(file.equals("js_follower_autocomplete")){
 			try {

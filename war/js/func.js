@@ -24,7 +24,7 @@ $("textarea#tweet_msg").keypress(function(e){
     }          
 });
 
-$("div.tweets").live(
+$("div.tweets,div.msgs").live(
 		"mouseover",
 		function()
 		{
@@ -79,6 +79,43 @@ $("a.del_saved_search").live(
 				});
 			}
 		});
+$("#btn_shorturl").click(function(){
+	var matches = $("#tweet_msg").val().match(/[A-Za-z]+:\/\/[A-Za-z0-9-,_]+\.[A-Za-z0-9-_,:%&\?\/.#=\+]+/);
+	if(matches!=null){
+		$.ajax({
+			url: "/short",
+			type: "POST",
+			dataType: "json",
+			data: {url:matches[0]},
+			success: function(json)
+			{
+				if(json.short)
+				{
+					$("#tweet_msg").val($("#tweet_msg").val().replace(matches[0],json.short))
+				}
+			}
+		});
+	}
+});
+$("#reflesh_profile").click(function(){
+	$(this).hide().after(img_small_loader);
+	$.ajax({
+		url: "/update",
+		type: "GET",
+		dataType: "json",
+		data: {type:'profilecount'},
+		success: function(json)
+		{
+			if(json.code==1)
+			{
+				$("#side_count_friends").text(json.friends);
+				$("#side_count_followers").text(json.followers);
+				$("#side_count_statuses").text(json.statuses);
+			}
+			$("#reflesh_profile").show().next('img.small_loader').remove();
+		}
+	});
+});
 $("#show_add_search").click(function(){
 	$("#add_search_form").toggle();
 	if($("#add_search_form:visible").length>0){

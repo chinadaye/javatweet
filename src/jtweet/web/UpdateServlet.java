@@ -16,6 +16,7 @@ import jtweet.Exception.NotLoginException;
 
 import twitter4j.DirectMessage;
 import twitter4j.Status;
+import twitter4j.User;
 import freemarker.template.Template;
 
 @SuppressWarnings("serial")
@@ -43,7 +44,7 @@ public class UpdateServlet extends JTweetServlet {
 					paging.setSinceId(sinceid);
 				}
 			} catch (NumberFormatException e) {
-
+				JTweetServlet.logger.info(e.getMessage());
 			}
 			root.put("user", this.getCachedUser());
 			Template t = null;
@@ -57,7 +58,15 @@ public class UpdateServlet extends JTweetServlet {
 				}
 				
 				t = config.getTemplate("status_element.ftl");
-			} /*else if (type.equalsIgnoreCase("reply")) {
+			} else if(type.equalsIgnoreCase("profilecount")){
+				User user = this.getCachedUser(true);
+				if(user!=null){
+					json.put("code", 1);
+					json.put("followers", user.getFollowersCount());
+					json.put("friends", user.getFriendsCount());
+					json.put("statuses",user.getStatusesCount());
+				}
+			}/*else if (type.equalsIgnoreCase("reply")) {
 				List<Status> status = twitter.getMentions(paging);
 				root.put("status", status);
 				t = config.getTemplate("status_element.ftl");

@@ -4,16 +4,16 @@
 		<img alt="${user.screenName}" src="http://img.tweetimag.es/i/${user.screenName}_n" class="usr_img" />
 	</div>
 	<div class="side_user_name">
-		<span id="side_user_screenname">${user.screenName}</span><br />
+		<span id="side_user_screenname">${user.screenName}<a href="javascript:;" id="reflesh_profile">刷新</a></span><br />
 		<span id="side_user_name">(${user.name})-${user.location}</span>
 	</div>
 
 </div>
 <div class="fixed"></div>
 <div class="side_user_count">
-	<a href="/following" class="side_user_link"><span class="side_count">${user.friendsCount}</span><br/><span class="side_tip">朋友</span></a>
-	<a href="/follower" class="side_user_link"><span class="side_count">${user.followersCount}</span><br/><span class="side_tip">关注者</span></a>
-	<a href="/@${user.screenName}" class="side_user_link side_user_link_last"><span class="side_count">${user.statusesCount}</span><br/><span class="side_tip">推</span></a>
+	<a href="/following" class="side_user_link"><span class="side_count" id="side_count_friends">${user.friendsCount}</span><br/><span class="side_tip">朋友</span></a>
+	<a href="/follower" class="side_user_link"><span class="side_count" id="side_count_followers">${user.followersCount}</span><br/><span class="side_tip">关注者</span></a>
+	<a href="/@${user.screenName}" class="side_user_link side_user_link_last"><span class="side_count" id="side_count_statuses">${user.statusesCount}</span><br/><span class="side_tip">推</span></a>
 </div>
 <div class="fixed"></div>
 <div class="side_link_content">

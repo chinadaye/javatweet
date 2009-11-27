@@ -40,17 +40,18 @@ import freemarker.template.TemplateException;
 
 @SuppressWarnings("serial")
 public class JTweetServlet extends HttpServlet {
-	protected Twitter twitter= new Twitter();
-	protected Paging paging = new Paging(1,20);
+	protected Twitter twitter = new Twitter();
+	protected Paging paging = new Paging(1, 20);
 	private String username = null;
 	private String passwd = null;
 	public static final String ACCOUNT_COOKIE_NAME = "up";
 	public static final int JSON_SUCCESS = 1;
 	public static final int JSON_FAIL = 2;
 	public static final int JSON_ERROR = 3;
-	protected static Logger logger = Logger.getLogger(JTweetServlet.class.getName());
-	protected boolean isLogin=false;
-	
+	protected static Logger logger = Logger.getLogger(JTweetServlet.class
+			.getName());
+	protected boolean isLogin = false;
+
 	public void init_twitter(String id, String passwd) {
 		twitter.setUserId(id);
 		twitter.setPassword(passwd);
@@ -118,18 +119,21 @@ public class JTweetServlet extends HttpServlet {
 
 	/**
 	 * 还原帐号 可以用来检验是否登录 如果登录可有可无 则需要捕捉并忽略NotLoginException
+	 * 
 	 * @param req
 	 * @throws NotLoginException
 	 * @throws UnsupportedEncodingException
 	 * @throws Base64DecoderException
 	 */
-	protected void revertAccount(HttpServletRequest req) throws NotLoginException, UnsupportedEncodingException, Base64DecoderException{
+	protected void revertAccount(HttpServletRequest req)
+			throws NotLoginException, UnsupportedEncodingException,
+			Base64DecoderException {
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
 		username = (String) session.getAttribute("username");
 		passwd = (String) session.getAttribute("passwd");
 		if (username != null && passwd != null) {
-				passwd = new String(Base64.decode(passwd), "UTF-8");
+			passwd = new String(Base64.decode(passwd), "UTF-8");
 		} else {
 			Cookie[] cookies = req.getCookies();
 			Cookie accountCookie = null;
@@ -157,11 +161,11 @@ public class JTweetServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					session.setAttribute("username", username);
-				}else{
+				} else {
 					this.init_twitter("defaultclient", "tuitubie");
 					throw new NotLoginException();
 				}
-			}else{
+			} else {
 				this.init_twitter("defaultclient", "tuitubie");
 				throw new NotLoginException();
 			}
@@ -169,26 +173,28 @@ public class JTweetServlet extends HttpServlet {
 		this.init_twitter(username, passwd);
 		this.isLogin = true;
 	}
-	
+
 	/**
 	 * 不登录也可以进行的操作时使用
+	 * 
 	 * @param req
 	 * @throws UnsupportedEncodingException
 	 * @throws Base64DecoderException
 	 */
-	protected void revertAccountOrNot(HttpServletRequest req) throws UnsupportedEncodingException, Base64DecoderException{
+	protected void revertAccountOrNot(HttpServletRequest req)
+			throws UnsupportedEncodingException, Base64DecoderException {
 		try {
 			this.revertAccount(req);
-		}  catch (NotLoginException e) {
+		} catch (NotLoginException e) {
 			this.isLogin = false;
-		} 
+		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected List<Trend > getTrend(){
+	protected List<Trend> getTrend() {
 		try {
-			List<Trend > trendlist = (List<Trend>) GCache.get("search_trend");
-			if(trendlist==null){
+			List<Trend> trendlist = (List<Trend>) GCache.get("search_trend");
+			if (trendlist == null) {
 				Trends trends = this.twitter.getTrends();
 				trendlist = Arrays.asList(trends.getTrends());
 				GCache.put("search_trend", trendlist, 3600);
@@ -202,6 +208,7 @@ public class JTweetServlet extends HttpServlet {
 
 	/**
 	 * 未登录跳转到登录页面
+	 * 
 	 * @param req
 	 * @param resp
 	 * @throws IOException
@@ -211,114 +218,135 @@ public class JTweetServlet extends HttpServlet {
 		JTweetServlet.logger.info("redirect login");
 		resp.sendRedirect("/login");
 	}
-	
+
 	/**
 	 * 处理错误
+	 * 
 	 * @param req
 	 * @param resp
 	 * @param error
 	 */
-	protected void showError(HttpServletRequest req,HttpServletResponse resp,String error){
+	protected void showError(HttpServletRequest req, HttpServletResponse resp,
+			String error) {
 		req.setAttribute("error", error);
 		try {
-			getServletContext().getRequestDispatcher("/template/error.jsp").forward(req, resp);
+			getServletContext().getRequestDispatcher("/template/error.jsp")
+					.forward(req, resp);
 		} catch (ServletException e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		} catch (IOException e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 处理未知异常
+	 * 
 	 * @param req
 	 * @param resp
 	 * @param exception
 	 */
-	protected void showException(HttpServletRequest req,HttpServletResponse resp,Exception exception){
-		JTweetServlet.logger.warning(exception.getStackTrace()[0].getClassName()+"("+exception.getStackTrace()[0].getLineNumber()+"):"+exception.getMessage());
+	protected void showException(HttpServletRequest req,
+			HttpServletResponse resp, Exception exception) {
+		JTweetServlet.logger.warning(exception.getStackTrace()[0]
+				.getClassName()
+				+ "("
+				+ exception.getStackTrace()[0].getLineNumber()
+				+ "):"
+				+ exception.getMessage());
 		req.setAttribute("error", exception.getMessage());
 		try {
-			getServletContext().getRequestDispatcher("/template/error.jsp").forward(req, resp);
+			getServletContext().getRequestDispatcher("/template/error.jsp")
+					.forward(req, resp);
 		} catch (ServletException e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		} catch (IOException e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		}
 	}
-	
-	
+
 	public String getUsername() throws NotLoginException {
-		if(username==null){
+		if (username == null) {
 			throw new NotLoginException();
 		}
 		return username;
 	}
 
 	public String getPasswd() throws NotLoginException {
-		if(passwd==null){
+		if (passwd == null) {
 			throw new NotLoginException();
 		}
 		return passwd;
 	}
-	
+
 	/**
 	 * 使用memcache缓存帐号信息
+	 * 
 	 * @return User
-	 * @throws TwitterException 
-	 * @throws NotLoginException 
+	 * @throws TwitterException
+	 * @throws NotLoginException
 	 */
-	protected User getCachedUser() throws TwitterException, NotLoginException{
-		User user = (User) GCache.get("user:"+this.getUsername());
-		if(null!=user){
-			return user;
-		}
-		user = twitter.showUser(this.getUsername());
-		GCache.put("user:"+this.getUsername(), user,3600);
-		return user;
+	protected User getCachedUser() throws TwitterException, NotLoginException {
+		return this.showCachedUser(this.getUsername());
 	}
-	
-	protected User showCachedUser(String screenname) throws TwitterException{
-		User user = (User) GCache.get("user:"+screenname);
-		if(null!=user){
-			return user;
+	protected User getCachedUser(boolean reflesh) throws TwitterException, NotLoginException {
+		return this.showCachedUser(this.getUsername(),reflesh);
+	}
+	protected User showCachedUser(String screenname) throws TwitterException {
+		return this.showCachedUser(screenname, false);
+	}
+
+	protected User showCachedUser(String screenname, boolean reflesh)
+			throws TwitterException {
+		User user = null;
+		if (!reflesh) {
+			user = (User) GCache.get("user:" + screenname);
+			if (null != user) {
+				return user;
+			}
 		}
 		user = twitter.showUser(screenname);
-		GCache.put("user:"+screenname, user,3600);
+		GCache.put("user:" + screenname, user, 3600);
 		return user;
 	}
+
 	@SuppressWarnings("unchecked")
-	protected List<Status> getCachedUserTimeline(String screenname,boolean reflesh) throws TwitterException {
-		List<Status> timeline=null;
-		if(!reflesh){
-			timeline = (List<Status>) GCache.get("user_timeline_"+paging.getPage()+":"+screenname);
-			if(timeline!=null){
+	protected List<Status> getCachedUserTimeline(String screenname,
+			boolean reflesh) throws TwitterException {
+		List<Status> timeline = null;
+		if (!reflesh) {
+			timeline = (List<Status>) GCache.get("user_timeline_"
+					+ paging.getPage() + ":" + screenname);
+			if (timeline != null) {
 				return timeline;
 			}
 		}
-		
-		timeline = twitter.getUserTimeline(screenname,paging);
-		GCache.put("user_timeline:"+screenname, timeline);
+
+		timeline = twitter.getUserTimeline(screenname, paging);
+		GCache.put("user_timeline:" + screenname, timeline);
 		return timeline;
 	}
-	
+
 	/**
 	 * 前50个followers
+	 * 
 	 * @return
 	 * @throws TwitterException
 	 * @throws NotLoginException
 	 */
 	@SuppressWarnings("unchecked")
-	protected List<User> getCachedFollowers() throws TwitterException, NotLoginException {
-		List<User> followers = (List<User>) GCache.get("followers_100:"+this.getUsername());
-		if(null!=followers){
+	protected List<User> getCachedFollowers() throws TwitterException,
+			NotLoginException {
+		List<User> followers = (List<User>) GCache.get("followers_100:"
+				+ this.getUsername());
+		if (null != followers) {
 			return followers;
 		}
 		followers = twitter.getFollowersStatuses(new Paging(1, 100));
-		GCache.put("followers_100:"+this.getUsername(),followers,3600);
+		GCache.put("followers_100:" + this.getUsername(), followers, 3600);
 		return followers;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -326,45 +354,54 @@ public class JTweetServlet extends HttpServlet {
 	 * @throws NotLoginException
 	 */
 	@SuppressWarnings("unchecked")
-	protected List<SavedSearch> getCachedSavedSearch() throws TwitterException, NotLoginException{
-		List<SavedSearch> searches = (List<SavedSearch>) GCache.get("savedsearches:"+this.getUsername());
-		if(searches==null){
+	protected List<SavedSearch> getCachedSavedSearch() throws TwitterException,
+			NotLoginException {
+		List<SavedSearch> searches = (List<SavedSearch>) GCache
+				.get("savedsearches:" + this.getUsername());
+		if (searches == null) {
 			searches = this.twitter.getSavedSearches();
-			if(searches!=null)
-			GCache.put("savedsearches:"+this.getUsername(),searches,3600);
+			if (searches != null)
+				GCache.put("savedsearches:" + this.getUsername(), searches,
+						3600);
 		}
 		return searches;
 	}
-	
-	protected void cleanCachedSavedSearch() throws TwitterException, NotLoginException{
-		GCache.clean("savedsearches:"+this.getUsername());
+
+	protected void cleanCachedSavedSearch() throws TwitterException,
+			NotLoginException {
+		GCache.clean("savedsearches:" + this.getUsername());
 	}
-	
+
 	/**
 	 * 解析status为html字符串
+	 * 
 	 * @param status
 	 * @return
 	 * @throws TemplateException
 	 * @throws IOException
-	 * @throws NotLoginException 
-	 * @throws TwitterException 
+	 * @throws NotLoginException
+	 * @throws TwitterException
 	 */
-	protected  String renderStatus(Status status) throws TemplateException, IOException, TwitterException, NotLoginException {
+	protected String renderStatus(Status status) throws TemplateException,
+			IOException, TwitterException, NotLoginException {
 		List<Status> statuses = new ArrayList<Status>();
 		statuses.add(status);
 		return this.renderStatuses(statuses);
 	}
-	
+
 	/**
 	 * 解析status为html字符串
+	 * 
 	 * @param statuses
 	 * @return
 	 * @throws TemplateException
 	 * @throws IOException
-	 * @throws NotLoginException 
-	 * @throws TwitterException 
+	 * @throws NotLoginException
+	 * @throws TwitterException
 	 */
-	protected  String renderStatuses(List<Status> statuses) throws TemplateException, IOException, TwitterException, NotLoginException {
+	protected String renderStatuses(List<Status> statuses)
+			throws TemplateException, IOException, TwitterException,
+			NotLoginException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
