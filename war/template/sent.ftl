@@ -78,16 +78,11 @@
 		<#include "foot.ftl" />
 	</div>
 	<div class="fixed"></div>
-	<div id="ring_div">
-		<embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="/img/MSNsmsts.swf" width="0" height="0" loop="false" play="false" id="MsgRing"></embed>
-	</div>
-	<div class="fixed"></div>
 </div>
 <script type="text/javascript" src="/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="/js/jquery.ajaxQueue.js"></script>
 <script type="text/javascript" src="/js/jquery.autocomplete.min.js"></script>
 <script type="text/javascript" src="/js/func.js"></script>
 <script type="text/javascript" src="/js/message.js"></script>
-<script type="text/javascript" src="/js_follower_autocomplete"></script>
 </body>
 </html>

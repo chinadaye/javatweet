@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 import com.google.appengine.api.urlfetch.HTTPHeader;
 import com.google.appengine.api.urlfetch.HTTPMethod;
@@ -99,7 +100,10 @@ public class SettingServlet extends JTweetServlet {
 		}
 		else
 		{
-				twitter.updateProfile(name, null, url, loc, desc);
+				User user  = twitter.updateProfile(name, null, url, loc, desc);
+				if(user!=null){
+					this.updateCacheUser(user);
+				}
 				msg = "资料更新成功。";
 		}
 		

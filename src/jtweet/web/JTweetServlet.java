@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
-import jtweet.JtweetServlet;
 import jtweet.Exception.NotLoginException;
 import jtweet.gae.GCache;
 
@@ -289,13 +288,34 @@ public class JTweetServlet extends HttpServlet {
 	protected User getCachedUser() throws TwitterException, NotLoginException {
 		return this.showCachedUser(this.getUsername());
 	}
+
+	/**
+	 * 
+	 * @param reflesh
+	 * @return
+	 * @throws TwitterException
+	 * @throws NotLoginException
+	 */
 	protected User getCachedUser(boolean reflesh) throws TwitterException, NotLoginException {
 		return this.showCachedUser(this.getUsername(),reflesh);
 	}
+	/**
+	 * 
+	 * @param screenname
+	 * @return
+	 * @throws TwitterException
+	 */
 	protected User showCachedUser(String screenname) throws TwitterException {
 		return this.showCachedUser(screenname, false);
 	}
-
+	
+	/**
+	 * 
+	 * @param screenname
+	 * @param reflesh
+	 * @return
+	 * @throws TwitterException
+	 */
 	protected User showCachedUser(String screenname, boolean reflesh)
 			throws TwitterException {
 		User user = null;
@@ -309,7 +329,48 @@ public class JTweetServlet extends HttpServlet {
 		GCache.put("user:" + screenname, user, 3600);
 		return user;
 	}
+	/**
+	 * 更新缓存
+	 * @param user
+	 */
+	protected void updateCacheUser(User user){
+		GCache.put("user:" + user.getScreenName(), user, 3600);
+	}
+	
+	/**
+	 * @param paging
+	 * @return
+	 */
+	protected void cacheStatuses(List<Status> statuses){
+		for(Status status:statuses){
+			GCache.put("status:"+status.getId(), status);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws TwitterException
+	 */
+	protected Status showCacheStatus(long id) throws TwitterException {
+		Status status = (Status) GCache.get("status:"+id);
+		if(status==null){
+			status = this.twitter.showStatus(id);
+			if(status!=null){
+				GCache.put("status:"+status.getId(), status);
+			}
+		}
+		return status;
+	}
 
+	/**
+	 * 
+	 * @param screenname
+	 * @param reflesh
+	 * @return
+	 * @throws TwitterException
+	 */
 	@SuppressWarnings("unchecked")
 	protected List<Status> getCachedUserTimeline(String screenname,
 			boolean reflesh) throws TwitterException {

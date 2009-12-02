@@ -21,12 +21,6 @@
             <tr>
               <td id="content" class="round-left column">
                                 <div class="wrapper">
-	<!--<div id="statuses" class="statuses">
-				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
-				<textarea rows="5" cols="20" id="tweet_msg" name="tweet_msg"></textarea><br />
-				<button id="btn_shorturl">缩短链接</button>
-				<button id="tweet_submit">发送！</button>
-			</div>-->
 			<div class="fixed"></div>
 			<div id="follow_warp">
 				<span class="name">${user_show.screenName}的${title}:</span><br />
@@ -35,13 +29,13 @@
 					<div class="user_img_div"><img src="http://img.tweetimag.es/i/${f.screenName}_n" alt="${f.screenName}" class="user_img"/></div>
 					<div class="follow_content">
 						<span class="follow_name"><a href="/@${f.screenName}">${f.screenName}</a></span>
-						<span class="follow_action"><a href="javascript:void(0);" class="follow_action_msg">发送消息</a></span>
+	 <#if user?exists><span class="follow_action"><a href="/inbox#send:${f.screenName}" class="follow_action_msg">发送消息</a></span></#if>
 						<div class="fixed"></div>
 						<span class="follow_info">
-							<a href="/following?id=${f.screenName}" class="follow_info_following">${f.friendsCount}个朋友</a>
-							<a href="/follower?id=${f.screenName}" class="follow_info_follower">${f.followersCount}个关注者</a>
+							<a href="/@${f.screenName}/following" class="follow_info_following">${f.friendsCount}个朋友</a>
+							<a href="/@${f.screenName}/follower" class="follow_info_follower">${f.followersCount}个关注者</a>
 							<a href="/@${f.screenName}" class="follow_info_status">${f.statusesCount}条推</a>
-							<a href="/@${f.screenName}&show=favor" class="follow_info_favor">${f.favouritesCount}条收藏</a>
+							<a href="/@${f.screenName}/favor" class="follow_info_favor">${f.favouritesCount}条收藏</a>
 						</span>
 						<span class="follow_description">简介：${f.description}</span>
 					</div>

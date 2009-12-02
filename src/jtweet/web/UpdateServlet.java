@@ -50,6 +50,7 @@ public class UpdateServlet extends JTweetServlet {
 			Template t = null;
 			if (type.equalsIgnoreCase("home")) {
 				List<Status> status = twitter.getFriendsTimeline(paging);
+				this.cacheStatuses(status);
 				root.put("status", status);
 				json.put("code",1);//success
 				json.put("count",status.size());

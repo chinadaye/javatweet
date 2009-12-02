@@ -32,7 +32,7 @@ public class JSGenerateServlet extends JTweetServlet {
 					writer.write(follower.getScreenName()+" ");
 				}
 				writer.write("'.split(' ');");
-				writer.write("$(\"#user_followers\").autocomplete(followers,{matchContains: true});");
+//				writer.write("$(\"#user_followers\").autocomplete(followers,{matchContains: true});");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

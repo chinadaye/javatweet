@@ -135,6 +135,14 @@ public class HomeServlet extends JTweetServlet {
 		}
 	}
 
+	/**
+	 * 
+	 * @param resp
+	 * @throws IOException
+	 * @throws NotLoginException
+	 * @throws TwitterException
+	 * @throws TemplateException
+	 */
 	protected void getHomeTimeline(HttpServletResponse resp)
 			throws IOException, NotLoginException, TwitterException,
 			TemplateException {
@@ -143,14 +151,15 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		List<Status> status = twitter.getFriendsTimeline(paging);
+		List<Status> statuses = this.twitter.getFriendsTimeline(paging);
+		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "首页");
 		root.put("addjs", "/js/home.js");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
-		root.put("status", status);
+		root.put("status", statuses);
 		root.put("needreply", true);
 		Template t = config.getTemplate("home.ftl");
 		t.process(root, resp.getWriter());
@@ -165,14 +174,15 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		List<Status> status = twitter.getMentions(paging);
+		List<Status> statuses = twitter.getMentions(paging);
+		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "回复");
 		root.put("addjs", "/js/reply.js");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
-		root.put("status", status);
+		root.put("status", statuses);
 		Template t = config.getTemplate("home.ftl");
 		t.process(root, resp.getWriter());
 
@@ -185,14 +195,15 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		List<Status> status = twitter.getPublicTimeline(paging);
+		List<Status> statuses = twitter.getPublicTimeline(paging);
+		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "公共页面");
 		root.put("addjs", "/js/public.js");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
-		root.put("status", status);
+		root.put("status", statuses);
 		Template t = config.getTemplate("home.ftl");
 		t.process(root, resp.getWriter());
 
@@ -206,14 +217,15 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		List<Status> status = twitter.getFavorites(paging.getPage());
+		List<Status> statuses = twitter.getFavorites(paging.getPage());
+		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "收藏");
 		root.put("addjs", "/js/favor.js");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
-		root.put("status", status);
+		root.put("status", statuses);
 		Template t = config.getTemplate("home.ftl");
 		t.process(root, resp.getWriter());
 
@@ -302,11 +314,13 @@ public class HomeServlet extends JTweetServlet {
 		root.put("page", paging.getPage());
 
 		if(this.isLogin&&uid.equalsIgnoreCase(getUsername())){
-			List<Status> status = this.getCachedUserTimeline(uid,true);
-			root.put("status", status);
+			List<Status> statuses = this.getCachedUserTimeline(uid,true);
+			this.cacheStatuses(statuses);
+			root.put("status", statuses);
 		}else if(!user.isProtected()){
-			List<Status> status = this.getCachedUserTimeline(uid,false);
-			root.put("status", status);
+			List<Status> statuses = this.getCachedUserTimeline(uid,false);
+			this.cacheStatuses(statuses);
+			root.put("status", statuses);
 		}
 
 		Template t = config.getTemplate("user.ftl");
@@ -332,8 +346,9 @@ public class HomeServlet extends JTweetServlet {
 		root.put("page", paging.getPage());
 
 		if (!user.isProtected()) {
-			List<Status> status = twitter.getFavorites(uid, paging.getPage());
-			root.put("status", status);
+			List<Status> statuses = twitter.getFavorites(uid, paging.getPage());
+			this.cacheStatuses(statuses);
+			root.put("status", statuses);
 		}
 
 		Template t = config.getTemplate("user.ftl");

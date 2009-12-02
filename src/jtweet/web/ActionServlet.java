@@ -1,11 +1,6 @@
 package jtweet.web;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,7 +13,6 @@ import jtweet.Exception.NotLoginException;
 import org.apache.oro.text.perl.Perl5Util; //import org.json.JSONException;
 import org.json.simple.JSONObject;
 
-import freemarker.template.Template;
 
 import twitter4j.Paging;
 import twitter4j.SavedSearch;
@@ -71,6 +65,7 @@ public class ActionServlet extends JTweetServlet {
 								newData = this.twitter
 										.getFriendsTimeline(new Paging(1, 10,
 												Long.parseLong(last_id)));
+								this.cacheStatuses(newData);
 							}
 						} catch (NumberFormatException e) {
 

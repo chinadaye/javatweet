@@ -84,6 +84,5 @@
 <script type="text/javascript" src="/js/jquery.autocomplete.min.js"></script>
 <script type="text/javascript" src="/js/func.js"></script>
 <script type="text/javascript" src="/js/message.js"></script>
-<script type="text/javascript" src="/js_follower_autocomplete"></script>
 </body>
 </html>

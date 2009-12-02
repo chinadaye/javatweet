@@ -45,7 +45,7 @@ public class StatusServlet extends JTweetServlet {
 			if(this.isLogin){
 				root.put("user", this.getCachedUser());
 			}
-			Status status = twitter.showStatus(id);
+			Status status = this.showCacheStatus(id);
 			root.put("status", status);
 			
 			Template t = config.getTemplate("status.ftl");
