@@ -13,7 +13,7 @@
 <meta content="" name="keywords"/>
 <title id="page_title">JTeet -  欢迎光临 t.jteet.com-为中文用户打造的twitter客户端</title>
 <link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
-<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
 <style type="text/css">
       
 	body { background: #C0DEED url(/img/bg-clouds.jpg) repeat-x; }

@@ -9,7 +9,7 @@
 	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
 	<!--<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />-->
-	<script type="text/javascript" src="/js/jquery-1.3.2.min.js" ></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script> 
 	<#include "user_css.ftl">
 
