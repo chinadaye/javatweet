@@ -8,14 +8,13 @@
 		<span class="tweet_text">${s.html}</span>
 		<div class="fixed"></div>
 		<span class="tweet_info">
-			<span class="tweet_source">通过${s.source}</span>
-			<#if s.inReplyToScreenName?trim != "">
+		<span class="tweet_link"><a href="/status?id=${s.id?c}" rel="${s.createTime}" class="status_create_at">${s.createdTimeago}</a></span>
+		<#if s.inReplyToScreenName?trim != "">
 				<span class="tweet_reply_to"><a href="/status?id=${s.inReplyToStatusId?c}">对${s.inReplyToScreenName}的回复</a></span>
 			</#if>
-			<span class="tweet_link">发表于<a href="/status?id=${s.id?c}" rel="${s.createTime}" class="status_create_at">${s.createdTimeago}</a></span>
+		<span class="tweet_source">通过${s.source}</span>
 		</span>
 		<span class="tweet_id">${s.id?c}</span>
-		<!--<div class="fixed"></div>-->
 		<span class="tweet_action">
 			<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
 			<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>

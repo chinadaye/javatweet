@@ -158,6 +158,9 @@ color:#999;
 float:left;
 margin:3px 0 0
 }
+span.tweet_info a{
+	color:#999;
+}
 
 .follow_status {
 margin-top:5px;

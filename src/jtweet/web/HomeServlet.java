@@ -342,7 +342,7 @@ public class HomeServlet extends JTweetServlet {
 
 		root.put("user_show", user);
 		root.put("title", "收藏");
-		root.put("uri", uri + "?id=" + uid + "&show=favor");
+		root.put("uri", uri );
 		root.put("page", paging.getPage());
 
 		if (!user.isProtected()) {
