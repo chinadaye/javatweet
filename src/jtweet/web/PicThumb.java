@@ -45,7 +45,7 @@ public class PicThumb extends HttpServlet {
 	protected Image cacheGet(String id) throws Exception {
 		Image newImage = (Image) GCache.get("twitpic_thumb:"+id);
 		if (newImage == null) {
-			newImage = this.getImage("http://twitpic.com/show/thumb/"+id);
+			newImage = this.getImage("http://twitpic.com/show/mini/"+id);
 			if(newImage!=null){
 			GCache.put("twitpic_thumb:"+id,newImage);
 			}

@@ -31,6 +31,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
+import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
@@ -342,7 +343,9 @@ public class JTweetServlet extends HttpServlet {
 	 * @return
 	 */
 	protected void cacheStatuses(List<Status> statuses){
+		MemcacheService ms = GCache.getService();
 		for(Status status:statuses){
+			if(!ms.contains("status:"+status.getId()))
 			GCache.put("status:"+status.getId(), status);
 		}
 	}

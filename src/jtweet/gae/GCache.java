@@ -10,6 +10,7 @@ import javax.cache.Cache;
 import javax.cache.CacheException;
 import javax.cache.CacheManager;
 
+import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.memcache.stdimpl.GCacheFactory;
 
@@ -71,5 +72,8 @@ public class GCache {
 	
 	public static void clearAll(){
 		MemcacheServiceFactory.getMemcacheService().clearAll();
+	}
+	public static MemcacheService getService(){
+		return MemcacheServiceFactory.getMemcacheService();
 	}
 }
