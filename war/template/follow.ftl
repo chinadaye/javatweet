@@ -49,8 +49,8 @@
 					<#if page gt 1><a href="${uri}?page=${page - 1}" class="pre_page">上一页</a></#if>
 					<#if follow?size gte 19><a href="${uri}?page=${page + 1}" class="next_page">下一页</a></#if>
 				<#else>
-					<#if page gt 1><a href="${uri}?id=${user_show.screenName}&page=${page - 1}" class="pre_page">上一页</a></#if>
-					<#if follow?size gt 1><a href="${uri}?id=${user_show.screenName}&page=${page + 1}" class="next_page">下一页</a></#if>
+					<#if page gt 1><a href="${uri}?page=${page - 1}" class="pre_page">上一页</a></#if>
+					<#if follow?size gt 1><a href="${uri}?page=${page + 1}" class="next_page">下一页</a></#if>
 				</#if>
 			</div>
 		</div>

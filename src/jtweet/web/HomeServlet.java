@@ -367,7 +367,7 @@ public class HomeServlet extends JTweetServlet {
 		List<User> follower;
 		root.put("title", "关注者");
 		if (this.isLogin)
-			root.put("user", this.getCachedUser());
+			root.put("user", this.showCachedUser(this.getUsername(), true));
 //		if (uid == null) {
 //			root.put("user_show", this.getCachedUser());
 //			follower = twitter.getFollowersStatuses(paging);
@@ -395,7 +395,7 @@ public class HomeServlet extends JTweetServlet {
 		List<User> following;
 		root.put("title", "朋友");
 		if (this.isLogin)
-			root.put("user", this.getCachedUser());
+			root.put("user", this.showCachedUser(this.getUsername(), true));
 		// root.put("rate", twitter.rateLimitStatus());
 		if (uid == null) {
 			root.put("user_show", this.getCachedUser());

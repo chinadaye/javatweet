@@ -176,7 +176,7 @@ function checkHome(){
 	
 }
 function refreshTitle(){
-	if(income_statuses_count<20){
+	if(income_statuses_count<15){
 		if(check_timeout!=null){
 		clearTimeout(check_timeout);
 		}
