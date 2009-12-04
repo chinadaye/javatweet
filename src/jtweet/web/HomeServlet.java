@@ -65,10 +65,10 @@ public class HomeServlet extends JTweetServlet {
 				this.revertAccount(req);
 				getMsgSent(resp);
 			} else if (action.equalsIgnoreCase("public")) {
-				this.revertAccountOrNot(req);
+				this.revertAccount(req);
 				getPubTimeline(resp);
 			} else if (action.startsWith("@")) {
-				this.revertAccountOrNot(req);
+				this.revertAccount(req);
 				String[] uriParts = action.substring(1).split("/");
 				if (uriParts.length == 1) {
 					this.getUserTimeline(action.substring(1), resp);
@@ -90,6 +90,11 @@ public class HomeServlet extends JTweetServlet {
 		} catch (NotLoginException e) {
 			// 进行登录
 			try {
+				String rdt = req.getParameter("rdt");//redirect to
+				if(rdt==null||rdt.trim().equals("")){
+					rdt = req.getRequestURI();
+				}
+				req.setAttribute("rdt", rdt);
 				req.setAttribute("trends", this.getTrend());
 				req.getRequestDispatcher("/template/login.jsp").forward(req,
 						resp);

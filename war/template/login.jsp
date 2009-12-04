@@ -95,11 +95,13 @@
 				</div>
 				<div >
 				<% String error = (String)request.getAttribute("error"); 
+				String rdt = (String)request.getAttribute("rdt");
 				if(error!=null){
 				%>
 				<p class="error_tip">请检查用户名和密码（<%=error %>）</p>
 				<%} %>
 				<form action="/login" id="loginform" method="post">
+				<input type="hidden" name="rdt" value="<%=rdt==null?"":rdt %>"/>
 				<p>
 					<label>用户名:</label>
 					<input type="text" id="username" name="username" tabindex="1"/>

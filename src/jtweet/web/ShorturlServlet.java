@@ -105,6 +105,7 @@ public class ShorturlServlet extends JTweetServlet {
 		} else {
 			this.doRedeirct(req, resp);
 		}
+		return;
 	}
 
 	@Override

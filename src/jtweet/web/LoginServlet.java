@@ -29,6 +29,11 @@ public class LoginServlet extends JTweetServlet {
 				JTweetServlet.logger.info("redirect home");
 				resp.sendRedirect("/home");
 			} catch (NotLoginException e) {
+				String rdt = req.getParameter("rdt");//redirect to
+				if(rdt==null||rdt.trim().equals("")){
+					rdt = req.getRequestURI();
+				}
+				req.setAttribute("rdt", rdt);
 				//进行登录
 				try {
 					req.setAttribute("trends", this.getTrend());
@@ -92,7 +97,12 @@ public class LoginServlet extends JTweetServlet {
 						resp.addCookie(cookie);
 					}
 					JTweetServlet.logger.info("redirect home");
-					resp.sendRedirect("/home");
+					String rdt = req.getParameter("rdt");//redirect to
+					if(rdt!=null&&!rdt.trim().equals("")){
+						resp.sendRedirect(rdt);
+					}else{
+						resp.sendRedirect("/home");
+					}
 					return;
 				} catch (TwitterException e) {
 					JTweetServlet.logger.warning(e.getMessage());

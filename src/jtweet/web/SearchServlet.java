@@ -29,11 +29,7 @@ public class SearchServlet extends JTweetServlet {
 		s = req.getParameter("s");
 		try {
 			
-			try{
-				this.revertAccount(req);
-			}catch (NotLoginException e) {
-				this.isLogin=false;
-			}
+			this.revertAccountOrNot(req);
 			if (s.length() > 0) {
 				getSearch(req, resp);
 			} else {

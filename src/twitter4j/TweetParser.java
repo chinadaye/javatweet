@@ -26,7 +26,7 @@ public class TweetParser {
 				continue;
 			}
 			alreadyMatches.add(mt.group());
-			images += "<img src=\"/picthumb?id="+mt.group(1)+"\" class=\"twitpic\">";
+			images += "<img src=\"http://pictiny.appspot.com/tp?code="+mt.group(1)+"\" class=\"twitpic\">";
 		}
 		
 		alreadyMatches.clear();
