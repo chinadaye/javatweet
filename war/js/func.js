@@ -83,15 +83,15 @@ $("#btn_shorturl").click(function(){
 	var matches = $("#tweet_msg").val().match(/[A-Za-z]+:\/\/[A-Za-z0-9-,_]+\.[A-Za-z0-9-_,:%&\?\/.#=\+]+/);
 	if(matches!=null){
 		$.ajax({
-			url: "/short",
-			type: "POST",
-			dataType: "json",
-			data: {url:matches[0]},
+			url: "http://to.ly/api.php",
+			type: "GET",
+			dataType: "jsonp",
+			data: {json:1,longurl:matches[0]},
 			success: function(json)
 			{
-				if(json.short)
+				if(json.shorturl)
 				{
-					$("#tweet_msg").val($("#tweet_msg").val().replace(matches[0],json.short))
+					$("#tweet_msg").val($("#tweet_msg").val().replace(matches[0],json.shorturl));
 				}
 			}
 		});
@@ -249,10 +249,10 @@ function onAddSearch(form){
  * 还原单个连接
  */
 function revertShortUrl(link){
+	$(link).after(img_small_loader);
 	var url = $(link).attr('href');
 	var matches = url.match(/.*\/\/([A-Za-z0-9-_.]+)\/.*/);
 	if(matches!=null&&short_url_services.match(".*,?"+matches[1]+",?.*")){
-		$(link).after(img_small_loader);
 		$.ajax({
 			url:'/untinyme?url='+matches[0],
 			dataType:'json',
@@ -270,7 +270,6 @@ function revertShortUrl(link){
 		$(link).removeClass('mayshort');
 		return false;
 	}else if(matches!=null&&longurl_services.match(".*,?"+matches[1]+",?.*")){//longurl_services
-		$(link).after(img_small_loader);
 		$.ajax({
 			url:'http://api.longurl.org/v2/expand?format=json&user-agent=jteet&url='+matches[0],
 			dataType:'jsonp',
@@ -287,6 +286,8 @@ function revertShortUrl(link){
 			});
 		$(link).removeClass('mayshort');
 		return false;
+	}else{
+		$(link).next('img.small_loader').remove();
 	}
 	
 	return true;
@@ -356,7 +357,6 @@ function onPostStatus(reply_id, callback, param)
 				last_id:last_status_id
 		};
 		$("span.tweet_count_info").prepend(img_small_loader);
-		
 		$.ajax({
 			url: "/action",
 			type: "POST",
