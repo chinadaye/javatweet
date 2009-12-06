@@ -16,8 +16,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>Jtweet</servlet-name>
 		<url-pattern>/api</url-pattern>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
+		<!--<url-pattern>/api/*</url-pattern>
+	--></servlet-mapping>
 	<servlet>
 		<servlet-name>Login</servlet-name>
 		<servlet-class>jtweet.web.LoginServlet</servlet-class>

@@ -2,6 +2,7 @@ package jtweet.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,14 +30,16 @@ public class SearchServlet extends JTweetServlet {
 		s = req.getParameter("s");
 		try {
 			
-			this.revertAccountOrNot(req);
+			this.revertAccount(req);
 			if (s.length() > 0) {
 				getSearch(req, resp);
 			} else {
 				this.showError(req, resp, "搜索关键字不能为空");
 				return;
 			}
-		}  catch (Exception e) {
+		} catch(NotLoginException e){
+			resp.sendRedirect("/login?rdt="+URLEncoder.encode("/search?s="+s,"utf-8"));
+		} catch (Exception e) {
 			this.showError(req, resp, e.getMessage());
 		}
 	}

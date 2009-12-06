@@ -202,6 +202,8 @@ public class JTweetServlet extends HttpServlet {
 			return trendlist;
 		} catch (TwitterException e) {
 			JTweetServlet.logger.warning(e.getMessage());
+		}catch(Exception e){
+			JTweetServlet.logger.warning(e.getMessage());
 		}
 		return null;
 	}

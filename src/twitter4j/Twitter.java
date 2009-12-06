@@ -45,7 +45,7 @@ import java.util.TimeZone;
  */
 public class Twitter extends TwitterSupport implements java.io.Serializable {
     private String baseURL = "http://twitter.com/";
-    private String searchBaseURL = "http://sospartan.0fees.net/";
+    private String searchBaseURL = "http://sospartan.byethost3.com/"/*"http://sospartan.0fees.net/"*/;
     private static final long serialVersionUID = -1486360080128882436L;
 
     public Twitter() {
