@@ -42,6 +42,32 @@ public class TweetParser {
 		}
 		
 		alreadyMatches.clear();
+		//xiami
+		regex = " http://www\\.xiami\\.com/(artist|album)/(\\d+)";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
+			images += "<img src=\"http://www.xiami.com/cover/"+mt.group(1)+"/normal/"+mt.group(2)+"\" class=\"twitpic\">";
+		}
+		/*
+		 * <embed src="http://www.xiami.com/widget/2_1205484/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>
+		 */
+		alreadyMatches.clear();
+		regex = " http://www\\.xiami\\.com/song/(\\d+)";
+		mt = Pattern.compile(regex).matcher(text);
+		String bobo = "";
+		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
+			bobo += "<embed src=\"http://www.xiami.com/widget/2_"+mt.group(1)+"/singlePlayer.swf\" type=\"application/x-shockwave-flash\" width=\"257\" height=\"33\" wmode=\"transparent\"></embed>";
+		}
+		
+		alreadyMatches.clear();
 		//img.ly
 		regex = "http://img\\.ly\\/([\\w]{3,5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);
@@ -87,7 +113,7 @@ public class TweetParser {
 		}
 		text = text.replaceAll(regex, "<a class=\"user_link\" href=\"/@$1\">@$1</a>");
 		
-		return "<div class=\"twittertext "+mentionUsers+"\">" + text +"</div>"+images;
+		return "<div class=\"twittertext "+mentionUsers+"\">" + text +"</div>"+images+bobo;
 	}
 	public static String parseText(String text)
 	{

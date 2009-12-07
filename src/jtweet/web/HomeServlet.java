@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import jtweet.Exception.NotLoginException;
 
@@ -44,7 +46,29 @@ public class HomeServlet extends JTweetServlet {
 				paging.setPage(1);
 			}
 			if (action.equalsIgnoreCase("home") || action.equalsIgnoreCase("")) {
+				try{
 				this.revertAccount(req);
+				}catch (NotLoginException e) {
+					// 进行登录
+					try {
+						req.setAttribute("trends", this.getTrend());
+						req.getRequestDispatcher("/template/login.jsp").forward(req,
+								resp);
+					} catch (ServletException e1) {
+						JTweetServlet.logger.warning(e1.getMessage());
+						this.showError(req, resp, e1.getMessage());
+					}
+				} catch (Exception e) {
+					if(e.getMessage().contains("401")){
+						HttpSession session = req.getSession(true);
+						session.invalidate();
+						resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null));
+						resp.sendRedirect("/login");
+						return;
+					}else{
+						throw new Exception(e.getMessage());
+					}
+				}
 				getHomeTimeline(resp);
 			} else if (action.equalsIgnoreCase("reply")) {
 				this.revertAccount(req);

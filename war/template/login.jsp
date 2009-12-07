@@ -12,7 +12,7 @@
 <meta content="NOODP" name="robots" />
 <meta content="" name="keywords"/>
 <title id="page_title">JTeet -  欢迎光临 t.jteet.com-为中文用户打造的twitter客户端</title>
-<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
+<link type="text/css" href="/img/style-all20091030.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
 <style type="text/css">
       
@@ -133,7 +133,6 @@
 		<div id="footer" class="round">
 			<ul>
 				<li class="first">©2009 by  <a href="/@sospartan" title="/@sospartan">@sospartan</a></li>
-				<li><a href="/api">api</a></li>
 				<li>powered by<a href="http://code.google.com/p/javatweet/" target="_blank">javatweet</a>&<a href="http://code.google.com/appengine/" target="_blank">GAE</a>&<a href="http://yusuke.homeip.net/twitter4j/en/index.html" title="twitter4j" target="_blank">twitter4j</a></li>
 				<li><a href="http://code.google.com/p/javatweet/issues/list" target="_blank" title="new issue">反馈问题</a></li>
 			</ul>

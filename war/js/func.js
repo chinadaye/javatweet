@@ -185,7 +185,7 @@ function refreshTitle(){
 				function(){
 					checkHome();
 				},
-				60000
+				120000
 		);
 	}
 	if(income_statuses_count>0){

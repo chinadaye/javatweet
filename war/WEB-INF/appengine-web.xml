@@ -8,5 +8,12 @@
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
 	</system-properties>
 	<sessions-enabled>true</sessions-enabled>
-	<ssl-enabled>true</ssl-enabled> 
+	<ssl-enabled>true</ssl-enabled>
+	<static-files>
+        <include path="/js/**.js" expiration="4d" />
+        <include path="/img/**" expiration="4d" />
+        <include path="/error.html" />
+        <include path="robots.txt"/>
+        <include path="/favicon.ico"/>
+    </static-files>
 </appengine-web-app>

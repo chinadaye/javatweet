@@ -5,9 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Status ID@${status.id}-Jteet.com</title>
-	<link type="text/css" href="/template/style.css" rel="stylesheet" />
-	<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />
+	<link type="text/css" href="/img/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
 <#include "user_css.ftl">
 </head>

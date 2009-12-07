@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>${title}@${user.screenName}-Jteet</title>
-	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
+	<link type="text/css" href="/img/style-all20091030.css" rel="stylesheet" />
 	<!--<link href="/template/style2.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/template/style3.css" media="screen" rel="stylesheet" type="text/css" />-->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>

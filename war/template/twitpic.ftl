@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Twitter - Twitpic - ${user.screenName}</title>
-	<link type="text/css" href="/template/style-all20091030.css" rel="stylesheet" />
+	<link type="text/css" href="/img/style-all20091030.css" rel="stylesheet" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js" ></script>	
 	<link href="http://www.gowers.cn/favicon.ico" rel="shortcut icon" type="image/x-icon" /> 
