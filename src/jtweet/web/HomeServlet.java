@@ -28,7 +28,7 @@ public class HomeServlet extends JTweetServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		//resp.setContentType("text/html; charset=UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
 		uri = req.getRequestURI();
 		String action = uri.substring(1);
 		String page = req.getParameter("page");
