@@ -28,7 +28,7 @@ public class HomeServlet extends JTweetServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		resp.setContentType("text/html; charset=UTF-8");
+		//resp.setContentType("text/html; charset=UTF-8");
 		uri = req.getRequestURI();
 		String action = uri.substring(1);
 		String page = req.getParameter("page");
@@ -54,9 +54,11 @@ public class HomeServlet extends JTweetServlet {
 						req.setAttribute("trends", this.getTrend());
 						req.getRequestDispatcher("/template/login.jsp").forward(req,
 								resp);
+						return;
 					} catch (ServletException e1) {
 						JTweetServlet.logger.warning(e1.getMessage());
 						this.showError(req, resp, e1.getMessage());
+						return;
 					}
 				} catch (Exception e) {
 					if(e.getMessage().contains("401")){
@@ -122,6 +124,7 @@ public class HomeServlet extends JTweetServlet {
 				req.setAttribute("trends", this.getTrend());
 				req.getRequestDispatcher("/template/login.jsp").forward(req,
 						resp);
+				return;
 			} catch (ServletException e1) {
 				JTweetServlet.logger.warning(e1.getMessage());
 				this.showError(req, resp, e1.getMessage());

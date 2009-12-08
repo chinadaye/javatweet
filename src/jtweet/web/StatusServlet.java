@@ -2,6 +2,7 @@ package jtweet.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +26,11 @@ public class StatusServlet extends JTweetServlet {
 		String sid = req.getParameter("id");
 		
 			try {
-				this.revertAccountOrNot(req);
+				this.revertAccount(req);
 				getStatus(sid, resp);
-			} catch (Exception e) {
+			} catch(NotLoginException e){
+				resp.sendRedirect("/login?rdt="+URLEncoder.encode("/status?id="+sid,"utf-8"));
+			}catch (Exception e) {
 				JTweetServlet.logger.warning(e.getMessage());
 				this.showError(req, resp, e.getMessage());
 			}
@@ -42,9 +45,7 @@ public class StatusServlet extends JTweetServlet {
 			config.setDirectoryForTemplateLoading(new File("template"));
 			config.setDefaultEncoding("UTF-8");
 			
-			if(this.isLogin){
 				root.put("user", this.getCachedUser());
-			}
 			Status status = this.showCacheStatus(id);
 			root.put("status", status);
 			
