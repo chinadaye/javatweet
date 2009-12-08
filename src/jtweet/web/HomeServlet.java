@@ -329,12 +329,12 @@ public class HomeServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		User user ;
-		if (this.isLogin){
+//		if (this.isLogin){
 			user = twitter.showUser(uid);
 			root.put("user", this.getCachedUser());
-		}else{
-			user = this.showCachedUser(uid);
-		}
+//		}else{
+//			user = this.showCachedUser(uid);
+//		}
 			
 
 		root.put("user_show", user);
@@ -366,7 +366,7 @@ public class HomeServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		User user = twitter.showUser(uid);
-		if (isLogin)
+//		if (isLogin)
 			root.put("user", this.getCachedUser());
 
 		root.put("user_show", user);

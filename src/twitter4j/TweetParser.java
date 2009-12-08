@@ -43,7 +43,7 @@ public class TweetParser {
 		
 		alreadyMatches.clear();
 		//xiami
-		regex = " http://www\\.xiami\\.com/(artist|album)/(\\d+)";
+		regex = "http://www\\.xiami\\.com/(artist|album)/(\\d+)";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			if(alreadyMatches.contains(mt.group())){
@@ -56,7 +56,7 @@ public class TweetParser {
 		 * <embed src="http://www.xiami.com/widget/2_1205484/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>
 		 */
 		alreadyMatches.clear();
-		regex = " http://www\\.xiami\\.com/song/(\\d+)";
+		regex = "http://www\\.xiami\\.com/song/(\\d+)";
 		mt = Pattern.compile(regex).matcher(text);
 		String bobo = "";
 		while(mt.find()){
