@@ -199,7 +199,7 @@ public class HomeServlet extends JTweetServlet {
 		}
 		req.setAttribute("rdt", rdt);
 		req.setAttribute("trends", this.getTrend());
-		getServletContext().getRequestDispatcher("/template/login.jsp").forward(req,
+		req.getRequestDispatcher("/template/login.jsp").forward(req,
 				resp);
 	}
 
