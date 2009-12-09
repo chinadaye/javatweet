@@ -1,17 +1,9 @@
 package jtweet;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
-import javax.crypto.NoSuchPaddingException;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import org.json.simple.*;
 
@@ -107,33 +99,7 @@ public class JtweetServlet extends HttpServlet {
 		}
 	}
 	
-	/**
-	 * 初始化
-	 */
-	@Override
-	public void init(ServletConfig cfg) throws ServletException {
-		TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
-		log.info("init Account filter...");
-		String key = cfg.getInitParameter("encrypt_key");
-		try {
-			Encrypt.init(key);
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-			log.warning(e.getMessage());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			log.warning(e.getMessage());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			log.warning(e.getMessage());
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
-			log.warning(e.getMessage());
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
-			log.warning(e.getMessage());
-		}
-	}
+	
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {

@@ -7,11 +7,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>Jtweet</servlet-name>
 		<servlet-class>jtweet.JtweetServlet</servlet-class>
-		<init-param>
-			<param-name>encrypt_key</param-name>
-			<param-value>itwitter</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Jtweet</servlet-name>
@@ -30,6 +25,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>Home</servlet-name>
 		<servlet-class>jtweet.web.HomeServlet</servlet-class>
+		<init-param>
+			<param-name>encrypt_key</param-name>
+			<param-value>itwitter</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Home</servlet-name>

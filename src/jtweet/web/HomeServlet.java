@@ -2,19 +2,26 @@ package jtweet.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import jtweet.Encrypt;
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.DirectMessage;
-import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -26,6 +33,34 @@ public class HomeServlet extends JTweetServlet {
 
 	protected String uri;
 
+	/**
+	 * 初始化
+	 */
+	@Override
+	public void init(ServletConfig cfg) throws ServletException {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+		logger.info("init Account filter...");
+		String key = cfg.getInitParameter("encrypt_key");
+		try {
+			Encrypt.init(key);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+			logger.warning(e.getMessage());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			logger.warning(e.getMessage());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			logger.warning(e.getMessage());
+		} catch (NoSuchPaddingException e) {
+			e.printStackTrace();
+			logger.warning(e.getMessage());
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+			logger.warning(e.getMessage());
+		}
+	}
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
@@ -49,17 +84,13 @@ public class HomeServlet extends JTweetServlet {
 				try{
 				this.revertAccount(req);
 				}catch (NotLoginException e) {
-					// 进行登录
 					try {
-						req.setAttribute("trends", this.getTrend());
-						req.getRequestDispatcher("/template/login.jsp").forward(req,
-								resp);
-						return;
+						this.doLogin(req, resp,"/home");
 					} catch (ServletException e1) {
-						JTweetServlet.logger.warning(e1.getMessage());
-						this.showError(req, resp, e1.getMessage());
-						return;
+						logger.warning(e1.getMessage());
+						this.showException(req, resp,e1);
 					}
+					return;
 				} catch (Exception e) {
 					if(e.getMessage().contains("401")){
 						HttpSession session = req.getSession(true);
@@ -115,7 +146,7 @@ public class HomeServlet extends JTweetServlet {
 			}
 		} catch (NotLoginException e) {
 			// 进行登录
-			try {
+			/*try {
 				String rdt = req.getParameter("rdt");//redirect to
 				if(rdt==null||rdt.trim().equals("")){
 					rdt = req.getRequestURI();
@@ -128,11 +159,48 @@ public class HomeServlet extends JTweetServlet {
 			} catch (ServletException e1) {
 				JTweetServlet.logger.warning(e1.getMessage());
 				this.showError(req, resp, e1.getMessage());
+			}*/
+			try {
+				this.doLogin(req, resp);
+			} catch (ServletException e1) {
+				logger.warning(e1.getMessage());
+				this.showException(req, resp,e1);
 			}
+			return;
 		} catch (Exception e) {
 			logger.warning(e.getMessage());
 			this.showException(req, resp, e);
 		}
+	}
+	
+	/**
+	 * 进行登录
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	public void doLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
+		String rdt = req.getParameter("rdt");
+		this.doLogin(req, resp,rdt);
+	}
+	
+	/**
+	 * 进行登录
+	 * @param req
+	 * @param resp
+	 * @param rdt
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void doLogin(HttpServletRequest req, HttpServletResponse resp,String rdt) throws ServletException, IOException{
+		if(rdt==null||rdt.trim().equals("")){
+			rdt = req.getRequestURI();
+		}
+		req.setAttribute("rdt", rdt);
+		req.setAttribute("trends", this.getTrend());
+		getServletContext().getRequestDispatcher("/template/login.jsp").forward(req,
+				resp);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -332,12 +400,15 @@ public class HomeServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		User user ;
-//		if (this.isLogin){
-			user = twitter.showUser(uid);
-			root.put("user", this.getCachedUser());
-//		}else{
-//			user = this.showCachedUser(uid);
-//		}
+		user = twitter.showUser(uid);
+		root.put("user", this.getCachedUser());
+		
+		if(this.twitter.existsBlock(uid)){
+			root.put("is_block","1");
+		}
+		if(this.twitter.existsFriendship(this.getUsername(), uid)){
+			root.put("is_follow","1");
+		}
 			
 
 		root.put("user_show", user);

@@ -28,12 +28,12 @@
 					<#if user?exists&&user.screenName!=user_show.screenName>
 					<span class="user_action">
 						<a href="javascript:void(0);" class="user_action_msg">发送私信</a>
-						<#if user_show.following>
+						<#if is_follow?exists&&is_follow=='1'>
 							<a href="javascript:void(0);" class="user_action_unfollow">取消关注</a>
 						<#else>
 							<a href="javascript:void(0);" class="user_action_follow">关注</a>
 						</#if>
-						<#if user_show.blocked>
+						<#if is_block?exists&&is_block=='1'>
 							<a href="javascript:void(0);" class="user_action_unblock">取消屏蔽</a>
 						<#else>
 							<a href="javascript:void(0);" class="user_action_block">屏蔽</a>

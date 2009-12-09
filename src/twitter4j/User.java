@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 //import sun.net.www.http.HttpClient;
-import twitter4j.http.HttpClient;
-import twitter4j.http.PostParameter;
+//import twitter4j.http.HttpClient;
+//import twitter4j.http.PostParameter;
 import twitter4j.http.Response;
 import twitter4j.org.json.JSONException;
 import twitter4j.org.json.JSONObject;
@@ -481,6 +481,7 @@ public class User extends TwitterResponse implements java.io.Serializable {
         return following;
     }
     
+    @Deprecated
     public boolean getFollowing(){
 		try {
 			following = twitter.existsFriendship(twitter.getUserId(), screenName);
@@ -492,6 +493,7 @@ public class User extends TwitterResponse implements java.io.Serializable {
     	return following;
     }
     
+    @Deprecated
     public boolean getBlocked(){
 		try {
 			blocked = twitter.existsBlock(screenName);
