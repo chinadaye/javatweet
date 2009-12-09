@@ -53,6 +53,8 @@ public class JTweetServlet extends HttpServlet {
 	protected boolean isLogin = false;
 
 	public void init_twitter(String id, String passwd) {
+		twitter.setHttpConnectionTimeout(1000*10);
+		twitter.setHttpReadTimeout(1000*10);
 		twitter.setUserId(id);
 		twitter.setPassword(passwd);
 		if (APIURL.useproxy) {
