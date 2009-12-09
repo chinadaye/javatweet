@@ -232,7 +232,7 @@ public class JTweetServlet extends HttpServlet {
 			String error) {
 		req.setAttribute("error", error);
 		try {
-			getServletContext().getRequestDispatcher("/template/error.jsp")
+			req.getRequestDispatcher("/template/error.jsp")
 					.forward(req, resp);
 		} catch (ServletException e) {
 			JTweetServlet.logger.warning(e.getMessage());
@@ -258,7 +258,7 @@ public class JTweetServlet extends HttpServlet {
 				+ exception.getMessage());
 		req.setAttribute("error", exception.getMessage());
 		try {
-			getServletContext().getRequestDispatcher("/template/error.jsp")
+			req.getRequestDispatcher("/template/error.jsp")
 					.forward(req, resp);
 		} catch (ServletException e) {
 			JTweetServlet.logger.warning(e.getMessage());
