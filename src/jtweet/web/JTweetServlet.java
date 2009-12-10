@@ -53,8 +53,8 @@ public class JTweetServlet extends HttpServlet {
 	protected boolean isLogin = false;
 
 	public void init_twitter(String id, String passwd) {
-		twitter.setHttpConnectionTimeout(1000*10);
-		twitter.setHttpReadTimeout(1000*10);
+		twitter.setHttpConnectionTimeout(1000 * 10);
+		twitter.setHttpReadTimeout(1000 * 10);
 		twitter.setUserId(id);
 		twitter.setPassword(passwd);
 		if (APIURL.useproxy) {
@@ -127,7 +127,7 @@ public class JTweetServlet extends HttpServlet {
 	 * @throws UnsupportedEncodingException
 	 * @throws Base64DecoderException
 	 */
-	protected void revertAccount(HttpServletRequest req)
+	protected void revertAccount_bk(HttpServletRequest req)
 			throws NotLoginException, UnsupportedEncodingException,
 			Base64DecoderException {
 		HttpSession session = req.getSession(true);
@@ -176,6 +176,39 @@ public class JTweetServlet extends HttpServlet {
 		this.isLogin = true;
 	}
 
+	protected void revertAccount(HttpServletRequest req)
+			throws NotLoginException {
+			Cookie[] cookies = req.getCookies();
+			Cookie accountCookie = null;
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals(
+							JTweetServlet.ACCOUNT_COOKIE_NAME)) {
+						accountCookie = cookie;
+						break;
+					}
+				}
+			}else {
+				throw new NotLoginException();
+			}
+			if (accountCookie != null) {
+				String[] accountString = Encrypt.decodeAccount(accountCookie
+						.getValue());
+				if (accountString != null) {
+					username = accountString[0];
+					passwd = accountString[1];
+				} else {
+					this.init_twitter("defaultclient", "tuitubie");
+					throw new NotLoginException();
+				}
+			} else {
+				this.init_twitter("defaultclient", "tuitubie");
+				throw new NotLoginException();
+			}
+		this.init_twitter(username, passwd);
+		this.isLogin = true;
+	}
+
 	/**
 	 * 不登录也可以进行的操作时使用
 	 * 
@@ -204,7 +237,7 @@ public class JTweetServlet extends HttpServlet {
 			return trendlist;
 		} catch (TwitterException e) {
 			JTweetServlet.logger.warning(e.getMessage());
-		}catch(Exception e){
+		} catch (Exception e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		}
 		return null;
@@ -234,8 +267,7 @@ public class JTweetServlet extends HttpServlet {
 			String error) {
 		req.setAttribute("error", error);
 		try {
-			req.getRequestDispatcher("/template/error.jsp")
-					.forward(req, resp);
+			req.getRequestDispatcher("/template/error.jsp").forward(req, resp);
 		} catch (ServletException e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		} catch (IOException e) {
@@ -260,8 +292,7 @@ public class JTweetServlet extends HttpServlet {
 				+ exception.getMessage());
 		req.setAttribute("error", exception.getMessage());
 		try {
-			req.getRequestDispatcher("/template/error.jsp")
-					.forward(req, resp);
+			req.getRequestDispatcher("/template/error.jsp").forward(req, resp);
 		} catch (ServletException e) {
 			JTweetServlet.logger.warning(e.getMessage());
 		} catch (IOException e) {
@@ -301,9 +332,11 @@ public class JTweetServlet extends HttpServlet {
 	 * @throws TwitterException
 	 * @throws NotLoginException
 	 */
-	protected User getCachedUser(boolean reflesh) throws TwitterException, NotLoginException {
-		return this.showCachedUser(this.getUsername(),reflesh);
+	protected User getCachedUser(boolean reflesh) throws TwitterException,
+			NotLoginException {
+		return this.showCachedUser(this.getUsername(), reflesh);
 	}
+
 	/**
 	 * 
 	 * @param screenname
@@ -313,7 +346,7 @@ public class JTweetServlet extends HttpServlet {
 	protected User showCachedUser(String screenname) throws TwitterException {
 		return this.showCachedUser(screenname, false);
 	}
-	
+
 	/**
 	 * 
 	 * @param screenname
@@ -334,26 +367,28 @@ public class JTweetServlet extends HttpServlet {
 		GCache.put("user:" + screenname, user, 3600);
 		return user;
 	}
+
 	/**
 	 * 更新缓存
+	 * 
 	 * @param user
 	 */
-	protected void updateCacheUser(User user){
+	protected void updateCacheUser(User user) {
 		GCache.put("user:" + user.getScreenName(), user, 3600);
 	}
-	
+
 	/**
 	 * @param paging
 	 * @return
 	 */
-	protected void cacheStatuses(List<Status> statuses){
+	protected void cacheStatuses(List<Status> statuses) {
 		MemcacheService ms = GCache.getService();
-		for(Status status:statuses){
-			if(!ms.contains("status:"+status.getId()))
-			GCache.put("status:"+status.getId(), status);
+		for (Status status : statuses) {
+			if (!ms.contains("status:" + status.getId()))
+				GCache.put("status:" + status.getId(), status);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -361,11 +396,11 @@ public class JTweetServlet extends HttpServlet {
 	 * @throws TwitterException
 	 */
 	protected Status showCacheStatus(long id) throws TwitterException {
-		Status status = (Status) GCache.get("status:"+id);
-		if(status==null){
+		Status status = (Status) GCache.get("status:" + id);
+		if (status == null) {
 			status = this.twitter.showStatus(id);
-			if(status!=null){
-				GCache.put("status:"+status.getId(), status);
+			if (status != null) {
+				GCache.put("status:" + status.getId(), status);
 			}
 		}
 		return status;

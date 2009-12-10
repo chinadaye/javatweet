@@ -1,6 +1,8 @@
 package jtweet.web;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -12,7 +14,8 @@ import jtweet.gae.GCache;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-import com.google.appengine.repackaged.com.google.common.util.Base64;
+
+import freemarker.template.Template;
 
 
 @SuppressWarnings("serial")
@@ -50,8 +53,8 @@ public class LoginServlet extends JTweetServlet {
 		}
 		else if(action.equalsIgnoreCase("logout"))
 		{
-			HttpSession session = req.getSession(true);
-			session.invalidate();
+//			HttpSession session = req.getSession(true);
+//			session.invalidate();
 			resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null));
 			redirectLogin(req, resp);
 			return;
@@ -72,38 +75,47 @@ public class LoginServlet extends JTweetServlet {
 		String username = req.getParameter("username");
 		String passwd = req.getParameter("passwd");
 		String stayin = req.getParameter("stayin");
-		String passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
 		
 		if(action.equalsIgnoreCase("login"))			
 		{
 			if(username != null && passwd != null)
 			{
-				HttpSession session = req.getSession(true);
-				session.setMaxInactiveInterval(3600);
 				init_twitter(username, passwd);
 				try {
 					User user = twitter.verifyCredentials();
 					if(user!=null){
 						GCache.put("user:"+username, user,3600*24);
 					}
-					session.setAttribute("username", username);
-					session.setAttribute("passwd", passwd_en);
+					HashMap<String, Object> root = new HashMap<String, Object>();
+					freemarker.template.Configuration config = new freemarker.template.Configuration();
+					config.setDirectoryForTemplateLoading(new File("template"));
+					config.setDefaultEncoding("UTF-8");
 					
 					//在cookie中存储加密账户信息
 					if(null!=stayin&&stayin.equals("1")){
-						Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME,Encrypt.encodeAccount(username, passwd));
+						String cookieValue=Encrypt.encodeAccount(username, passwd);
+						Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME,cookieValue);
 						cookie.setMaxAge(7*24*3600);
 						cookie.setPath("/");
 						resp.addCookie(cookie);
-					}
-					JTweetServlet.logger.info("redirect home");
-					String rdt = req.getParameter("rdt");//redirect to
-					if(rdt!=null&&!rdt.trim().equals("")){
-						resp.sendRedirect(rdt);
 					}else{
-						resp.sendRedirect("/home");
+						String cookieValue=Encrypt.encodeAccount(username, passwd);
+						Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME,cookieValue);
+						cookie.setMaxAge(24*3600);
+						cookie.setPath("/");
+						resp.addCookie(cookie);
 					}
-					return;
+					
+					String rdt = req.getParameter("rdt");//redirect to
+					
+					if(rdt!=null&&!rdt.trim().equals("")){
+						root.put("to", rdt);
+					}else{
+						root.put("to", "/");
+					}
+					
+					Template t = config.getTemplate("redirect.ftl");
+					t.process(root, resp.getWriter());
 				} catch (TwitterException e) {
 					JTweetServlet.logger.warning(e.getMessage());
 					req.setAttribute("error", e.getMessage());

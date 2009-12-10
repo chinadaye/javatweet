@@ -38,6 +38,7 @@ public class SearchServlet extends JTweetServlet {
 				return;
 			}
 		} catch(NotLoginException e){
+			s = URLEncoder.encode(s,"utf-8");
 			resp.sendRedirect("/login?rdt="+URLEncoder.encode("/search?s="+s,"utf-8"));
 		} catch (Exception e) {
 			this.showError(req, resp, e.getMessage());

@@ -13,7 +13,11 @@ var last_status_id = 0;
 $(document).ready(function(){
 	$("#ajax_loader").hide();
 });
-
+$("#link_logout").click(function(){
+	$.cookie('up',  { expires: -1 });
+	setTimeout(function(){window.location.href='/'},25);
+	return false;
+});
 $("textarea#tweet_msg").keypress(function(e){
     if(e.ctrlKey && e.which == 13 || e.which == 10) { 
             $("button#tweet_submit").click();
@@ -152,7 +156,7 @@ function checkHome(){
 	if(last_status_id==0){
 		last_status_id =$("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
 	}
-	if($("div#tweet_warp div.tweets").length>50&&$("#tweet_msg").val().match(/\S+/)==null){
+	if($("div#tweet_warp div.tweets").length>50&&$("#tweet_msg").val().match(/\S+/)==null&&$("a#income_alert:visible").length!=1){
 		window.location.reload();
 		return ;
 	}

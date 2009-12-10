@@ -111,9 +111,13 @@
 					<label>密码:</label>
 					<input type="password" id="passwd" name="passwd" tabindex="2"/>
 				</p>
-				<p>
+				<p id="btn_login">
 					<button type="submit" id="sub_button" class="login_button" tabindex="4">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1" tabindex="3"/>保持登录</label>
 				</p>
+				<p id="cookie_tip" style="display:none;">
+				请检查您的浏览器设置，需要启用cookie才能正常登录。
+				</p>
+				<p>没有帐号？<a href="http://www.power.com/Pub/CreateAccount/CreateAccountTwitter.aspx" target="_blank">注册</a></p>
 				</form>
 				</div>
 				<% List<Trend> trendlist = (List<Trend>)request.getAttribute("trends"); 
@@ -137,6 +141,14 @@
 				<li>powered by<a href="http://code.google.com/p/javatweet/" target="_blank">javatweet</a>&<a href="http://code.google.com/appengine/" target="_blank">GAE</a>&<a href="http://yusuke.homeip.net/twitter4j/en/index.html" title="twitter4j" target="_blank">twitter4j</a></li>
 				<li><a href="http://code.google.com/p/javatweet/issues/list" target="_blank" title="new issue">反馈问题</a></li>
 			</ul>
+<script type="text/javascript" src="/js/jquery.cookie.js" ></script>
+<script type="text/javascript">
+$.cookie('testcookiesenabled', null);
+$.cookie('testcookiesenabled', 'enabled');
+if (!$.cookie('testcookiesenabled')) {
+	$("#btn_login").slideUp(function(){$("#cookie_tip").slideDown();});
+} 
+</script>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

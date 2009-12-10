@@ -9,7 +9,7 @@
 	 <li><a href="/twitpic">TwitPic</a></li>
 	 <li><a href="/twitgoo">Twitgoo</a></li>
 	 <li><a href="/setting" >设置</a></li>
-	 <li><a href="/logout">退出</a></li>
+	 <li><a id="link_logout" href="/logout">退出</a></li>
 	 <#else>
 	 <li><a href="/login" >登录</a></li>
 	 </#if>
