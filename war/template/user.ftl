@@ -22,7 +22,7 @@
               <td id="content" class="round-left column">
                                 <div class="wrapper">
 			<div id="info_warp">
-				<img src="http://img.tweetimag.es/i/${user_show.screenName}_b" alt="${user_show.screenName}" class="user_img_big"/>
+				<img src="${user_show.biggerImageURL}" alt="${user_show.screenName}" class="user_img_big"/>
 				<div class="user_div">
 					<span class="user_name">${user_show.screenName}</span>
 					<#if user?exists&&user.screenName!=user_show.screenName>

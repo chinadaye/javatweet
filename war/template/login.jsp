@@ -112,7 +112,7 @@
 					<input type="password" id="passwd" name="passwd" tabindex="2"/>
 				</p>
 				<p id="btn_login">
-					<button type="submit" id="sub_button" class="login_button" tabindex="4">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1" tabindex="3"/>保持登录</label>
+					<button type="submit" id="sub_button" class="login_button" tabindex="4">登录</button><label ><input type="checkbox" id="stay" name="stayin" value="1" tabindex="3" checked="checked"/>保持登录</label>
 				</p>
 				<p id="cookie_tip" style="display:none;">
 				请检查您的浏览器设置，需要启用cookie才能正常登录。

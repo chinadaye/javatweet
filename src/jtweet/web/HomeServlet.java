@@ -22,6 +22,7 @@ import jtweet.Encrypt;
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.DirectMessage;
+import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -60,7 +61,7 @@ public class HomeServlet extends JTweetServlet {
 			logger.warning(e.getMessage());
 		}
 	}
-	
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
@@ -81,24 +82,25 @@ public class HomeServlet extends JTweetServlet {
 				paging.setPage(1);
 			}
 			if (action.equalsIgnoreCase("home") || action.equalsIgnoreCase("")) {
-				try{
-				this.revertAccount(req);
-				}catch (NotLoginException e) {
+				try {
+					this.revertAccount(req);
+				} catch (NotLoginException e) {
 					try {
-						this.doLogin(req, resp,"/home");
+						this.doLogin(req, resp, "/home");
 					} catch (ServletException e1) {
 						logger.warning(e1.getMessage());
-						this.showException(req, resp,e1);
+						this.showException(req, resp, e1);
 					}
 					return;
 				} catch (Exception e) {
-					if(e.getMessage().contains("401")){
+					if (e.getMessage().contains("401")) {
 						HttpSession session = req.getSession(true);
 						session.invalidate();
-						resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null));
+						resp.addCookie(new Cookie(
+								JTweetServlet.ACCOUNT_COOKIE_NAME, null));
 						resp.sendRedirect("/login");
 						return;
-					}else{
+					} else {
 						throw new Exception(e.getMessage());
 					}
 				}
@@ -146,25 +148,21 @@ public class HomeServlet extends JTweetServlet {
 			}
 		} catch (NotLoginException e) {
 			// 进行登录
-			/*try {
-				String rdt = req.getParameter("rdt");//redirect to
-				if(rdt==null||rdt.trim().equals("")){
-					rdt = req.getRequestURI();
-				}
-				req.setAttribute("rdt", rdt);
-				req.setAttribute("trends", this.getTrend());
-				req.getRequestDispatcher("/template/login.jsp").forward(req,
-						resp);
-				return;
-			} catch (ServletException e1) {
-				JTweetServlet.logger.warning(e1.getMessage());
-				this.showError(req, resp, e1.getMessage());
-			}*/
+			/*
+			 * try { String rdt = req.getParameter("rdt");//redirect to
+			 * if(rdt==null||rdt.trim().equals("")){ rdt = req.getRequestURI();
+			 * } req.setAttribute("rdt", rdt); req.setAttribute("trends",
+			 * this.getTrend());
+			 * req.getRequestDispatcher("/template/login.jsp").forward(req,
+			 * resp); return; } catch (ServletException e1) {
+			 * JTweetServlet.logger.warning(e1.getMessage());
+			 * this.showError(req, resp, e1.getMessage()); }
+			 */
 			try {
 				this.doLogin(req, resp);
 			} catch (ServletException e1) {
 				logger.warning(e1.getMessage());
-				this.showException(req, resp,e1);
+				this.showException(req, resp, e1);
 			}
 			return;
 		} catch (Exception e) {
@@ -172,35 +170,38 @@ public class HomeServlet extends JTweetServlet {
 			this.showException(req, resp, e);
 		}
 	}
-	
+
 	/**
 	 * 进行登录
+	 * 
 	 * @param req
 	 * @param resp
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	public void doLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
+	public void doLogin(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
 		String rdt = req.getParameter("rdt");
-		this.doLogin(req, resp,rdt);
+		this.doLogin(req, resp, rdt);
 	}
-	
+
 	/**
 	 * 进行登录
+	 * 
 	 * @param req
 	 * @param resp
 	 * @param rdt
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void doLogin(HttpServletRequest req, HttpServletResponse resp,String rdt) throws ServletException, IOException{
-		if(rdt==null||rdt.trim().equals("")){
+	public void doLogin(HttpServletRequest req, HttpServletResponse resp,
+			String rdt) throws ServletException, IOException {
+		if (rdt == null || rdt.trim().equals("")) {
 			rdt = req.getRequestURI();
 		}
 		req.setAttribute("rdt", rdt);
 		req.setAttribute("trends", this.getTrend());
-		req.getRequestDispatcher("/template/login.jsp").forward(req,
-				resp);
+		req.getRequestDispatcher("/template/login.jsp").forward(req, resp);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -399,29 +400,28 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
-		User user ;
+		User user;
 		user = twitter.showUser(uid);
 		root.put("user", this.getCachedUser());
-		
-		if(this.twitter.existsBlock(uid)){
-			root.put("is_block","1");
+
+		if (this.twitter.existsBlock(uid)) {
+			root.put("is_block", "1");
 		}
-		if(this.twitter.existsFriendship(this.getUsername(), uid)){
-			root.put("is_follow","1");
+		if (this.twitter.existsFriendship(this.getUsername(), uid)) {
+			root.put("is_follow", "1");
 		}
-			
 
 		root.put("user_show", user);
 		root.put("title", "时间线");
-		root.put("uri", uri );
+		root.put("uri", uri);
 		root.put("page", paging.getPage());
 
-		if(this.isLogin&&uid.equalsIgnoreCase(getUsername())){
-			List<Status> statuses = this.getCachedUserTimeline(uid,true);
+		if (this.isLogin && uid.equalsIgnoreCase(getUsername())) {
+			List<Status> statuses = this.getCachedUserTimeline(uid, true);
 			this.cacheStatuses(statuses);
 			root.put("status", statuses);
-		}else if(!user.isProtected()){
-			List<Status> statuses = this.getCachedUserTimeline(uid,false);
+		} else if (!user.isProtected()) {
+			List<Status> statuses = this.getCachedUserTimeline(uid, false);
 			this.cacheStatuses(statuses);
 			root.put("status", statuses);
 		}
@@ -440,12 +440,12 @@ public class HomeServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		User user = twitter.showUser(uid);
-//		if (isLogin)
-			root.put("user", this.getCachedUser());
+		// if (isLogin)
+		root.put("user", this.getCachedUser());
 
 		root.put("user_show", user);
 		root.put("title", "收藏");
-		root.put("uri", uri );
+		root.put("uri", uri);
 		root.put("page", paging.getPage());
 
 		if (!user.isProtected()) {
@@ -466,18 +466,16 @@ public class HomeServlet extends JTweetServlet {
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
-
+		/**
+		 * 限制count是显示的内容有异常 可能是官方api的问题 各客户端都存在 暂时去掉
+		 */
+		paging = new Paging(paging.getPage());
+		
 		List<User> follower;
 		root.put("title", "关注者");
-		if (this.isLogin)
-			root.put("user", this.showCachedUser(this.getUsername(), true));
-//		if (uid == null) {
-//			root.put("user_show", this.getCachedUser());
-//			follower = twitter.getFollowersStatuses(paging);
-//		} else {
-			root.put("user_show", twitter.showUser(uid));
-			follower = twitter.getFollowersStatuses(uid, paging);
-//		}
+		root.put("user", this.showCachedUser(this.getUsername(), true));
+		root.put("user_show", twitter.showUser(uid));
+		follower = twitter.getFollowersStatuses(uid, paging);
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
 		root.put("follow", follower);
@@ -495,6 +493,11 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
+		/**
+		 * 限制count是显示的内容有异常 可能是官方api的问题 各客户端都存在 暂时去掉
+		 */
+		paging = new Paging(paging.getPage());
+		
 		List<User> following;
 		root.put("title", "朋友");
 		if (this.isLogin)

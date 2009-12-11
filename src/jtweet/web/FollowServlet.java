@@ -16,6 +16,7 @@ import twitter4j.User;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+@Deprecated
 @SuppressWarnings("serial")
 public class FollowServlet extends JTweetServlet {
 	protected String uri;
@@ -72,7 +73,7 @@ public class FollowServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		if (uid == null) {
 			root.put("user_show", this.getCachedUser());
-			follower = twitter.getFollowersStatuses(paging);
+			follower = twitter.getFollowersStatuses(this.getUsername(),paging);
 		} else {
 			root.put("user_show", twitter.showUser(uid));
 			follower = twitter.getFollowersStatuses(uid, paging);

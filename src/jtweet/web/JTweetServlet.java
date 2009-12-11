@@ -41,7 +41,7 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class JTweetServlet extends HttpServlet {
 	protected Twitter twitter = new Twitter();
-	protected Paging paging = new Paging(1, 20);
+	protected Paging paging = new Paging(1,20);
 	private String username = null;
 	private String passwd = null;
 	public static final String ACCOUNT_COOKIE_NAME = "up";
