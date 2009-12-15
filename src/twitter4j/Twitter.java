@@ -62,15 +62,15 @@ public class Twitter extends TwitterSupport implements java.io.Serializable {
 		http.setAuthorizationURL("http://twitter.com/oauth/authorize");
 		http.setAccessTokenURL("http://twitter.com/oauth/access_token");
 		
-		long r =  Math.round(Math.random() * 100) % 2 ;
+		/*long r =  Math.round(Math.random() * 100) % 3 ;
 		if ( r == 0) {
 			this.searchBaseURL = "http://sospartan.byethost3.com/";
-		}/*else if(r == 1 ){
-			this.searchBaseURL = "http://sospartan.0fees.net/";
-		}*/else{
+		}else if(r == 1 ){
+			this.searchBaseURL = "http://sospartan.byteact.com/";
+		}else{
 			this.searchBaseURL = "http://tui.4.je/";
-		}
-		logger.info("search using "+this.searchBaseURL);
+		}*/
+		
 	}
 
 	public Twitter(String baseURL) {
@@ -1536,7 +1536,7 @@ public class Twitter extends TwitterSupport implements java.io.Serializable {
 	 *      API Wiki / Twitter REST API Method: statuses show</a>
 	 */
 	public Status showStatus(long id) throws TwitterException {
-		return new Status(get(baseURL + "statuses/show/" + id + ".xml", false),
+		return new Status(get(this.searchBaseURL + "statuses/show/" + id + ".xml", false),
 				this);
 	}
 

@@ -230,6 +230,7 @@ public class JTweetServlet extends HttpServlet {
 		try {
 			List<Trend> trendlist = (List<Trend>) GCache.get("search_trend");
 			if (trendlist == null) {
+				this.twitter.setSearchBaseURL(JTweetServlet.getRandomBaseUrl());
 				Trends trends = this.twitter.getTrends();
 				trendlist = Arrays.asList(trends.getTrends());
 				GCache.put("search_trend", trendlist, 3600);
@@ -398,6 +399,7 @@ public class JTweetServlet extends HttpServlet {
 	protected Status showCacheStatus(long id) throws TwitterException {
 		Status status = (Status) GCache.get("status:" + id);
 		if (status == null) {
+			this.twitter.setBaseURL(JTweetServlet.getRandomBaseUrl());
 			status = this.twitter.showStatus(id);
 			if (status != null) {
 				GCache.put("status:" + status.getId(), status);
@@ -518,5 +520,17 @@ public class JTweetServlet extends HttpServlet {
 		t.process(root, writer);
 		stringWriter.flush();
 		return stringWriter.toString();
+	}
+	
+	public static String getRandomBaseUrl(){
+		long r =  Math.round(Math.random() * 100) % 3 ;
+		logger.info("search using "+r);
+		if ( r == 0) {
+			return "http://sospartan.byethost3.com/";
+		}else if(r == 1 ){
+			return  "http://sospartan.byteact.com/";
+		}else{
+			return "http://tui.4.je/";
+		}
 	}
 }

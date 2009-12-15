@@ -13,8 +13,10 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String text = "RT @ifire 下周去杭州，参观#下一周岁的虾米网，#fjjfj @wingoffire 请洗白白 // 欢迎 @ifir老湿光临指导";
-		System.out.print(TweetParser.parseTextJava(text));
+		for (int i = 0; i < 100; i++) {
+			System.out.println(JTweetServlet.getRandomBaseUrl());
+		}
+	
 	}
 
 }

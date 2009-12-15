@@ -41,9 +41,6 @@
 </div>
 </#if>
 <div class="fixed"></div>
-<div>
-<a href="http://stickeraction.com/fengzhenghu/go" title="不让冯正虎回国是中国人的耻辱！" target="_blank"><img src="http://stickeraction.com/fengzhenghu/sticker" alt="不让冯正虎回国是中国人的耻辱！" border="0" /></a>
-</div>
 <div class="tweet_tip">
 <hr>
 <span>提示</span>

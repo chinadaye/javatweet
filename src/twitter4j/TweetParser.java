@@ -43,7 +43,7 @@ public class TweetParser {
 		
 		alreadyMatches.clear();
 		//xiami
-		regex = "http://www\\.xiami\\.com/(artist|album)/(\\d+)";
+		regex = "http://w{0,3}\\.{0,1}xiami\\.com/(artist|album)/(\\d+)";
 		mt = Pattern.compile(regex).matcher(text);
 		while(mt.find()){
 			if(alreadyMatches.contains(mt.group())){
