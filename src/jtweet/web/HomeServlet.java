@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
+import jtweet.JtweetServlet;
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.DirectMessage;
@@ -296,6 +297,7 @@ public class HomeServlet extends JTweetServlet {
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
 
+		this.twitter.setBaseURL(JTweetServlet.getRandomBaseUrl());
 		List<Status> statuses = twitter.getPublicTimeline(paging);
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
