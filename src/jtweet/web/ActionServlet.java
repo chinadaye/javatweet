@@ -213,7 +213,9 @@ public class ActionServlet extends JTweetServlet {
 					json.put("info", e.getStatusCode());
 					e.printStackTrace();
 				}
-			} else {
+			} else if(action.equalsIgnoreCase("post")&&e.getStatusCode()==403){
+				json.put("info","对方还没有关注你，不能向该用户发送私信");
+			}else {
 				json.put("info", e.getStatusCode());
 				e.printStackTrace();
 			}

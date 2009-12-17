@@ -55,7 +55,7 @@ public class LoginServlet extends JTweetServlet {
 		{
 //			HttpSession session = req.getSession(true);
 //			session.invalidate();
-			resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null));
+			resp.addCookie(new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, ""));
 			redirectLogin(req, resp);
 			return;
 		}
