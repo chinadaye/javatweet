@@ -18,6 +18,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class UserServlet extends JTweetServlet {
 	protected String uri;
 	

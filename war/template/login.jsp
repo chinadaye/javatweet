@@ -117,8 +117,8 @@
 				<p id="cookie_tip" style="display:none;">
 				请检查您的浏览器设置，需要启用cookie才能正常登录。
 				</p>
-				<p>没有帐号？<a href="http://www.power.com/Pub/CreateAccount/CreateAccountTwitter.aspx" target="_blank">注册</a></p>
-				</form>
+				<!--<p>没有帐号？<a href="http://www.power.com/Pub/CreateAccount/CreateAccountTwitter.aspx" target="_blank">注册</a></p>
+				--></form>
 				</div>
 				<% List<Trend> trendlist = (List<Trend>)request.getAttribute("trends"); 
 					if(trendlist!=null){

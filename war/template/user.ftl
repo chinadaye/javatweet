@@ -27,7 +27,11 @@
 					<span class="user_name">${user_show.screenName}</span>
 					<#if user?exists&&user.screenName!=user_show.screenName>
 					<span class="user_action">
+						<#if is_follew?exists&&is_follew=='1'>
 						<a href="javascript:void(0);" class="user_action_msg">发送私信</a>
+						<#else>
+						<a href="javascript:void(0);" >发送私信（对方还未关注你不能发送私信)</a>
+						</#if>
 						<#if is_follow?exists&&is_follow=='1'>
 							<a href="javascript:void(0);" class="user_action_unfollow">取消关注</a>
 						<#else>

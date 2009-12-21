@@ -41,7 +41,8 @@ public class SearchServlet extends JTweetServlet {
 			s = URLEncoder.encode(s,"utf-8");
 			resp.sendRedirect("/login?rdt="+URLEncoder.encode("/search?s="+s,"utf-8"));
 		} catch (Exception e) {
-			this.showError(req, resp, e.getMessage());
+			JTweetServlet.logger.warning(e.getMessage());
+			this.showError(req, resp, "未知异常");
 		}
 	}
 
@@ -66,6 +67,7 @@ public class SearchServlet extends JTweetServlet {
 		Query query = new Query(s);
 		query.setPage(page);
 
+		this.twitter.setSearchBaseURL(JTweetServlet.getRandomBaseUrl());
 		QueryResult result = twitter.search(query);
 		List<Tweet> tweets = result.getTweets();
 		if(isLogin){
