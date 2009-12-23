@@ -30,6 +30,7 @@
 		<input type="text" name="s" class="searchtext" size=15 value="<#if search?exists>${search}</#if>"/>
 		<button type="submit">搜索</button>
 	</form>
+
 <div class="fixed"></div>
 <#if searches?exists>
 <div id="saved_searches">
@@ -40,6 +41,10 @@
 </#list>
 </div>
 </#if>
+	<div class="fixed"></div>
+	<hr>
+请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
+<script type="text/javascript" src="http://twibbon.com/embed/yellow-ribbon-5"></script>
 <div class="fixed"></div>
 <div class="tweet_tip">
 <hr>

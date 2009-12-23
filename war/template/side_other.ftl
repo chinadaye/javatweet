@@ -29,6 +29,10 @@
 		<button type="submit">搜索</button>
 	</form>
 <div class="fixed"></div>
+<hr>
+请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
+<script type="text/javascript" src="http://twibbon.com/embed/yellow-ribbon-5"></script>
+<div class="fixed"></div>
 <div class="tweet_tip">
 <span>提示</span>
 <p>点击短链接将自动进行还原</p>

@@ -413,7 +413,7 @@ public class HomeServlet extends JTweetServlet {
 			root.put("is_follow", "1");
 		}
 		if(this.twitter.existsFriendship(uid, this.getUsername())){
-			root.put("is_follew", 1);
+			root.put("is_follew", "1");
 		}
 
 		root.put("user_show", user);

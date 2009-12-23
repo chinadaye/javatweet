@@ -523,14 +523,15 @@ public class JTweetServlet extends HttpServlet {
 	}
 	
 	public static String getRandomBaseUrl(){
-		long r =  Math.round(Math.random() * 100) % 2 ;
+		return "http://tui.4.je/";
+		/*long r =  Math.round(Math.random() * 100) % 2 ;
 		logger.info("search using "+r);
-		/*if ( r == 0) {
+		if ( r == 0) {
 			return "http://sospartan.byethost3.com/";
-		}else */if(r == 0 ){
+		}else if(r == 0 ){
 			return  "http://sospartan.byteact.com/";
 		}else{
 			return "http://tui.4.je/";
-		}
+		}*/
 	}
 }
