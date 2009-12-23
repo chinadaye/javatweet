@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -523,15 +524,14 @@ public class JTweetServlet extends HttpServlet {
 	}
 	
 	public static String getRandomBaseUrl(){
-		return "http://tui.4.je/";
-		/*long r =  Math.round(Math.random() * 100) % 2 ;
-		logger.info("search using "+r);
-		if ( r == 0) {
-			return "http://sospartan.byethost3.com/";
-		}else if(r == 0 ){
-			return  "http://sospartan.byteact.com/";
+		Random rand = new Random();
+		int r = rand.nextInt(10);
+		if(r<2){
+			return "http://sospartan.openwebster.com/";
+		}else if(r<4){
+			return "http://tui.mwzaf.com/";
 		}else{
 			return "http://tui.4.je/";
-		}*/
+		}
 	}
 }
