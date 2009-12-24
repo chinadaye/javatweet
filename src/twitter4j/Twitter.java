@@ -62,15 +62,6 @@ public class Twitter extends TwitterSupport implements java.io.Serializable {
 		http.setAuthorizationURL("http://twitter.com/oauth/authorize");
 		http.setAccessTokenURL("http://twitter.com/oauth/access_token");
 		
-		/*long r =  Math.round(Math.random() * 100) % 3 ;
-		if ( r == 0) {
-			this.searchBaseURL = "http://sospartan.byethost3.com/";
-		}else if(r == 1 ){
-			this.searchBaseURL = "http://sospartan.byteact.com/";
-		}else{
-			this.searchBaseURL = "http://tui.4.je/";
-		}*/
-		
 	}
 
 	public Twitter(String baseURL) {

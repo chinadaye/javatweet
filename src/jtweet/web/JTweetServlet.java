@@ -54,14 +54,17 @@ public class JTweetServlet extends HttpServlet {
 	protected boolean isLogin = false;
 
 	public void init_twitter(String id, String passwd) {
-		twitter.setHttpConnectionTimeout(1000 * 10);
-		twitter.setHttpReadTimeout(1000 * 10);
+		twitter.setHttpConnectionTimeout(1000 * 5);
+		twitter.setHttpReadTimeout(1000 * 5);
+		twitter.setRetryIntervalSecs(1);
+		twitter.setRetryCount(2);
 		twitter.setUserId(id);
 		twitter.setPassword(passwd);
-		if (APIURL.useproxy) {
+		/*if (APIURL.useproxy) {
 			twitter.setBaseURL(APIURL.url);
 			twitter.setSearchBaseURL(APIURL.url);
-		}
+		}*/
+		twitter.setBaseURL("http://twitter.com/");
 		twitter.setSource("JTweet");
 		twitter.setClientURL("http://code.google.com/p/javatweet/");
 		twitter.setClientVersion("r25");
@@ -526,12 +529,10 @@ public class JTweetServlet extends HttpServlet {
 	public static String getRandomBaseUrl(){
 		Random rand = new Random();
 		int r = rand.nextInt(10);
-		if(r<2){
+		if(r<5){
 			return "http://sospartan.openwebster.com/";
-		}else if(r<4){
+		}else {
 			return "http://tui.mwzaf.com/";
-		}else{
-			return "http://tui.4.je/";
 		}
 	}
 }
