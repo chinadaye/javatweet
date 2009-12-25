@@ -73,9 +73,9 @@
 	</div>
 	<div class="fixed"></div>
 </div>
-<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="/js/func.js?091225"></script>
 <#if addjs?exists>
-	<script type="text/javascript" src="${addjs}"></script>
+	<script type="text/javascript" src="${addjs}?091225"></script>
 </#if>
 </body>
 </html>
