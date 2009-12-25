@@ -86,17 +86,22 @@ $("a.del_saved_search").live(
 $("#btn_shorturl").click(function(){
 	var matches = $("#tweet_msg").val().match(/[A-Za-z]+:\/\/[A-Za-z0-9-,_]+\.[A-Za-z0-9-_,:%&\?\/.#=\+]+/);
 	if(matches!=null){
+		$("span.tweet_count_info").prepend(img_small_loader);
 		$.ajax({
 			url: "http://to.ly/api.php",
 			type: "GET",
 			dataType: "jsonp",
 			data: {json:1,longurl:matches[0]},
+			error:function(){
+				$("span.tweet_count_info img.small_loader").remove();
+			},
 			success: function(json)
 			{
 				if(json.shorturl)
 				{
 					$("#tweet_msg").val($("#tweet_msg").val().replace(matches[0],json.shorturl));
 				}
+				$("span.tweet_count_info img.small_loader").remove();
 			}
 		});
 	}
@@ -139,7 +144,7 @@ if (window.navigator.userAgent.indexOf("MSIE 6.0")>=1){
 
 
 function showIncomeStatuses(){
-	if(income_statuses_count>0){
+	if(income_statuses_count>0&&current_at=='home_1'){
 		$("#tweet_warp").children('div.newcome').removeClass("newcome");
 		income_statuses_count = 0;
 		income_statuses = "";
@@ -342,6 +347,7 @@ function onPostStatus(reply_id, callback, param)
 {
 	if(tweet_length > 0)
 	{
+		$("span.tweet_count_info").prepend(img_small_loader);
 		var postdata;
 		if(check_timeout!=null){
 			clearTimeout(check_timeout);
@@ -360,7 +366,7 @@ function onPostStatus(reply_id, callback, param)
 				id: reply_id,
 				last_id:last_status_id
 		};
-		$("span.tweet_count_info").prepend(img_small_loader);
+		
 		$.ajax({
 			url: "/action",
 			type: "POST",
@@ -380,7 +386,7 @@ function onPostStatus(reply_id, callback, param)
 					}
 					if(json.data){
 						
-						if(json.id>last_status_id){
+						if(json.id>last_status_id&&current_at=='home_1'){
 							last_status_id = json.id;
 						}
 						$("#tweet_warp").prepend($(json.data).removeClass("newcome"));

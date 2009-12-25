@@ -123,11 +123,7 @@
 	<div class="fixed"></div>
 </div>
 <script type="text/javascript" >
-<#if user?exists>
-var is_updatecount = true;
-<#else>
-var is_updatecount = false;
-</#if>
+var is_updatecount = <#if user?exists>true<#else>false</#if>;
 </script>
 <script type="text/javascript" src="/js/func.js"></script>
 <script type="text/javascript" src="/js/user.js"></script>

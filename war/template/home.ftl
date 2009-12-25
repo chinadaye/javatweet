@@ -73,9 +73,6 @@
 	</div>
 	<div class="fixed"></div>
 </div>
-<script type="text/javascript">
-var current_page = ${page};
-</script>
 <script type="text/javascript" src="/js/func.js"></script>
 <#if addjs?exists>
 	<script type="text/javascript" src="${addjs}"></script>

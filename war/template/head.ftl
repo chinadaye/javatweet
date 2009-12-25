@@ -18,3 +18,6 @@
 </div>
 <div class="fixed"></div>
 <div class="content-bubble-arrow"></div>
+<script type="text/javascript" >
+var current_at = '<#if at?exists>${at}</#if>';
+</script>

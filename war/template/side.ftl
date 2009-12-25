@@ -44,7 +44,7 @@
 	<div class="fixed"></div>
 	<hr>
 请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
-<script type="text/javascript" src="http://twibbon.com/embed/yellow-ribbon-5"></script>
+
 <div class="fixed"></div>
 <div class="tweet_tip">
 <hr>

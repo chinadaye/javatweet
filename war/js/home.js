@@ -2,7 +2,7 @@ var reply_id = 0;
 $(document).ready(
 		function()
 		{
-			if(current_page==1){
+			if(current_at=='home_1'){
 				window.setTimeout(checkHome,60000);
 			}
 			window.setInterval

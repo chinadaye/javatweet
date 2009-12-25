@@ -255,6 +255,8 @@ public class HomeServlet extends JTweetServlet {
 
 		List<Status> statuses = this.twitter.getFriendsTimeline(paging);
 		this.cacheStatuses(statuses);
+		
+		root.put("at","home_"+paging.getPage());
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("title", "首页");
