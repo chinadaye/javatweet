@@ -527,12 +527,22 @@ public class JTweetServlet extends HttpServlet {
 	}
 	
 	public static String getRandomBaseUrl(){
+		String[] proxys = {
+				"http://t.sharesh.cn/t/",
+				"http://itaboo.info/twip/",
+				"http://pinkmemory.co.tv/twip/",
+				"http://sly9.net/upload/twip/",
+				"http://xingmie.byethost11.com/twip/",
+				"http://labs.swfjunkie.com/tweetr/proxy/",
+				"http://heix.pp.ru/api",
+				"http://catuncle.byethost33.com/twip/",
+				"http://s60jj.com/o/",
+				"http://loof.us/api/",
+				"http://anti-rootkit.com/twip/",
+				"http://www.yackol.org/twip/"
+				};
 		Random rand = new Random();
-		int r = rand.nextInt(10);
-		if(r<5){
-			return "http://sospartan.openwebster.com/";
-		}else {
-			return "http://tui.mwzaf.com/";
-		}
+		int r = rand.nextInt(proxys.length-1);
+		return proxys[r];
 	}
 }
