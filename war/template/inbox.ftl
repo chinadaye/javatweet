@@ -82,7 +82,7 @@
 <script type="text/javascript" src="/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="/js/jquery.ajaxQueue.js"></script>
 <script type="text/javascript" src="/js/jquery.autocomplete.min.js"></script>
-<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="/js/func.js?20091231"></script>
 <script type="text/javascript" src="/js/message.js"></script>
 </body>
 </html>

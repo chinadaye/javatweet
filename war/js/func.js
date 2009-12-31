@@ -1,3 +1,8 @@
+/**
+ * update:2009-12-31
+ */
+
+
 tweet_length = 0;
 unread_count = 0;
 title = document.title;
@@ -412,14 +417,19 @@ function onDelete(id, callback, param)
 	msg = "确实要删除这条Tweet吗？";
 	if(confirm(msg))
 	{
+		param.after(img_small_loader);
 		postdata = {type: "delete", id: id};
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+				param.next('img.small_loader').remove();
+			},
 			success: function(json)
 			{
+				param.next('img.small_loader').remove();
 				if(json.result == "ok")
 				{
 					if(callback) callback(param);
@@ -436,13 +446,18 @@ function onDelete(id, callback, param)
 function onFavor(id, callback, param)
 {
 	postdata = {type: "favor", id: id};
+	param.after(img_small_loader);
 	$.ajax({
 		url: "/action",
 		type: "POST",
 		dataType: "json",
 		data: postdata,
+		error:function(){
+			param.next('img.small_loader').remove();
+		},
 		success: function(json)
 		{
+			param.next('img.small_loader').remove();
 			if(json.result == "ok")
 			{
 				//alert("favor ok");
@@ -461,14 +476,19 @@ function onUnFavor(id, callback, param)
 	msg = "确实要删除对ID为：" + id + "的Tweet的收藏吗？";
 	if(confirm(msg))
 	{
+		param.after(img_small_loader);
 		postdata = {type: "unfavor", id: id};
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+				param.next('img.small_loader').remove();
+			},
 			success: function(json)
 			{
+				param.next('img.small_loader').remove();
 				if(json.result == "ok")
 				{
 					//alert("unfavor ok");
@@ -486,14 +506,18 @@ function onUnFavor(id, callback, param)
 function onFollow(id, callback, param)
 {
 	postdata = {type: "follow", id: id};
-	
+	param.after(img_small_loader);
 	$.ajax({
 		url: "/action",
 		type: "POST",
 		dataType: "json",
 		data: postdata,
+		error:function(){
+			param.next('img.small_loader').remove();
+		},
 		success: function(json)
 		{
+			param.next('img.small_loader').remove();
 			if(json.result == "ok")
 			{
 				//alert("follow ok");
@@ -513,14 +537,19 @@ function onUnFollow(id, callback, param)
 
 	if(confirm(msg))
 	{
+		param.after(img_small_loader);
 		postdata = {type: "unfollow", id: id};
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+			param.next('img.small_loader').remove();
+			},
 			success: function(json)
 			{
+				param.next('img.small_loader').remove();
 				if(json.result == "ok")
 				{
 					//alert("unfollow ok");
@@ -541,14 +570,19 @@ function onBlock(id, callback, param)
 
 	if(confirm(msg))
 	{
+		param.after(img_small_loader);
 		postdata = {type: "block", id: id};
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+				param.next('img.small_loader').remove();
+			},
 			success: function(json)
 			{
+				param.next('img.small_loader').remove();
 				if(json.result == "ok")
 				{
 					//alert("block ok");
@@ -569,14 +603,19 @@ function onUnBlock(id, callback, param)
 
 	if(confirm(msg))
 	{
+		param.after(img_small_loader);
 		postdata = {type: "unblock", id: id};
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+				param.next('img.small_loader').remove();
+			},
 			success: function(json)
 			{
+				param.next('img.small_loader').remove();
 				if(json.result == "ok")
 				{
 					//alert("unblock ok");
@@ -635,14 +674,19 @@ function onDeleteMessage(id, callback, param)
 	msg = "确实要删除ID为：" + id + "的消息吗？";
 	if(confirm(msg))
 	{
+		param.after(img_small_loader);
 		postdata = {type: "delmsg", id: id};
 		$.ajax({
 			url: "/action",
 			type: "POST",
 			dataType: "json",
 			data: postdata,
+			error:function(){
+				param.next('img.small_loader').remove();
+			},
 			success: function(json)
 			{
+				param.next('img.small_loader').remove();
 				if(json.result == "ok")
 				{
 					//alert("del ok");

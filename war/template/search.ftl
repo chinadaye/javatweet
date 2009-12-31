@@ -58,7 +58,7 @@
 	</div>
 	<div class="fixed"></div>
 </div>
-<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="/js/func.js?20091231"></script>
 <#if addjs?exists>
 	<script type="text/javascript" src="${addjs}"></script>
 </#if>

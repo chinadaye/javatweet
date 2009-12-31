@@ -79,7 +79,7 @@
 	</div>
 		<div class="fixed"></div>
 	</div>
-<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="/js/func.js?20091231"></script>
 <script type="text/javascript" src="/js/follow.js"></script>
 </body>
 </html>

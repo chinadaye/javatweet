@@ -125,7 +125,7 @@
 <script type="text/javascript" >
 var is_updatecount = <#if user?exists>true<#else>false</#if>;
 </script>
-<script type="text/javascript" src="/js/func.js"></script>
+<script type="text/javascript" src="/js/func.js?20091231"></script>
 <script type="text/javascript" src="/js/user.js"></script>
 </body>
 </html>
