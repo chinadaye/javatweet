@@ -49,7 +49,7 @@
 			<div class="fixed"></div>
 			<#if user?exists>
 			<div id="form_warp" class="user_form">
-				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
+				<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布&nbsp;&nbsp;<a id="btn_shorturl" href="javascript:;">缩短链接</a>&nbsp;&nbsp;<a href="javascript:;" id="uploadimg">上传图片</a></span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
 				<textarea rows="5" cols="20" id="tweet_msg" name="tweet_msg">@${user_show.screenName}</textarea><br />
 				<button id="btn_shorturl">缩短链接</button>
 				<button id="tweet_submit">我推！</button>
