@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
+import jtweet.HotTopics;
 import jtweet.JtweetServlet;
 import jtweet.Exception.NotLoginException;
 
@@ -250,6 +251,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("title", "首页");
 		root.put("addjs", "/js/home.js");
 		root.put("uri", uri);
@@ -274,6 +276,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("title", "回复");
 		root.put("addjs", "/js/reply.js");
 		root.put("uri", uri);
@@ -297,6 +300,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("title", "公共页面");
 		root.put("addjs", "/js/public.js");
 		root.put("uri", uri);
@@ -320,6 +324,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("title", "收藏");
 		root.put("addjs", "/js/favor.js");
 		root.put("uri", uri);
@@ -362,6 +367,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("title", "私信收件箱");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
@@ -382,6 +388,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("title", "私信发件箱");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());

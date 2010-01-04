@@ -39,6 +39,16 @@
 </div>
 </#if>
 
+<#if rebang?exists>
+<div class="fixed"></div>
+<div class="tweet_tip">
+<h3>谷歌热榜上升最快</h3>
+<#list rebang as r>
+<p><a href="/search?s=${r?url}" name="搜索${r?url}">${r}</a></p>
+</#list>
+</div>
+</#if>
+
 <div class="fixed"></div>
 <div class="tweet_tip">
 <hr>
