@@ -41,9 +41,20 @@
 </#list>
 </div>
 </#if>
-	<div class="fixed"></div>
-	<div class="tweet_tip">
-	<hr>
+
+<#if trends?exists>
+<div class="fixed"></div>
+<div class="tweet_tip">
+<h3>twitter 趋势</h3>
+<#list trends as t>
+<p><a href="/search?s=${t.getUrlName()}" name="搜索${t.getName()}">${t.getName()}</a></p>
+</#list>
+</div>
+</#if>
+
+<div class="fixed"></div>
+<div class="tweet_tip">
+<hr>
 请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
 </div>
 <div class="fixed"></div>

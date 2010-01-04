@@ -195,7 +195,7 @@ public class JTweetServlet extends HttpServlet {
 			}else {
 				throw new NotLoginException();
 			}
-			if (accountCookie != null) {
+			if (accountCookie != null&&accountCookie.getValue().length()>5) {
 				String[] accountString = Encrypt.decodeAccount(accountCookie
 						.getValue());
 				if (accountString != null) {
@@ -532,7 +532,7 @@ public class JTweetServlet extends HttpServlet {
 				"http://itaboo.info/twip/",
 				"http://pinkmemory.co.tv/twip/",
 				"http://sly9.net/upload/twip/",
-				"http://xingmie.byethost11.com/twip/",
+				//"http://xingmie.byethost11.com/twip/",
 				"http://labs.swfjunkie.com/tweetr/proxy/",
 				"http://heix.pp.ru/api",
 				"http://catuncle.byethost33.com/twip/",

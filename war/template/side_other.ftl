@@ -27,7 +27,18 @@
 <form action="/search" method="get" id="searchform">
 		<input type="text" name="s" class="searchtext" size=15/>
 		<button type="submit">搜索</button>
-	</form>
+</form>
+	
+<#if trends?exists>
+<div class="fixed"></div>
+<div class="tweet_tip">
+<h3>twitter 趋势</h3>
+<#list trends as t>
+<p><a href="/search?s=${t.getUrlName()}" name="搜索${t.getName()}">${t.getName()}</a></p>
+</#list>
+</div>
+</#if>
+
 <div class="fixed"></div>
 <div class="tweet_tip">
 <hr>

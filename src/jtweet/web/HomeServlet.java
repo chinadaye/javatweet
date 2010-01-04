@@ -67,7 +67,7 @@ public class HomeServlet extends JTweetServlet {
 			throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		uri = req.getRequestURI();
-		String action = uri.substring(1);
+		String action = uri.substring(1).trim();
 		String page = req.getParameter("page");
 
 		try {
@@ -131,14 +131,14 @@ public class HomeServlet extends JTweetServlet {
 				this.revertAccount(req);
 				String[] uriParts = action.substring(1).split("/");
 				if (uriParts.length == 1) {
-					this.getUserTimeline(action.substring(1), resp);
+					this.getUserTimeline(action.substring(1).trim(), resp);
 				} else if (uriParts.length == 2) {
 					if (uriParts[1].equalsIgnoreCase("favor")) {
-						this.getUserFavor(uriParts[0], resp);
+						this.getUserFavor(uriParts[0].trim(), resp);
 					} else if (uriParts[1].equalsIgnoreCase("follower")) {
-						this.getFollower(uriParts[0], resp);
+						this.getFollower(uriParts[0].trim(), resp);
 					} else if (uriParts[1].equalsIgnoreCase("following")) {
-						this.getFollowing(uriParts[0], resp);
+						this.getFollowing(uriParts[0].trim(), resp);
 					}
 				}
 
@@ -149,16 +149,6 @@ public class HomeServlet extends JTweetServlet {
 			}
 		} catch (NotLoginException e) {
 			// 进行登录
-			/*
-			 * try { String rdt = req.getParameter("rdt");//redirect to
-			 * if(rdt==null||rdt.trim().equals("")){ rdt = req.getRequestURI();
-			 * } req.setAttribute("rdt", rdt); req.setAttribute("trends",
-			 * this.getTrend());
-			 * req.getRequestDispatcher("/template/login.jsp").forward(req,
-			 * resp); return; } catch (ServletException e1) {
-			 * JTweetServlet.logger.warning(e1.getMessage());
-			 * this.showError(req, resp, e1.getMessage()); }
-			 */
 			try {
 				this.doLogin(req, resp);
 			} catch (ServletException e1) {
@@ -259,6 +249,7 @@ public class HomeServlet extends JTweetServlet {
 		root.put("at","home_"+paging.getPage());
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
+		root.put("trends",this.getTrend());
 		root.put("title", "首页");
 		root.put("addjs", "/js/home.js");
 		root.put("uri", uri);
@@ -282,6 +273,7 @@ public class HomeServlet extends JTweetServlet {
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
+		root.put("trends",this.getTrend());
 		root.put("title", "回复");
 		root.put("addjs", "/js/reply.js");
 		root.put("uri", uri);
@@ -304,6 +296,7 @@ public class HomeServlet extends JTweetServlet {
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
+		root.put("trends",this.getTrend());
 		root.put("title", "公共页面");
 		root.put("addjs", "/js/public.js");
 		root.put("uri", uri);
@@ -326,6 +319,7 @@ public class HomeServlet extends JTweetServlet {
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
+		root.put("trends",this.getTrend());
 		root.put("title", "收藏");
 		root.put("addjs", "/js/favor.js");
 		root.put("uri", uri);
@@ -367,6 +361,7 @@ public class HomeServlet extends JTweetServlet {
 		List<DirectMessage> msg = twitter.getDirectMessages(paging);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
+		root.put("trends",this.getTrend());
 		root.put("title", "私信收件箱");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
@@ -386,6 +381,7 @@ public class HomeServlet extends JTweetServlet {
 		List<DirectMessage> msg = twitter.getSentDirectMessages(paging);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
+		root.put("trends",this.getTrend());
 		root.put("title", "私信发件箱");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
@@ -405,6 +401,7 @@ public class HomeServlet extends JTweetServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		User user;
+		uid = uid.trim();
 		user = twitter.showUser(uid);
 		root.put("user", this.getCachedUser());
 
