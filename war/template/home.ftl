@@ -44,8 +44,8 @@
 		</div>
 		<div class="fixed"></div>
 		<div id="tweet_page">
-			<#if page gt 1><a href="${uri}?page=${page - 1}" class="pre_page">上一页</a></#if>
-			<#if status?size gt 1><a href="${uri}?page=${page + 1}" class="next_page">下一页</a></#if>
+			<#if page gt 1><a href="${uri}?page=${page - 1}" class="pre_page">⇐上一页</a></#if>
+			<#if status?size gt 1><a href="${uri}?page=${page + 1}" class="next_page">下一页⇒</a></#if>
 		</div>
 	</div>
 	</td>

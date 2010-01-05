@@ -25,7 +25,7 @@
 </div>
 <div class="fixed"></div>
 </#if>
-<hr>
+
 <form action="/search" method="get" id="searchform">
 		<input type="text" name="s" class="searchtext" size=15 value="<#if search?exists>${search}</#if>"/>
 		<button type="submit">搜索</button>
@@ -34,10 +34,10 @@
 <div class="fixed"></div>
 <#if searches?exists>
 <div id="saved_searches">
-<h3>保存的搜索<a id="show_add_search" href="javascript:;">+</a></h3>
+<h3>保存的搜索<a id="show_add_search" href="javascript:;">⊕</a></h3>
 <form method="POST" action="/action" onsubmit="return onAddSearch(this);" id="add_search_form" style="display:none;"><input type="hidden" name="type" value="addquery"><input size="8" id="add_search_query" name="query"/><input id="btn_add_search" type="submit" value="添加"></form>
 <#list searches as s>
-<p id="saved_search_${s.id?c}" class="search"><a  href="/search?s=${s.name?url('utf-8')}">#${s.name}</a><a href="javascript:;" class="del_saved_search" style="display:none;" rel="${s.id?c}">X</a><p>
+<p id="saved_search_${s.id?c}" class="search"><a  href="/search?s=${s.name?url('utf-8')}">#${s.name}</a><a href="javascript:;" class="del_saved_search" style="display:none;" rel="${s.id?c}">✗</a><p>
 </#list>
 </div>
 </#if>
@@ -64,20 +64,18 @@
 
 <div class="fixed"></div>
 <div class="tweet_tip">
-<hr>
-请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
+☞请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
 </div>
 <div class="fixed"></div>
 <div class="tweet_tip">
 <hr>
-<span>提示</span>
+<span>♨提示</span>
 <p>请收藏<a href="http://jteet.com" target="_blank">http://jteet.com</a>或关注我的帐号（<a href="/@sospartan" title="/@sospartan">@sospartan</a>），我会通过以上方式提供最新的使用方法，避免GFW带来不便</p>
 <p>如果发现问题或者大家有什么建议，请<a href="http://code.google.com/p/javatweet/issues/list" target="_blank" title="new issue">及时反馈给我们</a></p>
 </div>
 <div class="fixed"></div>
 
 <div class="tweet_tip">
-<hr>
 <span>给洒家买碗酒?</span>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">

@@ -16,15 +16,15 @@
 		</span>
 		<span class="tweet_id">${s.id?c}</span>
 		<span class="tweet_action">
-			<a href="javascript:void(0);" class="tweet_action_reply">回复</a>
-			<a href="javascript:void(0);" class="tweet_action_rt">锐推</a>
+			<a href="javascript:void(0);" class="tweet_action_reply" title="回复">@</a>
+			<a href="javascript:void(0);" class="tweet_action_rt" title="锐推">RT</a>
 			<#if s.favorited>
-				<a href="javascript:void(0);" class="tweet_action_unfavor">取消收藏</a>			
+				<a href="javascript:void(0);" class="tweet_action_unfavor" title="取消收藏">★</a>			
 			<#else>
-				<a href="javascript:void(0);" class="tweet_action_favor">收藏</a>
+				<a href="javascript:void(0);" class="tweet_action_favor" title="收藏">☆</a>
 			</#if>
 			<#if user.screenName?lower_case == s.user.screenName?lower_case>
-				<a href="javascript:void(0);" class="tweet_action_del">删除</a>
+				<a href="javascript:void(0);" class="tweet_action_del" title="删除">✗</a>
 			</#if>
 		</span>
 	</div>

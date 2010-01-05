@@ -517,7 +517,7 @@ function onFavor(id, callback, param)
 
 function onUnFavor(id, callback, param)
 {
-	msg = "确实要删除对ID为：" + id + "的Tweet的收藏吗？";
+	msg = "确定要删除这条收藏吗？";
 	if(confirm(msg))
 	{
 		param.after(img_small_loader);
@@ -577,7 +577,7 @@ function onFollow(id, callback, param)
 
 function onUnFollow(id, callback, param)
 {
-	msg = "确实要取消对" + id + "的跟踪吗？";
+	msg = "确实要取消对" + id + "的关注吗？";
 
 	if(confirm(msg))
 	{
@@ -715,7 +715,7 @@ function onSendMessage(id, callback, param)
 
 function onDeleteMessage(id, callback, param)
 {
-	msg = "确实要删除ID为：" + id + "的消息吗？";
+	msg = "确定要删除这条推吗？";
 	if(confirm(msg))
 	{
 		param.after(img_small_loader);

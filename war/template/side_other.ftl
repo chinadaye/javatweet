@@ -51,7 +51,7 @@
 
 <div class="fixed"></div>
 <div class="tweet_tip">
-<hr>
+
 请在推中添加<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
 </div>
 <div class="fixed"></div>
@@ -61,7 +61,7 @@
 <p>本客户端还处在开发和大规模的修改中，如果发现问题或者大家有什么建议，请<a href="http://code.google.com/p/javatweet/issues/list" target="_blank" title="new issue">及时反馈给我们</a></p>
 </div>
 <div class="fixed"></div>
-<hr>
+
 <div class="tweet_tip">
 <span>给洒家买碗酒?</span>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">

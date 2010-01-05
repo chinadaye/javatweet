@@ -74,9 +74,9 @@ $("a.tweet_action_favor").live(
 			favor_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
 			function callback(param)
 			{
-				param.text("取消收藏");
+				param.text("★");
+				param.attr("title",'取消收藏')
 				param.attr("class", "tweet_action_unfavor");
-				//alert(favor_id);
 			};
 			onFavor(favor_id, callback, $(this));
 		}
@@ -89,9 +89,9 @@ $("a.tweet_action_unfavor").live(
 			favor_id = $(this).parents("div.tweet_content").children("span.tweet_id").text();
 			function callback(param)
 			{
-				param.text("收藏");
+				param.text("☆");
+				param.attr("title",'收藏')
 				param.attr("class", "tweet_action_favor");
-				//alert(favor_id);
 			};
 			onUnFavor(favor_id, callback, $(this));
 		}
