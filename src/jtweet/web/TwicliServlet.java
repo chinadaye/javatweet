@@ -20,7 +20,7 @@ import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 
 
 @SuppressWarnings("serial")
-public class ImglyServlet extends JTweetServlet {
+public class TwicliServlet extends JTweetServlet {
 
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +38,7 @@ public class ImglyServlet extends JTweetServlet {
 			URLFetchService urlFetch = URLFetchServiceFactory
 					.getURLFetchService();
 			String url;
-			url = "http://img.ly/api/upload";
+			url = "http://twic.li/api/uploadPhoto";
 			HTTPRequest httpreq = new HTTPRequest(new URL(url), HTTPMethod.POST);
 			httpreq.addHeader(new HTTPHeader("Connection", "Keep-Alive"));
 			String contenttype = req.getContentType();
@@ -70,10 +70,10 @@ public class ImglyServlet extends JTweetServlet {
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
 
 			if (httpresp.getResponseCode() == 200) {
-				Imgly twitpic = new Imgly(httpresp.getContent());
+				Twicli twitpic = new Twicli(httpresp.getContent());
 				if (twitpic.isok()) {
 					msg = "Your Pic have beed Tweeted Successfully!";
-					imgurl  = "http://img.ly/"+twitpic.getMediaid();
+					imgurl  = "http://twic.li/"+twitpic.getMediaid();
 				} else {
 					msg = "Failed, Error Message：" + twitpic.getErrmsg();
 				}

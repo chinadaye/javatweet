@@ -30,6 +30,20 @@ public class TweetParser {
 		}
 		
 		alreadyMatches.clear();
+		//twcili 
+		regex = "http://twic\\.li\\/([\\w]+)\\s?";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
+			images += "<img src=\"http://twic.li/api/photo.jpg?id="+mt.group(1)+"&size=small\" class=\"twitpic\">";
+		}
+		
+		//imgur api key:795d9078195b10b18e2ccb0805a2a37b
+		
+		alreadyMatches.clear();
 		//twitgoo
 		regex = "http://twitgoo\\.com\\/([\\w]{5})\\s?";
 		mt = Pattern.compile(regex).matcher(text);

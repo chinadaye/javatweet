@@ -17,8 +17,10 @@ var last_status_id = 0;
 
 $(document).ready(function(){
 	$("#ajax_loader").hide();
+	
+	
 	if($("#uploadimg").length>0){
-		new AjaxUpload('#uploadimg', {
+		new AjaxUpload('#uploadimgly', {
 			name:'media',
 			action: '/imgly',
 			responseType:'json',
@@ -34,7 +36,28 @@ $(document).ready(function(){
 				}else{
 					alert('上传出错,请稍候重试'+(response.error?respon.error:""));
 				}
-				$('#uploadimg').text('上传图片');				
+				$('#uploadimg').text('上传完成');
+				setTimeout(function(){$('#uploadimg').text('上传图片');},1000);
+			}		
+		});
+		new AjaxUpload('#uploadtwicli', {
+			name:'photo',
+			action: '/twicli',
+			responseType:'json',
+			onSubmit : function(file , ext){
+				if (ext && /^(jpg|png|jpeg|gif)$/.test(ext)){
+					$('#uploadimg').text('请稍候..');	
+				}
+			},
+			onComplete : function(file, response){
+				console.log(response);
+				if(response&&response.imgurl){
+					$("#tweet_msg").val($("#tweet_msg").val()+" "+response.imgurl);
+				}else{
+					alert('上传出错,请稍候重试'+(response.error?respon.error:""));
+				}
+				$('#uploadimg').text('上传完成');
+				setTimeout(function(){$('#uploadimg').text('上传图片');},1000);
 			}		
 		});
 	}

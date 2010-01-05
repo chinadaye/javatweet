@@ -34,9 +34,9 @@
                                 <div class="wrapper">
 	<div id="statuses" class="statuses">
 			<form action="/send" method="POST">
-			<span class="tweet_tip">给<input id="user_followers" type="text" name="user_id" size="15" >发送私信</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
+			<span class="tweet_tip">给<input id="user_followers" type="text" name="user_id" size="15" >发送私信&nbsp;&nbsp;<a id="btn_shorturl" href="javascript:;">缩短链接</a>&nbsp;&nbsp;<span id="uploadimg">上传图片</span>(<a href="javascript:;" id="uploadimgly">img.ly</a>&nbsp;&nbsp;<a href="javascript:;" id="uploadtwicli">twic.li</a>)</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
+			
 			<textarea id="tweet_msg" name="tweet_msg"></textarea><br />
-			<input type="button" id="btn_shorturl" value="缩短链接">
 			<input type="submit" id="tweet_submit" value="发送！">
 			</form>
 		</div>
@@ -82,7 +82,8 @@
 <script type="text/javascript" src="/js/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="/js/jquery.ajaxQueue.js"></script>
 <script type="text/javascript" src="/js/jquery.autocomplete.min.js"></script>
-<script type="text/javascript" src="/js/func.js?20091231"></script>
+<script type="text/javascript" src="/js/jquery.ajaxupload.js"></script>
+<script type="text/javascript" src="/js/func.js?20100105"></script>
 <script type="text/javascript" src="/js/message.js"></script>
 </body>
 </html>

@@ -56,14 +56,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Status</servlet-name>
 		<servlet-class>jtweet.web.StatusServlet</servlet-class>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>Imgly</servlet-name>
-		<url-pattern>/imgly</url-pattern>
-	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>Imgly</servlet-name>
 		<servlet-class>jtweet.web.ImglyServlet</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>Imgly</servlet-name>
+		<url-pattern>/imgly</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Twicli</servlet-name>
+		<servlet-class>jtweet.web.TwicliServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Twicli</servlet-name>
+		<url-pattern>/twicli</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>Status</servlet-name>
 		<url-pattern>/status</url-pattern>

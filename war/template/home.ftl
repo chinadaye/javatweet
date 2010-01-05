@@ -35,11 +35,7 @@
             <tr>
               <td id="content" class="round-left column">
                                 <div class="wrapper">
-	<div id="statuses" class="statuses">
-			<span class="tweet_tip">你在做什么？ 按Ctrl+Enter快捷发布&nbsp;&nbsp;<a id="btn_shorturl" href="javascript:;">缩短链接</a>&nbsp;&nbsp;<a href="javascript:;" id="uploadimg">上传图片</a></span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
-			<textarea id="tweet_msg" name="tweet_msg"></textarea><br />
-			<button id="tweet_submit">我推！</button>
-		</div>
+	<#include "statusform.ftl" />
 		<div class="fixed"></div>
 		<#if page == 1><div id="action_div"><a href="javascript:;" id="income_alert" style="display:none;">有新消息</a></div></#if>
 		<div class="fixed"></div>
@@ -73,7 +69,7 @@
 	<div class="fixed"></div>
 </div>
 <script type="text/javascript" src="/js/jquery.ajaxupload.js"></script>
-<script type="text/javascript" src="/js/func.js?20091231"></script>
+<script type="text/javascript" src="/js/func.js?20100105"></script>
 <#if addjs?exists>
 	<script type="text/javascript" src="${addjs}?091225"></script>
 </#if>
