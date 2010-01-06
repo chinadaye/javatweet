@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import jtweet.HotTopics;
 import jtweet.Exception.NotLoginException;
 
 import freemarker.template.Template;
@@ -31,7 +32,25 @@ public class SearchServlet extends JTweetServlet {
 		try {
 			
 			this.revertAccount(req);
-			if (s.length() > 0) {
+			int len = s.length();
+			if (len > 0) {
+				if(len>2){
+					int r=0;
+					String news ="";
+					for(int i =0;i<len;i++){
+						String sub = s.substring(i, i+1);
+						if(sub.matches("[\u4e00-\u9fa5]")){
+							r++;
+						}
+						if(r==2){
+							r=0;
+							news += sub+" ";
+						}else{
+							news += sub;
+						}
+					}
+					s = news.replaceAll("\\s{2,}", " ");
+				}
 				getSearch(req, resp);
 			} else {
 				this.showError(req, resp, "搜索关键字不能为空");
@@ -70,10 +89,10 @@ public class SearchServlet extends JTweetServlet {
 		this.twitter.setSearchBaseURL(JTweetServlet.getRandomBaseUrl());
 		QueryResult result = twitter.search(query);
 		List<Tweet> tweets = result.getTweets();
-		if(isLogin){
 		root.put("user", this.getCachedUser());
 		root.put("searches",this.getCachedSavedSearch());
-		}
+		root.put("trends",this.getTrend());
+		root.put("rebang",HotTopics.getTopics());
 		root.put("search", s);
 		root.put("addjs", "/js/search.js");
 		root.put("page", page);
