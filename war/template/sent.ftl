@@ -4,7 +4,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>私信 -Jteet</title>
+	<title>私信-发件箱 -Jteet</title>
 	<link type="text/css" href="/img/style-all20091030.css" rel="stylesheet" />
 	<link type="text/css" href="/js/jquery.autocomplete.css" rel="stylesheet"/>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
@@ -35,7 +35,6 @@
 	<div id="statuses" class="statuses">
 			<form action="/send" method="POST">
 			<span class="tweet_tip">给<input id="user_followers" type="text" name="user_id" size="15">发送私信&nbsp;&nbsp;<a id="btn_shorturl" href="javascript:;">缩短链接</a>&nbsp;&nbsp;<span id="uploadimg">上传图片</span>(<a href="javascript:;" id="uploadimgly">img.ly</a>&nbsp;&nbsp;<a href="javascript:;" id="uploadtwicli">twic.li</a>)</span><span class="tweet_count_info">剩余：<span id="tweet_count" class="tweet_count_green">140</span>字</span><br />
-			<a id="btn_shorturl" href="javascript:;">缩短链接</a>&nbsp;&nbsp;<span id="uploadimg">上传图片</span>(<a href="javascript:;" id="uploadimgly">img.ly</a>&nbsp;&nbsp;<a href="javascript:;" id="uploadtwicli">twic.li</a>)<br>
 			<textarea id="tweet_msg" name="tweet_msg"></textarea><br />
 			<input type="submit" id="tweet_submit" value="发送！">
 			</form>

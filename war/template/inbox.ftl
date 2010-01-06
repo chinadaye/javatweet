@@ -4,7 +4,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>私信 -Jteet</title>
+	<title>私信-收件箱 -Jteet</title>
 	<link type="text/css" href="/img/style-all20091030.css" rel="stylesheet" />
 	<link type="text/css" href="/js/jquery.autocomplete.css" rel="stylesheet"/>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" ></script>
