@@ -84,4 +84,6 @@
 <input type="image" src="https://www.paypal.com/zh_XC/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — 最安全便捷的在线支付方式！">
 <img alt="" border="0" src="https://www.paypal.com/zh_XC/i/scr/pixel.gif" width="1" height="1">
 </form>
+<br>
+<a href="http://www.xiami.com/radio/play/type/4/oid/2" title="播放@sospartan的中央人民广播电台" target="_blank"><img src="/img/radio.png" width="170"></a>
 </div>
