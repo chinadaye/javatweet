@@ -92,6 +92,17 @@ public class TweetParser {
 			alreadyMatches.add(mt.group());
 			bobo += "<embed src=\"http://www.xiami.com/widget/2_"+mt.group(1)+"/singlePlayer.swf\" type=\"application/x-shockwave-flash\" width=\"257\" height=\"33\" wmode=\"transparent\"></embed>";
 		}
+		//http://twaud.io/
+		alreadyMatches.clear();
+		regex = "http://twaud\\.io/([\\w]+)\\s?";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
+			bobo += "<embed type=\"application/x-shockwave-flash\" src=\"http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl=http://twaud.io/audio/"+mt.group(1)+"\" width=\"400\" height=\"27\" allowscriptaccess=\"never\" quality=\"best\" bgcolor=\"#ffffff\" wmode=\"window\" flashvars=\"playerMode=embedded\" />";
+		}
 		
 		alreadyMatches.clear();
 		//img.ly
@@ -141,6 +152,7 @@ public class TweetParser {
 		
 		return "<div class=\"twittertext "+mentionUsers+"\">" + text +"</div>"+images+bobo;
 	}
+	@Deprecated
 	public static String parseText(String text)
 	{
 		Perl5Util perl = new Perl5Util();
