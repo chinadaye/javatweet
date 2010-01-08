@@ -43,6 +43,18 @@ public class TweetParser {
 		
 		//imgur api key:795d9078195b10b18e2ccb0805a2a37b
 		
+		//http://moby.to/ktov1t
+		alreadyMatches.clear();
+		regex = "http://moby\\.to\\/([\\w]+)\\s?";
+		mt = Pattern.compile(regex).matcher(text);
+		while(mt.find()){
+			if(alreadyMatches.contains(mt.group())){
+				continue;
+			}
+			alreadyMatches.add(mt.group());
+			images += "<img src=\"http://api.mobypicture.com?t="+mt.group()+"&s=small&k=7A6KUc5NPsXyC2v3&format=plain\" class=\"twitpic\">";
+		}
+		
 		alreadyMatches.clear();
 		//twitgoo
 		regex = "http://twitgoo\\.com\\/([\\w]{5})\\s?";
