@@ -543,6 +543,7 @@ public class JTweetServlet extends HttpServlet {
 				};
 		Random rand = new Random();
 		int r = rand.nextInt(proxys.length-1);
+		logger.info("using proxy:"+proxys[r]);
 		return proxys[r];
 	}
 }

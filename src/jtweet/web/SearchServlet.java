@@ -30,7 +30,11 @@ public class SearchServlet extends JTweetServlet {
 		resp.setContentType("text/html; charset=UTF-8");
 		s = req.getParameter("s");
 		try {
-			
+			String search_people = req.getParameter("search_people");
+			if(search_people!=null&&search_people.equals("1")){
+				resp.sendRedirect("/@"+s);
+				return;
+			}
 			this.revertAccount(req);
 			int len = s.length();
 			if (len > 0) {

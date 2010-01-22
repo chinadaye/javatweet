@@ -6,8 +6,8 @@
 	 <li><a href="/reply" >回复</a></li>
 	 <li><a href="/inbox">私信</a></li>
 	 <li><a href="/public">公共页面</a></li>
-	 <li><a href="/twitpic">TwitPic</a></li>
-	 <li><a href="/twitgoo">Twitgoo</a></li>
+	 <!--<li><a href="/twitpic">TwitPic</a></li>
+	 <li><a href="/twitgoo">Twitgoo</a></li>-->
 	 <li><a href="/setting" >设置</a></li>
 	 <li><a id="link_logout" href="/logout">退出</a></li>
 	 <#else>

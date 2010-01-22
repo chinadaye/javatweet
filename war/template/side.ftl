@@ -29,6 +29,7 @@
 <form action="/search" method="get" id="searchform">
 		<input type="text" name="s" class="searchtext" size=15 value="<#if search?exists>${search}</#if>"/>
 		<button type="submit">搜索</button>
+		<label for="search_people" style="display:block;"><input type="checkbox" name="search_people" id="search_people" value="1">搜人</label>
 	</form>
 
 <div class="fixed"></div>
