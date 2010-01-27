@@ -2,7 +2,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 <#list status as s>
 	<div id="tweet_${s.id?c}" class="tweets<#if addclass?exists> ${addclass}</#if>">
-	<div class="user_img_div"><a href="/@${s.user.screenName}"><img src="http://img.tweetimag.es/i/${s.user.screenName}_n" class="user_img" alt="${s.user.screenName}"/></a></div>
+	<div class="user_img_div"><a href="/@${s.user.screenName}"><img src="${s.user.profileImageURL}" class="user_img" alt="${s.user.screenName}"/></a></div>
 	<div class="tweet_content">
 		<span class="tweet_user"><a href="/@${s.user.screenName}">${s.user.screenName}</a></span>
 		<span class="tweet_text">${s.html}</span>

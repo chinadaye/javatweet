@@ -27,7 +27,7 @@
 			<span class="status_time">发表于${status.createdAt?datetime}</span>
 		</div>
 		<div id="status_user_warp">
-			<img src="http://img.tweetimag.es/i/${status.user.screenName}_b" alt="${status.user.screenName}" class="user_img_big" />
+			<img src="${status.user.profileImageURL}" alt="${status.user.screenName}" class="user_img_big" />
 			<div class="user_name_div">
 				<a href="/@${status.user.screenName}" class="status_user_screenname">${status.user.screenName}</a>
 				<span class="status_user_name">${status.user.name}</span>

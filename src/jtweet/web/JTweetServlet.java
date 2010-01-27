@@ -534,7 +534,7 @@ public class JTweetServlet extends HttpServlet {
 				"http://sly9.net/upload/twip/",
 				//"http://xingmie.byethost11.com/twip/",
 				"http://labs.swfjunkie.com/tweetr/proxy/",
-				"http://heix.pp.ru/api",
+				//"http://heix.pp.ru/api",
 				//"http://catuncle.byethost33.com/twip/",
 				//"http://s60jj.com/o/",
 				//"http://loof.us/api/",

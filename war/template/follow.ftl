@@ -26,7 +26,7 @@
 				<span class="name">${user_show.screenName}的${title}:</span><br />
 				<#list follow as f>
 				<div id="follow_${f.id}" class="follow_status">
-					<div class="user_img_div"><img src="http://img.tweetimag.es/i/${f.screenName}_n" alt="${f.screenName}" class="user_img"/></div>
+					<div class="user_img_div"><img src="${f.profileImageURL}" alt="${f.screenName}" class="user_img"/></div>
 					<div class="follow_content">
 						<span class="follow_name"><a href="/@${f.screenName}">${f.screenName}</a></span>
 	 <#if user?exists><span class="follow_action"><a href="/inbox#send:${f.screenName}" class="follow_action_msg">发送消息</a></span></#if>

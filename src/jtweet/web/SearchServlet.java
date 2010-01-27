@@ -93,6 +93,7 @@ public class SearchServlet extends JTweetServlet {
 		this.twitter.setSearchBaseURL(JTweetServlet.getRandomBaseUrl());
 		QueryResult result = twitter.search(query);
 		List<Tweet> tweets = result.getTweets();
+		logger.info(s+":"+tweets.size());
 		root.put("user", this.getCachedUser());
 		root.put("searches",this.getCachedSavedSearch());
 		root.put("trends",this.getTrend());
