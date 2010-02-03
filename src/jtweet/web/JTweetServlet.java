@@ -538,7 +538,9 @@ public class JTweetServlet extends HttpServlet {
 				//"http://catuncle.byethost33.com/twip/",
 				//"http://s60jj.com/o/",
 				//"http://loof.us/api/",
-				"http://anti-rootkit.com/twip/",
+				//"http://anti-rootkit.com/twip/",
+				"http://www.twitk.com/twip/",
+				"http://www.twitk.com/k/",
 				"http://www.yackol.org/twip/"
 				};
 		Random rand = new Random();
