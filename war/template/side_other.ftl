@@ -60,7 +60,7 @@
 <script type="text/javascript"><!--
 google_ad_client = "pub-1305880357357597";
 /* 200x200, created 2/20/10 */
-google_ad_slot = "3471295596";
+google_ad_slot = "9718529863";
 google_ad_width = 200;
 google_ad_height = 200;
 //-->
