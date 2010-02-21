@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
 
 import jtweet.Encrypt;
 import jtweet.HotTopics;
-import jtweet.JtweetServlet;
 import jtweet.Exception.NotLoginException;
 
 import twitter4j.DirectMessage;
@@ -246,12 +245,12 @@ public class HomeServlet extends JTweetServlet {
 
 		List<Status> statuses = this.twitter.getFriendsTimeline(paging);
 		this.cacheStatuses(statuses);
-		
-		root.put("at","home_"+paging.getPage());
+
+		root.put("at", "home_" + paging.getPage());
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
-		root.put("trends",this.getTrend());
-		root.put("rebang",HotTopics.getTopics());
+		root.put("trends", this.getTrend());
+		root.put("rebang", HotTopics.getTopics());
 		root.put("title", "首页");
 		root.put("addjs", "/js/home.js");
 		root.put("uri", uri);
@@ -275,8 +274,8 @@ public class HomeServlet extends JTweetServlet {
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
-		root.put("trends",this.getTrend());
-		root.put("rebang",HotTopics.getTopics());
+		root.put("trends", this.getTrend());
+		root.put("rebang", HotTopics.getTopics());
 		root.put("title", "回复");
 		root.put("addjs", "/js/reply.js");
 		root.put("uri", uri);
@@ -299,8 +298,8 @@ public class HomeServlet extends JTweetServlet {
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
-		root.put("trends",this.getTrend());
-		root.put("rebang",HotTopics.getTopics());
+		root.put("trends", this.getTrend());
+		root.put("rebang", HotTopics.getTopics());
 		root.put("title", "公共页面");
 		root.put("addjs", "/js/public.js");
 		root.put("uri", uri);
@@ -323,8 +322,8 @@ public class HomeServlet extends JTweetServlet {
 		this.cacheStatuses(statuses);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
-		root.put("trends",this.getTrend());
-		root.put("rebang",HotTopics.getTopics());
+		root.put("trends", this.getTrend());
+		root.put("rebang", HotTopics.getTopics());
 		root.put("title", "收藏");
 		root.put("addjs", "/js/favor.js");
 		root.put("uri", uri);
@@ -366,8 +365,8 @@ public class HomeServlet extends JTweetServlet {
 		List<DirectMessage> msg = twitter.getDirectMessages(paging);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
-		root.put("trends",this.getTrend());
-		root.put("rebang",HotTopics.getTopics());
+		root.put("trends", this.getTrend());
+		root.put("rebang", HotTopics.getTopics());
 		root.put("title", "私信收件箱");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
@@ -387,8 +386,8 @@ public class HomeServlet extends JTweetServlet {
 		List<DirectMessage> msg = twitter.getSentDirectMessages(paging);
 		root.put("user", this.getCachedUser());
 		root.put("searches", this.getCachedSavedSearch());
-		root.put("trends",this.getTrend());
-		root.put("rebang",HotTopics.getTopics());
+		root.put("trends", this.getTrend());
+		root.put("rebang", HotTopics.getTopics());
 		root.put("title", "私信发件箱");
 		root.put("uri", uri);
 		root.put("page", paging.getPage());
@@ -415,17 +414,21 @@ public class HomeServlet extends JTweetServlet {
 		if (this.twitter.existsBlock(uid)) {
 			root.put("is_block", "1");
 		}
-		if (this.twitter.existsFriendship(this.getUsername(), uid)) {
-			root.put("is_follow", "1");
+		try {
+			if (this.twitter.existsFriendship(this.getUsername(), uid)) {
+				root.put("is_follow", "1");
+			}
+		} catch (Exception e) {
+			// root.put("is_follew", "0");
 		}
-		try{
-			if(this.twitter.existsFriendship(uid, this.getUsername())){
+		try {
+			if (this.twitter.existsFriendship(uid, this.getUsername())) {
 				root.put("is_follew", "1");
 			}
-		}catch(Exception e){
-			//root.put("is_follew", "0");
+		} catch (Exception e) {
+			// root.put("is_follew", "0");
 		}
-		
+
 		root.put("user_show", user);
 		root.put("title", "时间线");
 		root.put("uri", uri);
@@ -435,10 +438,14 @@ public class HomeServlet extends JTweetServlet {
 			List<Status> statuses = this.getCachedUserTimeline(uid, true);
 			this.cacheStatuses(statuses);
 			root.put("status", statuses);
-		} else if (!user.isProtected()) {
+		} else /*if (!user.isProtected())*/ {
+			try{
 			List<Status> statuses = this.getCachedUserTimeline(uid, false);
 			this.cacheStatuses(statuses);
 			root.put("status", statuses);
+			}catch (TwitterException e) {
+				JTweetServlet.logger.warning(e.getMessage());
+			}
 		}
 
 		Template t = config.getTemplate("user.ftl");
@@ -485,7 +492,7 @@ public class HomeServlet extends JTweetServlet {
 		 * 限制count是显示的内容有异常 可能是官方api的问题 各客户端都存在 暂时去掉
 		 */
 		paging = new Paging(paging.getPage());
-		
+
 		List<User> follower;
 		root.put("title", "关注者");
 		root.put("user", this.showCachedUser(this.getUsername(), true));
@@ -512,7 +519,7 @@ public class HomeServlet extends JTweetServlet {
 		 * 限制count是显示的内容有异常 可能是官方api的问题 各客户端都存在 暂时去掉
 		 */
 		paging = new Paging(paging.getPage());
-		
+
 		List<User> following;
 		root.put("title", "朋友");
 		if (this.isLogin)
