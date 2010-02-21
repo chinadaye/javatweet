@@ -42,7 +42,7 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class JTweetServlet extends HttpServlet {
 	protected Twitter twitter = new Twitter();
-	protected Paging paging = new Paging(1,20);
+	protected Paging paging = new Paging(1, 20);
 	private String username = null;
 	private String passwd = null;
 	public static final String ACCOUNT_COOKIE_NAME = "up";
@@ -60,10 +60,10 @@ public class JTweetServlet extends HttpServlet {
 		twitter.setRetryCount(2);
 		twitter.setUserId(id);
 		twitter.setPassword(passwd);
-		/*if (APIURL.useproxy) {
-			twitter.setBaseURL(APIURL.url);
-			twitter.setSearchBaseURL(APIURL.url);
-		}*/
+		/*
+		 * if (APIURL.useproxy) { twitter.setBaseURL(APIURL.url);
+		 * twitter.setSearchBaseURL(APIURL.url); }
+		 */
 		twitter.setBaseURL("http://twitter.com/");
 		twitter.setSource("JTweet");
 		twitter.setClientURL("http://code.google.com/p/javatweet/");
@@ -182,33 +182,32 @@ public class JTweetServlet extends HttpServlet {
 
 	protected void revertAccount(HttpServletRequest req)
 			throws NotLoginException {
-			Cookie[] cookies = req.getCookies();
-			Cookie accountCookie = null;
-			if (cookies != null) {
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals(
-							JTweetServlet.ACCOUNT_COOKIE_NAME)) {
-						accountCookie = cookie;
-						break;
-					}
+		Cookie[] cookies = req.getCookies();
+		Cookie accountCookie = null;
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(JTweetServlet.ACCOUNT_COOKIE_NAME)) {
+					accountCookie = cookie;
+					break;
 				}
-			}else {
-				throw new NotLoginException();
 			}
-			if (accountCookie != null&&accountCookie.getValue().length()>5) {
-				String[] accountString = Encrypt.decodeAccount(accountCookie
-						.getValue());
-				if (accountString != null) {
-					username = accountString[0];
-					passwd = accountString[1];
-				} else {
-					this.init_twitter("defaultclient", "tuitubie");
-					throw new NotLoginException();
-				}
+		} else {
+			throw new NotLoginException();
+		}
+		if (accountCookie != null && accountCookie.getValue().length() > 5) {
+			String[] accountString = Encrypt.decodeAccount(accountCookie
+					.getValue());
+			if (accountString != null) {
+				username = accountString[0];
+				passwd = accountString[1];
 			} else {
 				this.init_twitter("defaultclient", "tuitubie");
 				throw new NotLoginException();
 			}
+		} else {
+			this.init_twitter("defaultclient", "tuitubie");
+			throw new NotLoginException();
+		}
 		this.init_twitter(username, passwd);
 		this.isLogin = true;
 	}
@@ -525,27 +524,31 @@ public class JTweetServlet extends HttpServlet {
 		stringWriter.flush();
 		return stringWriter.toString();
 	}
-	
-	public static String getRandomBaseUrl(){
+
+	public static String getRandomBaseUrl() {
 		String[] proxys = {
 				"http://t.sharesh.cn/t/",
 				"http://itaboo.info/twip/",
 				"http://pinkmemory.co.tv/twip/",
 				"http://sly9.net/upload/twip/",
-				//"http://xingmie.byethost11.com/twip/",
+				// "http://xingmie.byethost11.com/twip/",
 				"http://labs.swfjunkie.com/tweetr/proxy/",
-				//"http://heix.pp.ru/api",
-				//"http://catuncle.byethost33.com/twip/",
-				//"http://s60jj.com/o/",
-				//"http://loof.us/api/",
-				//"http://anti-rootkit.com/twip/",
-				"http://www.twitk.com/twip/",
-				"http://www.twitk.com/k/",
-				"http://www.yackol.org/twip/"
-				};
+				// "http://heix.pp.ru/api",
+				// "http://catuncle.byethost33.com/twip/",
+				// "http://s60jj.com/o/",
+				// "http://loof.us/api/",
+				// "http://anti-rootkit.com/twip/",
+				// "http://www.twitk.com/twip/",
+				"http://www.twitk.com/k/", 
+//				"http://www.yackol.org/twip/",
+				"http://li2z.cn/t/", 
+				"http://www.madcat2008.com/twip/",
+//				"http://lenx.me/twip/", 
+				"http://sizeoriginal.com/twip/",
+				"http://wpbeta.cn/"};
 		Random rand = new Random();
-		int r = rand.nextInt(proxys.length-1);
-		logger.info("using proxy:"+proxys[r]);
+		int r = rand.nextInt(proxys.length - 1);
+		logger.info("using proxy:" + proxys[r]);
 		return proxys[r];
 	}
 }
