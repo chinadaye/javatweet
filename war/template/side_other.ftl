@@ -57,22 +57,15 @@
 <div class="fixed"></div>
 
 <div class="">
-<script type="text/javascript"> 
-alimama_pid="mm_10056631_2166294_8590032"; 
-alimama_titlecolor="0000FF"; 
-alimama_descolor ="000000"; 
-alimama_bgcolor="FFFFFF"; 
-alimama_bordercolor="E6E6E6"; 
-alimama_linkcolor="008000"; 
-alimama_bottomcolor="FFFFFF"; 
-alimama_anglesize="0"; 
-alimama_bgpic="0"; 
-alimama_icon="0"; 
-alimama_sizecode="35"; 
-alimama_width=200; 
-alimama_height=200; 
-alimama_type=2; 
-</script> 
-<script src="http://a.alimama.cn/inf.js" type="text/javascript"> 
+<script type="text/javascript"><!--
+google_ad_client = "pub-1305880357357597";
+/* 200x200, created 2/20/10 */
+google_ad_slot = "9718529863";
+google_ad_width = 200;
+google_ad_height = 200;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 </div>
