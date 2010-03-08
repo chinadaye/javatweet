@@ -66,7 +66,8 @@
 <div class="fixed"></div>
 <div class="tweet_tip">
 ☞<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
-<br>⇒<a href="/@sospartan">Follow me</a>
+<br>
+<script src="http://banner.featuredusers.com/javascript/?height=300&width=165&border=false&font=serif" type="text/javascript"></script>
 </div>
 
 
