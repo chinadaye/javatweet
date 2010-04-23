@@ -57,15 +57,5 @@
 <div class="fixed"></div>
 
 <div class="">
-<script type="text/javascript"><!--
-google_ad_client = "pub-1305880357357597";
-/* 200x200, created 2/20/10 */
-google_ad_slot = "9718529863";
-google_ad_width = 200;
-google_ad_height = 200;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+<embed src="http://a.alimama.cn/widget/yr1/yr1fixed_200_200.swf" flashvars="catid=3306&count=20&sz=35&type=1&i=mm_10056631_0_0" width="200" height="200" quality="high" wmode="transparent" bgcolor="#ffffff" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
 </div>

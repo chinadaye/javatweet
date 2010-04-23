@@ -85,6 +85,7 @@
 				<div class="error_tip">
 				<p><img alt="error"  src="/img/error.jpg" width="400"></p>
 				<p>发生了未知的异常情况，请稍候再试。<% String error = (String)request.getAttribute("error"); %><%=error!=null?error:"" %></p>
+				<p><a href="/logout">如果是由于你更换了密码，请访问这里，重新登录！！</a></p>
 				</div>
 				
 			</div>

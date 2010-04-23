@@ -67,7 +67,8 @@
 <div class="tweet_tip">
 ☞<a href="/search?s=freeliuxiaobo">#freeliuxiaobo</a>
 <br>
-<script src="http://banner.featuredusers.com/javascript/?height=300&width=165&border=false&font=serif" type="text/javascript"></script>
 </div>
-
+<div class="fixed">
+<a href="http://code.google.com/p/thestoryofmalegebi/" target="_blank"><img src="/img/malegebitandegushi.gif" width='200'></a>
+</div>
 

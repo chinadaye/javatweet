@@ -23,12 +23,16 @@ public class HotTopics {
 
 	private static String getQueries() throws MalformedURLException,
 			IOException {
+		try{
 		String pageSource = HotTopics
 				.getPageSource("http://www.google.cn/rebang/detail?bid=12000000");
 		String regex = "var queries = \\[(.+)\\];";
 		Matcher mt = Pattern.compile(regex).matcher(pageSource);
 		if (mt.find()) {
 			return mt.group(1);
+		}
+		}catch(Exception e){
+			
 		}
 		return null;
 	}
@@ -41,6 +45,8 @@ public class HotTopics {
 	@SuppressWarnings("unchecked")
 	public static List<String> getTopics() throws MalformedURLException,
 			IOException {
+		if(true)
+		return null;
 		ArrayList<String> topics = (ArrayList<String>) GCache
 				.get("hot_trends_g_cn");
 		if (topics == null) {
