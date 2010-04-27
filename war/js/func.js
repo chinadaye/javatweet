@@ -210,7 +210,7 @@ function checkHome(){
 	if(last_status_id==0){
 		last_status_id =$("div#tweet_warp div.tweets:first-child").children("div.tweet_content").children("span.tweet_id").text();
 	}
-	if($("div#tweet_warp div.tweets").length>50&&$("#tweet_msg").val().match(/\S+/)==null&&$("a#income_alert:visible").length!=1){
+	if($("div#tweet_warp div.tweets").length>100&&$("#tweet_msg").val().match(/\S+/)==null&&$("a#income_alert:visible").length!=1){
 		window.location.reload();
 		return ;
 	}

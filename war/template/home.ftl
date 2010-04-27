@@ -69,7 +69,7 @@
 	<div class="fixed"></div>
 </div>
 <script type="text/javascript" src="/js/jquery.ajaxupload.js"></script>
-<script type="text/javascript" src="/js/func.js?20100105"></script>
+<script type="text/javascript" src="/js/func.js?20100325"></script>
 <#if addjs?exists>
 	<script type="text/javascript" src="${addjs}?091225"></script>
 </#if>
