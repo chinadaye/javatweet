@@ -15,6 +15,7 @@
 	<a href="/follower" class="side_user_link"><span class="side_count" id="side_count_followers">${user.followersCount}</span><br/><span class="side_tip">关注者</span></a>
 	<a href="/@${user.screenName}" class="side_user_link side_user_link_last"><span class="side_count" id="side_count_statuses">${user.statusesCount}</span><br/><span class="side_tip">推</span></a>
 </div>
+
 <div class="fixed"></div>
 <div class="side_link_content">
 	<a href="/home" class="side_link">首页</a>
@@ -25,7 +26,12 @@
 </div>
 <div class="fixed"></div>
 </#if>
-
+<div class="fixed">
+</div>
+<div>
+<p>吾家表妹（学生）新开滴店，全场包邮！大家多多捧场，就说表哥介绍来的，就有额外优惠！！</p>
+<a href="http://idreams.taobao.com" target="_blank"><img src="/img/idream.png" width='190'></a>
+</div>
 <form action="/search" method="get" id="searchform">
 		<input type="text" name="s" class="searchtext" size=15 value="<#if search?exists>${search}</#if>"/>
 		<button type="submit">搜索</button>
