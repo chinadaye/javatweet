@@ -13,46 +13,36 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public class Twitpic {
-	
+
 	protected String mediaid = null;
 	protected int errcode = 0;
 	protected String errmsg = null;
-	
-	public Twitpic(byte[] resp)
-	{
-        DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
+
+	public Twitpic(byte[] resp) {
+		DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder dombuilder = domfac.newDocumentBuilder();
 			ByteArrayInputStream bis = new ByteArrayInputStream(resp);
 			Document doc = dombuilder.parse(bis);
 			Element root = doc.getDocumentElement();
 			String rsp = root.getAttribute("status");
-			if(rsp.equalsIgnoreCase("ok"))
-			{
-				if(root.getElementsByTagName("mediaid").getLength() > 0)
-				{
+			if (rsp.equalsIgnoreCase("ok")) {
+				if (root.getElementsByTagName("mediaid").getLength() > 0) {
 					mediaid = root.getElementsByTagName("mediaid").item(0).getTextContent();
-				}
-				else
-				{
+				} else {
 					errcode = -1;
 					errmsg = "Other Error.";
 				}
-			}
-			else
-			{
-				if(root.getElementsByTagName("err").getLength() > 0)
-				{
+			} else {
+				if (root.getElementsByTagName("err").getLength() > 0) {
 					Node errnode = root.getElementsByTagName("err").item(0);
 					errcode = Integer.parseInt(errnode.getAttributes().getNamedItem("code").getNodeValue());
 					errmsg = errnode.getAttributes().getNamedItem("msg").getNodeValue();
-				}
-				else
-				{
+				} else {
 					errcode = -1;
 					errmsg = "Other Error.";
 				}
-				
+
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -72,26 +62,24 @@ public class Twitpic {
 			e.printStackTrace();
 		}
 	}
-	
-	public String getMediaid()
-	{
+
+	public String getMediaid() {
 		return mediaid;
 	}
-	
-	public int getErrcode()
-	{
+
+	public int getErrcode() {
 		return errcode;
 	}
-	
-	public String getErrmsg()
-	{
+
+	public String getErrmsg() {
 		return errmsg;
 	}
-	
-	public boolean isok()
-	{
-		if(errcode == 0) return true;
-		else return false;
+
+	public boolean isok() {
+		if (errcode == 0)
+			return true;
+		else
+			return false;
 	}
 
 }

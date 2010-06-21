@@ -8,27 +8,23 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
-
-
 public class Encrypt {
 	private static Logger log = Logger.getLogger(Encrypt.class.getName());
 	public final static String accountSeperator = ":";
-	
-	private static String key = "1234abcd"; //8个字母或数字
-	
 
+	private static String key = "1234abcd"; // 8个字母或数字
 
 	private static String decrypt(String message) throws Exception {
-		byte[] bytesrc =convertHexString(message); 
-		Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding"); 
-		DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8")); 
-		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES"); 
-		SecretKey secretKey = keyFactory.generateSecret(desKeySpec); 
+		byte[] bytesrc = convertHexString(message);
+		Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+		DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8"));
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+		SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
 		IvParameterSpec iv = new IvParameterSpec(key.getBytes("UTF-8"));
 
-		cipher.init(Cipher.DECRYPT_MODE, secretKey, iv); 
-		byte[] retByte = cipher.doFinal(bytesrc); 
-		return new String(retByte); 
+		cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
+		byte[] retByte = cipher.doFinal(bytesrc);
+		return new String(retByte);
 	}
 
 	private static String encrypt(String message) throws Exception {
@@ -61,11 +57,12 @@ public class Encrypt {
 		}
 		return hexString.toString();
 	}
-	public static String[] decodeAccount(String cookieValue){
+
+	public static String[] decodeAccount(String cookieValue) {
 		try {
 			String origi = Encrypt.decrypt(cookieValue);
 			String[] parts = origi.split(Encrypt.accountSeperator);
-			if(parts.length==2&&!parts[0].equals("")&&!parts[1].equals("")){
+			if (parts.length == 4 && !parts[0].equals("") && !parts[2].equals("") && !parts[3].equals("")) {
 				return parts;
 			}
 		} catch (Exception e) {
@@ -74,16 +71,38 @@ public class Encrypt {
 		}
 		return null;
 	}
-	public static String encodeAccount(String username,String password){
-		String encryptString =null ;
+
+	public static String encodeAccount(String username, String password) {
+		String encryptString = null;
 		try {
-			encryptString =  Encrypt.encrypt(username+Encrypt.accountSeperator+password);
+			encryptString = Encrypt.encrypt(username + Encrypt.accountSeperator + password);
 		} catch (Exception e) {
 			log.warning(e.getMessage());
 		}
 		return encryptString;
 	}
 
+	public static String encodeAccount(String[] info) {
+		String encryptString = null;
+		try {
+			String infostring = combine(info, accountSeperator);
+			encryptString = Encrypt.encrypt(infostring);
+		} catch (Exception e) {
+			log.warning(e.getMessage());
+		}
+		return encryptString;
+	}
 
+	static String combine(String[] s, String glue) {
+		int k = s.length;
+		if (k == 0)
+			return null;
+		StringBuilder out = new StringBuilder();
+		out.append(s[0]);
+		for (int x = 1; x < k; ++x)
+			out.append(glue).append(s[x]);
+
+		return out.toString();
+	}
 
 }

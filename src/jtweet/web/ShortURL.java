@@ -13,9 +13,8 @@ import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 
 public class ShortURL {
-	
-	public static String getLongURL(String url)
-	{
+
+	public static String getLongURL(String url) {
 		String short_url = null;
 		String url_en;
 		try {
@@ -30,11 +29,9 @@ public class ShortURL {
 		try {
 			httpreq = new HTTPRequest(new URL("http://untiny.me/api/1.0/extract/?format=text&url=" + url_en), HTTPMethod.GET);
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			if(httpresp.getResponseCode() == 200)
-			{
+			if (httpresp.getResponseCode() == 200) {
 				String rst = new String(httpresp.getContent(), "UTF-8");
-				if(!rst.startsWith("error"))
-				{
+				if (!rst.startsWith("error")) {
 					short_url = rst;
 				}
 			}
@@ -46,11 +43,10 @@ public class ShortURL {
 			e.printStackTrace();
 		}
 		return short_url;
-		
+
 	}
-	
-	public static String getRealURL(String url)
-	{
+
+	public static String getRealURL(String url) {
 		String short_url = null;
 		String url_en;
 		try {
@@ -65,11 +61,9 @@ public class ShortURL {
 		try {
 			httpreq = new HTTPRequest(new URL("http://Realurl.net/api/?Url=" + url_en), HTTPMethod.GET);
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			if(httpresp.getResponseCode() == 200)
-			{
+			if (httpresp.getResponseCode() == 200) {
 				String rst = new String(httpresp.getContent(), "UTF-8");
-				if(!(rst.startsWith("Error") || rst.startsWith("Bad Url")))
-				{
+				if (!(rst.startsWith("Error") || rst.startsWith("Bad Url"))) {
 					short_url = rst;
 				}
 			}
@@ -81,11 +75,10 @@ public class ShortURL {
 			e.printStackTrace();
 		}
 		return short_url;
-		
+
 	}
-	
-	public static String getIsgdURL(String url)
-	{
+
+	public static String getIsgdURL(String url) {
 		String short_url = null;
 		String url_en;
 		try {
@@ -100,8 +93,7 @@ public class ShortURL {
 		try {
 			httpreq = new HTTPRequest(new URL("http://is.gd/api.php?longurl=" + url_en), HTTPMethod.GET);
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			if(httpresp.getResponseCode() == 200)
-			{
+			if (httpresp.getResponseCode() == 200) {
 				short_url = new String(httpresp.getContent(), "UTF-8");
 			}
 		} catch (MalformedURLException e) {
@@ -112,11 +104,10 @@ public class ShortURL {
 			e.printStackTrace();
 		}
 		return short_url;
-		
+
 	}
-	
-	public static String getTinyURL(String url)
-	{
+
+	public static String getTinyURL(String url) {
 		String short_url = null;
 		String url_en;
 		try {
@@ -131,10 +122,10 @@ public class ShortURL {
 		try {
 			httpreq = new HTTPRequest(new URL("http://tinyurl.com/api-create.php?url=" + url_en), HTTPMethod.GET);
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			if(httpresp.getResponseCode() == 200)
-			{
+			if (httpresp.getResponseCode() == 200) {
 				String rst = new String(httpresp.getContent(), "UTF-8");
-				if(!rst.equalsIgnoreCase("Error")) short_url = rst;
+				if (!rst.equalsIgnoreCase("Error"))
+					short_url = rst;
 			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -144,7 +135,7 @@ public class ShortURL {
 			e.printStackTrace();
 		}
 		return short_url;
-		
+
 	}
 
 }

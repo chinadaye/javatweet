@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jtweet.gae.GCache;
+import jtweet.oauth.Configuration;
+import jtweet.oauth.Utils;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
-
 
 @SuppressWarnings("serial")
 public class JTweetServlet extends HttpServlet {
@@ -26,105 +26,122 @@ public class JTweetServlet extends HttpServlet {
 	protected String browser;
 	private String username = null;
 	private String passwd = null;
-	public static final String ACCOUNT_COOKIE_NAME = "stay";  
-	
-	public void init_twitter(String id, String passwd, HttpServletRequest req)
-	{
+	private String accessToken = null;
+	private String accessTokenSecret = null;
+	public static final String ACCOUNT_COOKIE_NAME = "stay";
+
+	public void init_twitter(String id, String passwd, HttpServletRequest req) {
 		twitter = new Twitter(id, passwd);
-		if(APIURL.useproxy){
+		if (APIURL.useproxy) {
 			twitter.setBaseURL(APIURL.url);
-		} 
-		if(APIURL.usesearchproxy){
+		}
+		if (APIURL.usesearchproxy) {
 			twitter.setSearchBaseURL(APIURL.search_url);
 		}
 		twitter.setSource("JTweet");
 		twitter.setClientURL("http://code.google.com/p/javatweet/");
 		twitter.setClientVersion("r52");
 		twitter.setUserAgent(twitter.getSource() + " " + twitter.getClientURL() + " " + twitter.getClientVersion());
-		paging = new Paging(1,20);
+		paging = new Paging(1, 20);
 		String UA = req.getHeader("User-Agent");
-		if(UA == null)
-		{
+		if (UA == null) {
 			browser = "other";
-		}
-		else if(UA.contains("MSIE 6.0"))
-		{
+		} else if (UA.contains("MSIE 6.0")) {
 			browser = "ie6";
-		}
-		else if(UA.contains("MSIE 7.0"))
-		{
+		} else if (UA.contains("MSIE 7.0")) {
 			browser = "ie7";
-		}
-		else
-		{
+		} else {
 			browser = "other";
 		}
 	}
 
-	@SuppressWarnings("finally")
-	protected boolean isLogin(HttpServletRequest req)
-	{
-		HttpSession session = req.getSession(true);
-		session.setMaxInactiveInterval(3600);
-		username = (String)session.getAttribute("username");
-		passwd = (String)session.getAttribute("passwd");
-		if(username != null && passwd != null)
-		{
-			try {
-				passwd = new String(Base64.decode(passwd), "UTF-8");
-				return true;
-			} catch (Base64DecoderException e) {
-				// TODO Auto-generated catch block
-				return false;
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				return false;
-			}
+	public void twitterOAuth(String accessToken, String accessTokenSecret, HttpServletRequest req) {
+		twitter = new Twitter();
+		twitter.setOAuthConsumer(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
+		twitter.setOAuthAccessToken(accessToken, accessTokenSecret);
+		if (APIURL.useproxy) {
+			twitter.setBaseURL(APIURL.url);
 		}
-		else
-		{
-			Cookie[] cookies = req.getCookies();
-			Cookie accountCookie = null;
-			if (cookies != null)
-			{
-				for (Cookie cookie : cookies)
-				{
-					if (cookie.getName().equals(JTweetServlet.ACCOUNT_COOKIE_NAME))
-					{
-						accountCookie = cookie;
-						break;
-					}
-				}
-				if (accountCookie != null && accountCookie.getValue() != null)
-				{
-					String[] accountString = Encrypt.decodeAccount(accountCookie.getValue());
-					if (accountString != null)
-					{
-						username = accountString[0];
-						passwd = accountString[1];
-						String passwd_en;
-						try
-						{
-							passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
-							session.setAttribute("passwd", passwd_en);
-						}
-						catch (UnsupportedEncodingException e)
-						{
-							e.printStackTrace();
-						}
-						session.setAttribute("username", username);
-						return true;
-					}
-					else return false;
-				}
-				else return false;
-			}
-			return false;
+		if (APIURL.usesearchproxy) {
+			twitter.setSearchBaseURL(APIURL.search_url);
+		}
+		twitter.setSource("JTweet");
+		twitter.setClientURL("http://code.google.com/p/javatweet/");
+		twitter.setClientVersion("r52");
+		twitter.setUserAgent(twitter.getSource() + " " + twitter.getClientURL() + " " + twitter.getClientVersion());
+		paging = new Paging(1, 20);
+		String UA = req.getHeader("User-Agent");
+		if (UA == null) {
+			browser = "other";
+		} else if (UA.contains("MSIE 6.0")) {
+			browser = "ie6";
+		} else if (UA.contains("MSIE 7.0")) {
+			browser = "ie7";
+		} else {
+			browser = "other";
 		}
 	}
-	
-	protected void redirectLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException 
-	{
+
+	protected boolean isLogin(HttpServletRequest req) {
+		HttpSession session = req.getSession(true);
+		session.setMaxInactiveInterval(3600);
+		username = (String) session.getAttribute("username");
+		passwd = (String) session.getAttribute("passwd");
+		accessToken = (String) session.getAttribute("accessToken");
+		accessTokenSecret = (String) session.getAttribute("accessTokenSecret");
+
+		if (Utils.isEmptyOrNull(username))
+			return false;
+
+		if (!Utils.isEmptyOrNull(accessToken) && !Utils.isEmptyOrNull(accessTokenSecret))
+			return true;
+
+		if (!Utils.isEmptyOrNull(passwd)) {
+			try {
+				passwd = new String(Base64.decode(passwd), "UTF-8");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			Cookie[] cookies = req.getCookies();
+			Cookie accountCookie = null;
+			if (cookies == null)
+				return false;
+
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(JTweetServlet.ACCOUNT_COOKIE_NAME)) {
+					accountCookie = cookie;
+					break;
+				}
+			}
+
+			if (accountCookie == null || accountCookie.getValue() == null)
+				return false;
+
+			String[] accountString = Encrypt.decodeAccount(accountCookie.getValue());
+
+			if (accountString == null)
+				return false;
+			username = accountString[0];
+			passwd = accountString[1];
+			accessToken = accountString[2];
+			accessTokenSecret = accountString[3];
+			String passwd_en;
+			try {
+				passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
+				session.setAttribute("passwd", passwd_en);
+				session.setAttribute("accessToken", accessToken);
+				session.setAttribute("accessTokenSecret", accessTokenSecret);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("username", username);
+		}
+
+		return true;
+	}
+
+	protected void redirectLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession(true);
 		session.invalidate();
 		Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, null);
@@ -133,26 +150,29 @@ public class JTweetServlet extends HttpServlet {
 		resp.addCookie(cookie);
 		resp.sendRedirect("/login");
 	}
-	
-	public String getUsername()
-	{
+
+	public String getUsername() {
 		return username;
 	}
-	
-	public String getPasswd()
-	{
+
+	public String getPasswd() {
 		return passwd;
 	}
-	
-	public User getTuser() throws TwitterException
-	{
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public String getAccessTokenSecret() {
+		return accessTokenSecret;
+	}
+
+	public User getTuser() throws TwitterException {
 		User tuser = (User) GCache.get("user:" + getUsername());
-		if(null == tuser)
-		{
+		if (null == tuser) {
 			tuser = twitter.verifyCredentials();
 			GCache.put("user:" + getUsername(), tuser, 3600);
 		}
 		return tuser;
 	}
-
 }

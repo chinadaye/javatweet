@@ -27,8 +27,8 @@
 		<div class="content-bubble-arrow"></div>
 			<div id="login_warp" class="round">
 				<div class="login_tip">
-				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。本程序为开源程序，关于安全性请前往<a href="http://code.google.com/p/javatweet/" target="_blank">项目主页</a>围观。</p><br />
-				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http://${server}/api" >http://${server}/api</a></b>。</p>
+				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。 OAuth还在测试阶段，密码留空就会使用OAuth登录。<a href="http://ikoo.info/posts/jtweet-oauth/">这里</a>有一些简单的说明。 本程序为开源程序，关于安全性请前往<a href="http://code.google.com/p/javatweet/" target="_blank">项目主页</a>围观。</p><br />
+				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="https://${server}/api" >http://${server}/api</a></b>。</p>
 				</div>
 				<form action="/login" id="loginform" method="post">
 					<div class="input_div"><span class="login_text">用户名:</span><input type="text" id="username" name="username"/></div>

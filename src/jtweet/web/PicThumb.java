@@ -16,32 +16,24 @@ import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 
 @SuppressWarnings("serial")
 public class PicThumb extends HttpServlet {
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-		throws IOException {
-		
+
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
 		String id = req.getParameter("id");
-		if(id != null)
-		{
+		if (id != null) {
 			URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
 			HTTPRequest httpreq = new HTTPRequest(new URL("http://twitpic.com/show/thumb/" + id), HTTPMethod.GET);
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
-			if(httpresp.getResponseCode() == 200)
-			{
-				for(HTTPHeader h : httpresp.getHeaders())
-				{
+			if (httpresp.getResponseCode() == 200) {
+				for (HTTPHeader h : httpresp.getHeaders()) {
 					resp.setHeader(h.getName(), h.getValue());
 				}
 				resp.getOutputStream().write(httpresp.getContent());
-			}
-			else
-			{
+			} else {
 				resp.sendError(httpresp.getResponseCode());
 				return;
 			}
-		}
-		else
-		{
+		} else {
 			resp.sendError(404);
 			return;
 		}

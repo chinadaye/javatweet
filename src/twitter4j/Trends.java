@@ -4,12 +4,12 @@ All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
+ * Redistributions of source code must retain the above copyright
       notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
+ * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
-    * Neither the name of the Yusuke Yamamoto nor the
+ * Neither the name of the Yusuke Yamamoto nor the
       names of its contributors may be used to endorse or promote products
       derived from this software without specific prior written permission.
 
@@ -23,7 +23,7 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package twitter4j;
 
 import twitter4j.http.Response;
@@ -39,104 +39,99 @@ import java.util.Collections;
 
 /**
  * A data class representing Treands.
- *
+ * 
  * @author Yusuke Yamamoto - yusuke at mac.com
  * @since Twitter4J 2.0.2
  */
 public class Trends extends TwitterResponse implements Comparable<Trends> {
-    private Date asOf;
-    private Date trendAt;
-    private Trend[] trends;
-    private static final long serialVersionUID = -7151479143843312309L;
+	private Date asOf;
+	private Date trendAt;
+	private Trend[] trends;
+	private static final long serialVersionUID = -7151479143843312309L;
 
-    public int compareTo(Trends that) {
-        return this.trendAt.compareTo(that.trendAt);
-    }
+	public int compareTo(Trends that) {
+		return this.trendAt.compareTo(that.trendAt);
+	}
 
-    /*package*/ Trends(Response res, Date asOf, Date trendAt, Trend[] trends)
-            throws TwitterException {
-        super(res);
-        this.asOf = asOf;
-        this.trendAt = trendAt;
-        this.trends = trends;
-    }
+	/* package */Trends(Response res, Date asOf, Date trendAt, Trend[] trends) throws TwitterException {
+		super(res);
+		this.asOf = asOf;
+		this.trendAt = trendAt;
+		this.trends = trends;
+	}
 
-    /*package*/
-    static List<Trends> constructTrendsList(Response res) throws
-            TwitterException {
-        JSONObject json = res.asJSONObject();
-        List<Trends> trends;
-        try {
-            Date asOf = parseDate(json.getString("as_of"));
-            JSONObject trendsJson = json.getJSONObject("trends");
-            trends = new ArrayList<Trends>(trendsJson.length());
-            Iterator ite = trendsJson.keys();
-            while (ite.hasNext()) {
-                String key = (String) ite.next();
-                JSONArray array = trendsJson.getJSONArray(key);
-                Trend[] trendsArray = jsonArrayToTrendArray(array);
-                if (key.length() == 19) {
-                    // current trends
-                    trends.add(new Trends(res, asOf, parseDate(key
-                            , "yyyy-MM-dd HH:mm:ss"), trendsArray));
-                } else if (key.length() == 16) {
-                    // daily trends
-                    trends.add(new Trends(res, asOf, parseDate(key
-                            , "yyyy-MM-dd HH:mm"), trendsArray));
-                } else if (key.length() == 10) {
-                    // weekly trends
-                    trends.add(new Trends(res, asOf, parseDate(key
-                            , "yyyy-MM-dd"), trendsArray));
-                }
-            }
-            Collections.sort(trends);
-            return trends;
-        } catch (JSONException jsone) {
-            throw new TwitterException(jsone.getMessage() + ":" + res.asString(), jsone);
-        }
-    }
+	/* package */
+	static List<Trends> constructTrendsList(Response res) throws TwitterException {
+		JSONObject json = res.asJSONObject();
+		List<Trends> trends;
+		try {
+			Date asOf = parseDate(json.getString("as_of"));
+			JSONObject trendsJson = json.getJSONObject("trends");
+			trends = new ArrayList<Trends>(trendsJson.length());
+			Iterator ite = trendsJson.keys();
+			while (ite.hasNext()) {
+				String key = (String) ite.next();
+				JSONArray array = trendsJson.getJSONArray(key);
+				Trend[] trendsArray = jsonArrayToTrendArray(array);
+				if (key.length() == 19) {
+					// current trends
+					trends.add(new Trends(res, asOf, parseDate(key, "yyyy-MM-dd HH:mm:ss"), trendsArray));
+				} else if (key.length() == 16) {
+					// daily trends
+					trends.add(new Trends(res, asOf, parseDate(key, "yyyy-MM-dd HH:mm"), trendsArray));
+				} else if (key.length() == 10) {
+					// weekly trends
+					trends.add(new Trends(res, asOf, parseDate(key, "yyyy-MM-dd"), trendsArray));
+				}
+			}
+			Collections.sort(trends);
+			return trends;
+		} catch (JSONException jsone) {
+			throw new TwitterException(jsone.getMessage() + ":" + res.asString(), jsone);
+		}
+	}
 
-    /*package*/
-    static Trends constructTrends(Response res) throws TwitterException {
-        JSONObject json = res.asJSONObject();
-        try {
-            Date asOf = parseDate(json.getString("as_of"));
-            JSONArray array = json.getJSONArray("trends");
-            Trend[] trendsArray = jsonArrayToTrendArray(array);
-            return new Trends(res, asOf, asOf, trendsArray);
-        } catch (JSONException jsone) {
-            throw new TwitterException(jsone.getMessage() + ":" + res.asString(), jsone);
-        }
-    }
+	/* package */
+	static Trends constructTrends(Response res) throws TwitterException {
+		JSONObject json = res.asJSONObject();
+		try {
+			Date asOf = parseDate(json.getString("as_of"));
+			JSONArray array = json.getJSONArray("trends");
+			Trend[] trendsArray = jsonArrayToTrendArray(array);
+			return new Trends(res, asOf, asOf, trendsArray);
+		} catch (JSONException jsone) {
+			throw new TwitterException(jsone.getMessage() + ":" + res.asString(), jsone);
+		}
+	}
 
-    private static Date parseDate(String asOfStr) throws TwitterException {
-        Date parsed;
-        if (asOfStr.length() == 10) {
-            parsed = new Date(Long.parseLong(asOfStr) * 1000);
-        } else {
-            parsed = TwitterResponse.parseDate(asOfStr, "EEE, d MMM yyyy HH:mm:ss z");
-        }
-        return parsed;
-    }
+	private static Date parseDate(String asOfStr) throws TwitterException {
+		Date parsed;
+		if (asOfStr.length() == 10) {
+			parsed = new Date(Long.parseLong(asOfStr) * 1000);
+		} else {
+			parsed = TwitterResponse.parseDate(asOfStr, "EEE, d MMM yyyy HH:mm:ss z");
+		}
+		return parsed;
+	}
 
-    private static Trend[] jsonArrayToTrendArray(JSONArray array) throws JSONException {
-        Trend[] trends = new Trend[array.length()];
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject trend = array.getJSONObject(i);
-            trends[i] = new Trend(trend);
-        }
-        return trends;
-    }
+	private static Trend[] jsonArrayToTrendArray(JSONArray array) throws JSONException {
+		Trend[] trends = new Trend[array.length()];
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject trend = array.getJSONObject(i);
+			trends[i] = new Trend(trend);
+		}
+		return trends;
+	}
 
-    public Trend[] getTrends() {
-        return this.trends;
-    }
+	public Trend[] getTrends() {
+		return this.trends;
+	}
 
-    public Date getAsOf() {
-        return asOf;
-    }
+	public Date getAsOf() {
+		return asOf;
+	}
 
-    public Date getTrendAt() {
-        return trendAt;
-    }
+	public Date getTrendAt() {
+		return trendAt;
+	}
 }

@@ -1,4 +1,3 @@
-
 package jtweet.gae;
 
 import java.util.Collections;
@@ -19,8 +18,7 @@ public class GCache {
 	public static Object get(String key) {
 		Cache cache;
 		try {
-			cache = CacheManager.getInstance().getCacheFactory().createCache(
-					Collections.emptyMap());
+			cache = CacheManager.getInstance().getCacheFactory().createCache(Collections.emptyMap());
 			return cache.get(key.trim());
 		} catch (CacheException e) {
 			log.warning(e.getMessage());
@@ -33,11 +31,10 @@ public class GCache {
 	public static boolean put(String key, Object obj, int secs) {
 		Map props = new HashMap();
 		props.put(GCacheFactory.EXPIRATION_DELTA, secs);
-//		props.put(MemcacheService.SetPolicy.SET_ALWAYS, true);
+		// props.put(MemcacheService.SetPolicy.SET_ALWAYS, true);
 		Cache cache;
 		try {
-			cache = CacheManager.getInstance().getCacheFactory().createCache(
-					props);
+			cache = CacheManager.getInstance().getCacheFactory().createCache(props);
 			cache.put(key.trim(), obj);
 			return true;
 		} catch (CacheException e) {
@@ -47,14 +44,14 @@ public class GCache {
 
 		return false;
 	}
+
 	@SuppressWarnings("unchecked")
 	public static boolean put(String key, Object obj) {
 		Map props = new HashMap();
 		props.put(GCacheFactory.EXPIRATION_DELTA, 3600);
 		Cache cache;
 		try {
-			cache = CacheManager.getInstance().getCacheFactory().createCache(
-					props);
+			cache = CacheManager.getInstance().getCacheFactory().createCache(props);
 			cache.put(key, obj);
 			return true;
 		} catch (CacheException e) {
@@ -64,12 +61,12 @@ public class GCache {
 
 		return false;
 	}
-	
-	public static void clean(String key){
+
+	public static void clean(String key) {
 		MemcacheServiceFactory.getMemcacheService().delete(key);
 	}
-	
-	public static void clearAll(){
+
+	public static void clearAll() {
 		MemcacheServiceFactory.getMemcacheService().clearAll();
 	}
 }
