@@ -46,11 +46,10 @@ public class OAuthServlet extends JTweetServlet {
 				provider.retrieveAccessToken(consumer, oauth_verifier);
 				String accessToken = consumer.getToken();
 				String accessTokenSecret = consumer.getTokenSecret();
-
-				Cookie cookie = new Cookie(JTweetServlet.ACCOUNT_COOKIE_NAME, Encrypt.encodeAccount(new String[] { username, "", accessToken, accessTokenSecret }));
-				cookie.setMaxAge(7 * 24 * 3600);
-				cookie.setPath("/");
-				resp.addCookie(cookie);
+				accountCookie.setValue(Encrypt.encodeAccount(new String[] { username, "", accessToken, accessTokenSecret }));
+				accountCookie.setMaxAge(7 * 24 * 3600);
+				accountCookie.setPath("/");
+				resp.addCookie(accountCookie);
 				HttpSession session = req.getSession(true);
 				session.setAttribute("username", username);
 				session.setAttribute("accessToken", accessToken);

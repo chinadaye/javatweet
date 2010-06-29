@@ -90,9 +90,6 @@ public class JTweetServlet extends HttpServlet {
 		accessToken = (String) session.getAttribute("accessToken");
 		accessTokenSecret = (String) session.getAttribute("accessTokenSecret");
 
-		if (Utils.isEmptyOrNull(username))
-			return false;
-
 		if (!Utils.isEmptyOrNull(accessToken) && !Utils.isEmptyOrNull(accessTokenSecret))
 			return true;
 
@@ -129,6 +126,7 @@ public class JTweetServlet extends HttpServlet {
 			String passwd_en;
 			try {
 				passwd_en = Base64.encode(passwd.getBytes("UTF-8"));
+				session.setAttribute("username", username);
 				session.setAttribute("passwd", passwd_en);
 				session.setAttribute("accessToken", accessToken);
 				session.setAttribute("accessTokenSecret", accessTokenSecret);
