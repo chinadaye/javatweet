@@ -15,6 +15,9 @@ public class JtweetServlet extends HttpServlet {
 	// protected String twurl = "http://t.yulei666.com/api";
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String req_url = req.getRequestURI().substring(4);
+		if (req_url.startsWith("/1")) {
+			req_url = req_url.substring(2);
+		}
 		String query_string = req.getQueryString();
 		String web_root = "http://" + req.getServerName();
 
@@ -83,6 +86,9 @@ public class JtweetServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String req_url = req.getRequestURI().substring(4);
+		if (req_url.startsWith("/1")) {
+			req_url = req_url.substring(2);
+		}
 		String web_root = "http://" + req.getServerName();
 
 		if (TRequest.getRequestType(req_url) == TRequest.NOTSUPPORT)

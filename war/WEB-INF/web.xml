@@ -20,6 +20,7 @@
 		<servlet-name>Jtweet</servlet-name>
 		<url-pattern>/api</url-pattern>
 		<url-pattern>/api/*</url-pattern>
+		<url-pattern>/api/1/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Login</servlet-name>

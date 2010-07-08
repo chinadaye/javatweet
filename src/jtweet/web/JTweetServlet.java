@@ -133,7 +133,6 @@ public class JTweetServlet extends HttpServlet {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			session.setAttribute("username", username);
 		}
 
 		return true;

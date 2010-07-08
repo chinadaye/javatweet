@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import jtweet.oauth.RequestToken;
 import jtweet.oauth.Utils;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 
@@ -118,10 +119,14 @@ public class LoginServlet extends JTweetServlet {
 					String accessTokenSecret = accountString[3];
 					twitterOAuth(accessToken, accessTokenSecret, req);
 					try {
-						twitter.verifyCredentials();
-						session.setAttribute("accessToken", accessToken);
-						session.setAttribute("accessTokenSecret", accessTokenSecret);
-						resp.sendRedirect("/home");
+						User user = twitter.verifyCredentials();
+						if (user == null || Utils.isEmptyOrNull(user.getName())) {
+							redirectLogin(req, resp);
+						} else {
+							session.setAttribute("accessToken", accessToken);
+							session.setAttribute("accessTokenSecret", accessTokenSecret);
+							resp.sendRedirect("/home");
+						}
 					} catch (TwitterException e) {
 						logger.log(Level.SEVERE, e.getMessage());
 						redirectLogin(req, resp);
