@@ -6,6 +6,11 @@
 	<!-- Configure java.util.logging -->
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+		<property name="twitter.api.key" value=""/>
+		<property name="twitter.api.secret" value=""/>
+		<property name="twitter.api.authorize" value="https://twitter.com/oauth/authorize" />
+		<property name="twitter.api.access_token" value="https://twitter.com/oauth/access_token"/>
+		<property name="twitter.api.request_token" value="https://twitter.com/oauth/request_token"/>
 	</system-properties>
 	<sessions-enabled>true</sessions-enabled>
 	<ssl-enabled>true</ssl-enabled> 

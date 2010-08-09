@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="http://java.sun.com/xml/ns/javaee"
-xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>Jtweet</servlet-name>
-		<servlet-class>jtweet.JtweetServlet</servlet-class>
+		<servlet-name>apiproxy.ApiServlet</servlet-name>
+		<servlet-class>jtweet.apiproxy.ApiServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Jtweet</servlet-name>
+		<servlet-name>apiproxy.ApiServlet</servlet-name>
 		<url-pattern>/api</url-pattern>
 		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>apiproxy.OAuthServlet</servlet-name>
+		<servlet-class>jtweet.apiproxy.OAuthServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>apiproxy.OAuthServlet</servlet-name>
+		<url-pattern>/oauth/authorize</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>OAuth</servlet-name>
+		<servlet-class>jtweet.web.OAuthServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OAuth</servlet-name>
+		<url-pattern>/oauth/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Login</servlet-name>
@@ -88,29 +104,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/setimg</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>Twitpic</servlet-name>
-		<servlet-class>jtweet.web.TwitpicServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Twitpic</servlet-name>
-		<url-pattern>/twitpic</url-pattern>
-		<url-pattern>/twitgoo</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>Search</servlet-name>
 		<servlet-class>jtweet.web.SearchServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Search</servlet-name>
 		<url-pattern>/search</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>PicThumb</servlet-name>
-		<servlet-class>jtweet.web.PicThumb</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>PicThumb</servlet-name>
-		<url-pattern>/picthumb</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>ShortURLProxy</servlet-name>

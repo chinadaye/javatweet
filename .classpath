@@ -15,5 +15,9 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.json.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.4.jar"/>
+
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/signpost-core-1.2.1.1.jar"/>
+
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

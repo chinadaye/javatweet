@@ -4,12 +4,12 @@ All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
+ * Redistributions of source code must retain the above copyright
       notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
+ * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
-    * Neither the name of the Yusuke Yamamoto nor the
+ * Neither the name of the Yusuke Yamamoto nor the
       names of its contributors may be used to endorse or promote products
       derived from this software without specific prior written permission.
 
@@ -23,58 +23,61 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 package twitter4j.http;
 
 /**
  * A data class representing HTTP Post parameter
+ * 
  * @author Yusuke Yamamoto - yusuke at mac.com
  */
 public class PostParameter implements java.io.Serializable, Comparable {
-    String name;
-    String value;
-    private static final long serialVersionUID = -8708108746980739212L;
+	String name;
+	String value;
+	private static final long serialVersionUID = -8708108746980739212L;
 
-    public PostParameter(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
-    public String getName(){
-        return name;
-    }
-    public String getValue(){
-        return value;
-    }
+	public PostParameter(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + value.hashCode();
-        return result;
-    }
+	public String getName() {
+		return name;
+	}
 
-    @Override public boolean equals(Object obj) {
-        if (null == obj) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof PostParameter) {
-            PostParameter that = (PostParameter) obj;
-            return this.name.equals(that.name) &&
-                this.value.equals(that.value);
-        }
-        return false;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public int compareTo(Object o) {
-        int compared;
-        PostParameter that = (PostParameter) o;
-        compared = name.compareTo(that.name);
-        if (0 == compared) {
-            compared = value.compareTo(that.value);
-        }
-        return compared;
-    }
+	@Override
+	public int hashCode() {
+		int result = name.hashCode();
+		result = 31 * result + value.hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (null == obj) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof PostParameter) {
+			PostParameter that = (PostParameter) obj;
+			return this.name.equals(that.name) && this.value.equals(that.value);
+		}
+		return false;
+	}
+
+	public int compareTo(Object o) {
+		int compared;
+		PostParameter that = (PostParameter) o;
+		compared = name.compareTo(that.name);
+		if (0 == compared) {
+			compared = value.compareTo(that.value);
+		}
+		return compared;
+	}
 }

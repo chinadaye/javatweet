@@ -27,14 +27,17 @@
 		<div class="content-bubble-arrow"></div>
 			<div id="login_warp" class="round">
 				<div class="login_tip">
-				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。暂不支持 OAuth，所以请使用 Twitter 的用户名和密码登录。本程序为开源程序，关于安全性请前往<a href="http://code.google.com/p/javatweet/" target="_blank">项目主页</a>围观。</p><br />
-				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="http://${server}/api" >http://${server}/api</a></b>。</p>
+				<p>JTweet 为 Java 编写的 Twitter 在线客户端，运行于 GAE 之上。 OAuth处于测试阶段，支持OAuthProxy。密码留空为使用OAuth。 本程序为开源程序，关于安全性请前往<a href="http://code.google.com/p/javatweet/" target="_blank">项目主页</a>围观。</p><br />
+				<p>JTweet 同时提供一个 API Proxy，可用于其他客户端。请在将客户端的 API BaseURL 设置为<b><a href="https://${server}/api" >http://${server}/api</a></b>。</p>
 				</div>
 				<form action="/login" id="loginform" method="post">
 					<div class="input_div"><span class="login_text">用户名:</span><input type="text" id="username" name="username"/></div>
 					<div class="input_div"><span class="login_text">密码:</span><input type="password" id="passwd" name="passwd"/></div>
 				<div class="fixed"></div>
-				<center><label><input type="checkbox" id="stay" name="stayin" value="1"/>保持登录</label></center>
+				<center>
+					<label><input type="checkbox" id="stay" name="stayin" value="1"/>保持登录</label>
+					<label><input type="checkbox" id="oauthproxy" name="oauthproxy" value="1"/>使用OAuthProxy</label>
+				</center>
 				<button type="submit" id="sub_button" class="login_button">登录</button>
 				<button type="reset" id="reset_button" class="login_button">重置</button>
 				</form>
