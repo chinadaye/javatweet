@@ -10,7 +10,7 @@
                         	<span class="thumb vcard author left"><img alt="${u_rt.getScreenName()}" class="photo fn" height="48" src="${u_rt.getProfileImageURL()}" width="48" /></span>
                             <span class="status-body">
                             	<div class="status-content">
-                                	<strong><a href="/user/${u_rt.getScreenName()}" class="tweet-url screen-name">${u_rt.getScreenName()}</a></strong>
+                                	<strong>RT <a href="/user/${u_rt.getScreenName()}" class="tweet-url screen-name">${u_rt.getScreenName()}</a></strong>
                                 	<span class="entry-content">${texttohtml(s_rt.getText())}</span>
                             	</div>
                                 <div class="meta entry-meta">
