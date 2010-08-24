@@ -184,7 +184,7 @@ function ongetmoreusertimeline(id)
 	more_lock = true;
 	//alert(maxid);
 	//alert(pagenum);
-	$("a#more").find("h3").text("Londing...");
+	$("a#more").find("h3").text("Loading...");
 	$.get("/update", {
 				type : "moreusertimeline",
 				u : id,
@@ -209,7 +209,7 @@ function ongetmoreuserfav(id)
 	more_lock = true;
 	//alert(maxid);
 	//alert(pagenum);
-	$("a#more").find("h3").text("Londing...");
+	$("a#more").find("h3").text("Loading...");
 	$.get("/update", {
 				type : "morefav",
 				u : id,

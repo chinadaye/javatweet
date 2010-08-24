@@ -402,7 +402,7 @@ function getmorestaus(type) {
 	more_lock = true;
 	//alert(maxid);
 	//alert(pagenum);
-	$("a#more").find("h3").text("Londing...");
+	$("a#more").find("h3").text("Loading...");
 	$.get("/update", {
 				type : type,
 				maxid : maxid,
@@ -422,7 +422,7 @@ function getmorepub() {
 		return;
 	}
 	more_lock = true;
-	$("a#more").find("h3").text("Londing...");
+	$("a#more").find("h3").text("Loading...");
 	$.get("/update", {
 				type : "morepub",
 				timestamp : (new Date()).getTime()
@@ -440,7 +440,7 @@ function getmoresearch(s) {
 	}
 	more_lock = true;
 	//alert(pagenum);
-	$("a#more").find("h3").text("Londing...");
+	$("a#more").find("h3").text("Loading...");
 	$.get("/update", {
 				type : "moresearch",
 				s : s,
