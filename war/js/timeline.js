@@ -3,7 +3,6 @@ $(document).ready(function() {
 						updateCount();
 					}, 300);
 			window.setInterval(function() {
-						updateStatus("home");
 						reloadprofile();
 					}, 60000);
 		});

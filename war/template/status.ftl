@@ -15,7 +15,7 @@
     	<#include "header.ftl" />
     <!--#header--></div>
 	<div class="content-bubble-arrow clear"></div>
-	<div id="status_wrap">
+	<div id="status_wrap" class="round">
 		<div class="status_text">${texttohtml(status.getText())}</div>
 		<div class="status_info">	
 			<span class="status_source">通过${status.getSource()}</span>

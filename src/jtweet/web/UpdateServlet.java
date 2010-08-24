@@ -112,7 +112,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,7 +150,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -188,7 +188,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -230,7 +230,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -268,7 +268,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -306,7 +306,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -332,7 +332,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -366,7 +366,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -405,7 +405,7 @@ public class UpdateServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			resp.sendError(e.getStatusCode());
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -441,7 +441,7 @@ public class UpdateServlet extends BaseServlet {
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -477,7 +477,7 @@ public class UpdateServlet extends BaseServlet {
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if(e.getStatusCode() > 0) resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

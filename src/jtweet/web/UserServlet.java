@@ -110,9 +110,13 @@ public class UserServlet extends BaseServlet {
 			{
 				redirectIndex(resp);
 			}
-			else
+			else if(e.getStatusCode() > 0)
 			{
 				resp.sendError(e.getStatusCode());
+			}
+			else
+			{
+				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -157,9 +161,13 @@ public class UserServlet extends BaseServlet {
 			{
 				redirectIndex(resp);
 			}
-			else
+			else if(e.getStatusCode() > 0)
 			{
 				resp.sendError(e.getStatusCode());
+			}
+			else
+			{
+				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -206,9 +214,13 @@ public class UserServlet extends BaseServlet {
 			{
 				redirectIndex(resp);
 			}
-			else
+			else if(e.getStatusCode() > 0)
 			{
 				resp.sendError(e.getStatusCode());
+			}
+			else
+			{
+				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -255,9 +267,13 @@ public class UserServlet extends BaseServlet {
 			{
 				redirectIndex(resp);
 			}
-			else
+			else if(e.getStatusCode() > 0)
 			{
 				resp.sendError(e.getStatusCode());
+			}
+			else
+			{
+				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block

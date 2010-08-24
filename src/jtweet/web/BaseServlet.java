@@ -106,9 +106,13 @@ public class BaseServlet extends HttpServlet
 			{
 				redirectIndex(resp);
 			}
-			else
+			else if(e.getStatusCode() > 0)
 			{
 				resp.sendError(e.getStatusCode());
+			}
+			else
+			{
+				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		}
 		String UA = req.getHeader("User-Agent");
