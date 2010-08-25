@@ -44,17 +44,25 @@ function updateStatus(type){
 	}
 	lock = true;
 	sinceid = $("li.hentry:first").find("div.hentry_id").attr("id");
-	$.get("/update", {
+	$.ajax({
+			type : "GET",
+			url : "/update",
+			dataType : "html",
+			data : {
 				type : type,
 				since : sinceid,
 				timestamp : (new Date()).getTime()
-			}, function(data) {
+			},
+			success : function(data) {
 				$("ol#timeline").prepend(data);
 				$("li.newcome").slideDown("normal");
 				$("li.newcome").removeClass("newcome");
-				lock = false;
 				unreadalert();
-			});
+			},
+			complete : function() {
+				lock = false;
+			}
+		});
 };
 
 function postStatus(reply_id, callback, param1, param2) {
@@ -73,7 +81,6 @@ function postStatus(reply_id, callback, param1, param2) {
 					data : postdata,
 					success : function(json) {
 						//alert(json.success);
-						$("input#update-submit").attr("disabled", false); 
 						if (json.success) {
 							$("span#ajax_msg_status").text("消息发送成功");
 							$("textarea#status").val("");
@@ -84,6 +91,9 @@ function postStatus(reply_id, callback, param1, param2) {
 							$("span#ajax_msg_status").text("消息发送失败");
 							alert("出错啦！错误代码：" + json.info);
 						}
+					},
+					complete : function() {
+						$("input#update-submit").attr("disabled", false); 
 					}
 				});
 	} else {
@@ -321,6 +331,9 @@ function sendMsg(sendto, callback, param1, param2) {
 							$("span#ajax_msg_msg").text("消息发送失败");
 							alert("出错啦！错误代码：" + json.info);
 						}
+					},
+					complete : function() {
+						$("input#send-submit").attr("disabled", false);
 					}
 				});
 	} else {
@@ -403,17 +416,25 @@ function getmorestaus(type) {
 	//alert(maxid);
 	//alert(pagenum);
 	$("a#more").find("h3").text("Loading...");
-	$.get("/update", {
+	$.ajax({
+			type : "GET",
+			url : "/update",
+			dataType : "html",
+			data : {
 				type : type,
 				maxid : maxid,
 				page: pagenum + 1,
 				timestamp : (new Date()).getTime()
-			}, function(data) {
+			},
+			success : function(data) {
 				$("ol#timeline").append(data);
-				$("a#more").find("h3").text("more");
 				pagenum += 1;
+			},
+			complete : function() {
+				$("a#more").find("h3").text("more");
 				more_lock = false;
-			}, "html");
+			}
+		});
 };
 
 function getmorepub() {
@@ -423,14 +444,23 @@ function getmorepub() {
 	}
 	more_lock = true;
 	$("a#more").find("h3").text("Loading...");
-	$.get("/update", {
+	$.ajax({
+			type : "GET",
+			url : "/update",
+			dataType : "html",
+			data : {
 				type : "morepub",
 				timestamp : (new Date()).getTime()
-			}, function(data) {
+			},
+			success : function(data) {
 				$("ol#timeline").append(data);
+				pagenum += 1;
+			},
+			complete : function() {
 				$("a#more").find("h3").text("more");
 				more_lock = false;
-			}, "html");
+			}
+		});
 };
 
 function getmoresearch(s) {
@@ -441,17 +471,25 @@ function getmoresearch(s) {
 	more_lock = true;
 	//alert(pagenum);
 	$("a#more").find("h3").text("Loading...");
-	$.get("/update", {
+	$.ajax({
+			type : "GET",
+			url : "/update",
+			dataType : "html",
+			data : {
 				type : "moresearch",
 				s : s,
 				page: pagenum + 1,
 				timestamp : (new Date()).getTime()
-			}, function(data) {
+			},
+			success : function(data) {
 				$("ol#timeline").append(data);
-				$("a#more").find("h3").text("more");
 				pagenum += 1;
+			},
+			complete : function() {
+				$("a#more").find("h3").text("more");
 				more_lock = false;
-			}, "html");
+			}
+		});
 };
 
 function forbind(e)
@@ -498,18 +536,26 @@ function reloadprofile()
 		return;
 	}
 	reload_lock = true;
-	$.get("/action", {
-			type : "reloadprofile",
-			timestamp : (new Date()).getTime()
-		}, function(json) {
-			if (json.success) {
-				$("span#update_count").text(json.t_count);
-				$("div#following_count").text(json.foing_count);
-				$("div#follower_count").text(json.foer_count);
-				$("div#favs_count").text(json.favs_count);
-			} else {
-				alert("出错啦！错误代码：" + json.info);
+	$.ajax({
+			type : "GET",
+			url : "/action",
+			dataType : "json",
+			data : {
+				type : "reloadprofile",
+				timestamp : (new Date()).getTime()
+			},
+			success : function(json) {
+				if (json.success) {
+					$("span#update_count").text(json.t_count);
+					$("div#following_count").text(json.foing_count);
+					$("div#follower_count").text(json.foer_count);
+					$("div#favs_count").text(json.favs_count);
+				} else {
+					alert("出错啦！错误代码：" + json.info);
+				}
+			},
+			complete : function() {
+				reload_lock = false;
 			}
-			reload_lock = false;
-		}, "json");
+		});
 };

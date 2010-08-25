@@ -185,18 +185,26 @@ function ongetmoreusertimeline(id)
 	//alert(maxid);
 	//alert(pagenum);
 	$("a#more").find("h3").text("Loading...");
-	$.get("/update", {
+	$.ajax({
+			type : "GET",
+			url : "/update",
+			dataType : "html",
+			data : {
 				type : "moreusertimeline",
 				u : id,
 				maxid : maxid,
 				page: pagenum + 1,
 				timestamp : (new Date()).getTime()
-			}, function(data) {
+			},
+			success : function(data) {
 				$("ol#timeline").append(data);
-				$("a#more").find("h3").text("more");
 				pagenum += 1;
+			},
+			complete : function() {
+				$("a#more").find("h3").text("more");
 				more_lock = false;
-			}, "html");
+			}
+		});
 };
 
 
@@ -210,15 +218,23 @@ function ongetmoreuserfav(id)
 	//alert(maxid);
 	//alert(pagenum);
 	$("a#more").find("h3").text("Loading...");
-	$.get("/update", {
+	$.ajax({
+			type : "GET",
+			url : "/update",
+			dataType : "html",
+			data : {
 				type : "morefav",
 				u : id,
 				page: pagenum + 1,
 				timestamp : (new Date()).getTime()
-			}, function(data) {
+			},
+			success : function(data) {
 				$("ol#timeline").append(data);
-				$("a#more").find("h3").text("more");
 				pagenum += 1;
+			},
+			complete : function() {
+				$("a#more").find("h3").text("more");
 				more_lock = false;
-			}, "html");
+			}
+		});
 };
