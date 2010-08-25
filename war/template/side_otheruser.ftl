@@ -2,7 +2,7 @@
 <#setting datetime_format="yyyy.M.d,H:m:s">
 					<div id="profile" class="section">
                     	<div class="user_icon">
-                        	<a href="/user/${user.getScreenName()}" class="url" title="${user.getName()}"><img alt="${user.getName()}" class="side_thumb left" height="48" src="${user.getProfileImageURL()}" width="48" /><div id="me_name">${user.getScreenName()}</div><div id="me_tweets"><span id="update_count">${login_user.getStatusesCount()?c}</span>推</div></a>
+                        	<a href="/user/${user.getScreenName()}" class="url" title="${user.getName()}"><img alt="${user.getName()}" class="side_thumb left" height="48" src="${user.getProfileImageURL()}" width="48" /><div id="me_name">${user.getScreenName()}</div><div id="me_tweets"><span id="update_count">${user.getStatusesCount()?c}</span>推</div></a>
                         </div>
                         <div class="fixed"></div>
 						<div id="side_user_location">位置:${user.getLocation()}</div>
