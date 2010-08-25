@@ -16,6 +16,7 @@
     <!--#header--></div>
 	<div class="content-bubble-arrow clear"></div>
 	<div id="status_wrap" class="round">
+		<#if status?exists>
 		<div class="status_text">${texttohtml(status.getText())}</div>
 		<div class="status_info">	
 			<span class="status_source">通过${status.getSource()}</span>
@@ -33,6 +34,9 @@
 			</span>
 			<div class="fixed"></div>
 		</div>
+		<#else>
+		<div class="status_protected">对不起，该用户已设置保护！</div>
+		</#if>
 	</div>
 <#include "footer.ftl" />
 <!-- #container --></div>

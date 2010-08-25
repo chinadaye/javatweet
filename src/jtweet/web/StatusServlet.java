@@ -57,9 +57,15 @@ public class StatusServlet extends BaseServlet {
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			if(e.getStatusCode() == 401)
+			if(e.getStatusCode() == 401 || e.getStatusCode() == 403)
 			{
-				redirectIndex(resp);
+				Template t = config.getTemplate("status.ftl");
+				try {
+					t.process(root, resp.getWriter());
+				} catch (TemplateException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			else if(e.getStatusCode() > 0)
 			{

@@ -94,13 +94,10 @@ public class UserServlet extends BaseServlet {
 			}
 			root.put("user", user);
 			root.put("blocked", twitter.existsBlock(user_screenname));
-			if(!user.isProtected() || user_screenname.equalsIgnoreCase(twitter.getScreenName()) || twitter.existsFriendship(twitter.getScreenName(), user_screenname))
-			{
-				root.put("status", twitter.getUserTimeline(user_screenname));
-			}
 			String[] js = {"/js/user.js"};
 			root.put("js", js);
 			root.put("morefunction", "javascript:ongetmoreusertimeline('" + user_screenname + "')");
+			root.put("status", twitter.getUserTimeline(user_screenname));
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -108,7 +105,13 @@ public class UserServlet extends BaseServlet {
 			//e.printStackTrace();
 			if(e.getStatusCode() == 401)
 			{
-				redirectIndex(resp);
+				Template t = config.getTemplate("user.ftl");
+				try {
+					t.process(root, resp.getWriter());
+				} catch (TemplateException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			else if(e.getStatusCode() > 0)
 			{
@@ -145,13 +148,10 @@ public class UserServlet extends BaseServlet {
 			}
 			root.put("user", user);
 			root.put("blocked", twitter.existsBlock(user_screenname));
-			if(!user.isProtected() || user_screenname.equalsIgnoreCase(twitter.getScreenName()) || twitter.existsFriendship(twitter.getScreenName(), user_screenname))
-			{
-				root.put("status", twitter.getFavorites(user_screenname));
-			}
 			String[] js = {"/js/user.js"};
 			root.put("js", js);
 			root.put("morefunction", "javascript:ongetmoreuserfav('" + user_screenname + "')");
+			root.put("status", twitter.getFavorites(user_screenname));
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -159,7 +159,13 @@ public class UserServlet extends BaseServlet {
 			//e.printStackTrace();
 			if(e.getStatusCode() == 401)
 			{
-				redirectIndex(resp);
+				Template t = config.getTemplate("user.ftl");
+				try {
+					t.process(root, resp.getWriter());
+				} catch (TemplateException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			else if(e.getStatusCode() > 0)
 			{
