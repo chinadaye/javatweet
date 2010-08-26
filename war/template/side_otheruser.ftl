@@ -5,11 +5,11 @@
                         	<a href="/user/${user.getScreenName()}" class="url" title="${user.getName()}"><img alt="${user.getName()}" class="side_thumb left" height="48" src="${user.getProfileImageURL()}" width="48" /><div id="me_name">${user.getScreenName()}</div><div id="me_tweets"><span id="update_count">${user.getStatusesCount()?c}</span>推</div></a>
                         </div>
                         <div class="fixed"></div>
-						<div id="side_user_location">位置:${user.getLocation()}</div>
+						<div id="side_user_location">位置:${user.getLocation()?default("")}</div>
 						<#if user.getURL()?exists>
-						<div id="side_user_url_div">主页：<a href="${user.getURL()}" target="_blank">${user.getURL()}</a></div>
+						<div id="side_user_url_div">主页：<a href="${user.getURL()}" target="_blank">${user.getURL()?default("")}</a></div>
 						</#if>
-						<div id="side_user_description">简介：<#if user.getDescription()?exists>${user.getDescription()}</#if></div>
+						<div id="side_user_description">简介：${user.getDescription()?default("")}</div>
                         <div class="fixed"></div>
                         <div class="stats">
                         	<table>

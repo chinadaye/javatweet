@@ -38,7 +38,7 @@
 					<table id="info_table">
 						<tr>
 							<td>昵称：</td>
-							<td><input type="text" id="name" name="name" class="info_input" value="${login_user.getName()}" maxlength="20" /></td>
+							<td><input type="text" id="name" name="name" class="info_input" value="${login_user.getName()?default("")}" maxlength="20" /></td>
 							<td><span class="setting_tip">最多20字</span></td>
 						</tr>
 						<tr>

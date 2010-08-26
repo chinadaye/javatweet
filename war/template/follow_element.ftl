@@ -20,7 +20,7 @@
                                 	<li><a href="/user/${f.getScreenName()}/following" class="tweet-url">${f.getFriendsCount()}朋友</a></li>
                                 	<li><a href="/user/${f.getScreenName()}/follower" class="tweet-url">${f.getFollowersCount()}关注者</a></li>
                                 </ul>
-                                <div class="follow-description">简介：<#if f.getDescription()?exists>${f.getDescription()}</#if></div>
+                                <div class="follow-description">简介：${f.getDescription()?default("")}</div>
                             </span>
                             <div class="fixed"></div>
                         </li>
