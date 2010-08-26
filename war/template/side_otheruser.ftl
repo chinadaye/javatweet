@@ -6,7 +6,9 @@
                         </div>
                         <div class="fixed"></div>
 						<div id="side_user_location">位置:${user.getLocation()?default("")}</div>
-						<div id="side_user_url_div">主页：<a href="${user.getURL()}" target="_blank">${user.getURL()?default("")}</a></div>
+						<#if user.getURL()?exists>
+						<div id="side_user_url_div">主页：<a href="${user.getURL()}" target="_blank">${user.getURL()}</a></div>
+						</#if>
 						<div id="side_user_description">简介：${user.getDescription()?default("")}</div>
                         <div class="fixed"></div>
                         <div class="stats">
