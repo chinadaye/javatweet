@@ -45,7 +45,7 @@
                         </ul>
                     </div>
                     <div class="fixed"></div>
-                	<form action="/home" class="status-update-form hide" id="status_update_form" method="post">
+                	<form action="/home" class="status-update-form" id="status_update_form" method="post">
                     	<input id="in_reply_to_status_id" name="in_reply_to_status_id" type="hidden" value="" />
                       <div class="bar">
 							<h4><label for="status" class="doing left">告诉大家你在干啥？按Ctrl+Enter快捷发布</label></h4>
