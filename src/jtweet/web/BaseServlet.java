@@ -95,10 +95,10 @@ public class BaseServlet extends HttpServlet
 		twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret(), accessToken);
 		try {
 			login_screenname = twitter.getScreenName();
-			login_user = (User) GCache.get("user:" + login_screenname);
+			login_user = (User) GCache.get("user:" + login_screenname + ":" + login_screenname);
 			if (null == login_user) {
 				login_user = twitter.verifyCredentials();
-				GCache.put("user:" + login_screenname, login_user, 120);
+				GCache.put("user:" + login_screenname + ":" + login_screenname, login_user, 120);
 			}
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block

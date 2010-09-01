@@ -102,7 +102,7 @@ public class SettingServlet extends BaseServlet {
 		} else {
 			try {
 				twitter.updateProfile(name, null, url, loc, desc);
-				GCache.clean("user:" + login_screenname);
+				GCache.clean("user:" + login_screenname + ":" + login_screenname);
 				msg = "资料更新成功。";
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
@@ -130,7 +130,7 @@ public class SettingServlet extends BaseServlet {
 		HTTPResponse httpresp = urlFetch.fetch(httpreq);
 
 		if (httpresp.getResponseCode() == 200) {
-			GCache.clean("user:" + login_screenname);
+			GCache.clean("user:" + login_screenname + ":" + login_screenname);
 			msg = "图片更新成功";
 		} else {
 			msg = "图片更新失败，错误代码：" + httpresp.getResponseCode() + "。";

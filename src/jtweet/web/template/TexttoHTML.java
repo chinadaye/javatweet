@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.oro.text.perl.Perl5Util;
 
-import com.google.appengine.repackaged.com.google.common.util.Base64;
-
 import freemarker.template.TemplateMethodModel;
 import freemarker.template.TemplateModelException;
 
@@ -21,7 +19,7 @@ public class TexttoHTML  implements TemplateMethodModel {
         }
 		Perl5Util perl = new Perl5Util();
 		String text_e = StringEscapeUtils.escapeHtml((String)arglist.get(0));
-		String temp;
+		//String temp;
 
 		String url_reg = "s/\\b([a-zA-Z]+:\\/\\/[\\w_.\\-]+\\.[a-zA-Z]{2,6}[\\/\\w\\-~.?=&%#+$*!:;]*)\\b/<a href=\"$1\" class=\"twitter-link\" class=\"web_link\" target=\"_blank\">$1<\\/a>/ig";
 		String mail_reg = "s/\\b([a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]*\\@[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*[a-zA-Z]{2,6})\\b/<a href=\"mailto:$1\" class=\"web_link\" >$1<\\/a>/ig";
@@ -40,8 +38,6 @@ public class TexttoHTML  implements TemplateMethodModel {
 			temp = perl.postMatch();
 		}*/
 
-
-		rst = "<div class=\"twittertext\">" + rst + "</div>";
 
 		return rst;
 	}

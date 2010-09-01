@@ -87,10 +87,10 @@ public class UserServlet extends BaseServlet {
 			root.put("getbigpic", new GetBigPic());
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" +user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" +user_screenname, user, 120);
 			}
 			root.put("user", user);
 			root.put("blocked", twitter.existsBlock(user_screenname));
@@ -141,10 +141,10 @@ public class UserServlet extends BaseServlet {
 			root.put("getbigpic", new GetBigPic());
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" +user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" +user_screenname, user, 120);
 			}
 			root.put("user", user);
 			root.put("blocked", twitter.existsBlock(user_screenname));
@@ -199,10 +199,10 @@ public class UserServlet extends BaseServlet {
 			root.put("title", "朋友");
 			root.put("title_en", "Following");
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" +user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" +user_screenname, user, 120);
 			}
 			root.put("user", user);
 			PagableResponseList<User> follows = twitter.getFriendsStatuses(user_screenname,c);
@@ -252,10 +252,10 @@ public class UserServlet extends BaseServlet {
 			root.put("title", "关注者");
 			root.put("title_en", "Follower");
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" + user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" + user_screenname, user, 120);
 			}
 			root.put("user", user);
 			PagableResponseList<User> follows = twitter.getFollowersStatuses(user_screenname, c);

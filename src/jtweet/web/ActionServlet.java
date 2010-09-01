@@ -1,9 +1,6 @@
 package jtweet.web;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +11,6 @@ import jtweet.util.Utils;
 
 import org.json.simple.JSONObject;
 
-import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.TwitterException;
 
 @SuppressWarnings("serial")
@@ -377,6 +372,7 @@ public class ActionServlet extends BaseServlet {
 			if(!Utils.isEmptyOrNull(id))
 			{
 				twitter.createFriendship(id);
+				GCache.clean("user:" + login_screenname + ":" + id);
 				rst = true;
 			}
 			else
@@ -408,6 +404,7 @@ public class ActionServlet extends BaseServlet {
 			if(!Utils.isEmptyOrNull(id))
 			{
 				twitter.destroyFriendship(id);
+				GCache.clean("user:" + login_screenname + ":" + id);
 				rst = true;
 			}
 			else
@@ -497,9 +494,9 @@ public class ActionServlet extends BaseServlet {
 		JSONObject json = new JSONObject();
 		
 		try {
-			GCache.clean("user:" + login_screenname);
+			GCache.clean("user:" + login_screenname + ":" + login_screenname);
 			login_user = twitter.verifyCredentials();
-			GCache.put("user:" + login_screenname, login_user, 120);
+			GCache.put("user:" + login_screenname + ":" + login_screenname, login_user, 120);
 			rst = true;
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.gae.GCache;
 import jtweet.util.ShortURL;
 import jtweet.util.Utils;
 import jtweet.web.template.TexttoHTML;
@@ -47,6 +48,7 @@ public class HomeServlet extends BaseServlet {
 				String fo = req.getParameter("u");
 				try {
 					twitter.createFriendship(fo);
+					GCache.clean("user:" + login_screenname + ":" + fo);
 					action_result = "Follow成功。";
 				} catch (TwitterException e) {
 					// TODO Auto-generated catch block
@@ -59,6 +61,7 @@ public class HomeServlet extends BaseServlet {
 				String unfo = req.getParameter("u");
 				try {
 					twitter.destroyFriendship(unfo);
+					GCache.clean("user:" + login_screenname + ":" + unfo);
 					action_result = "UnFollow成功。";
 				} catch (TwitterException e) {
 					// TODO Auto-generated catch block
