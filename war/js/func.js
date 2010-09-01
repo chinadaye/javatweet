@@ -390,7 +390,7 @@ function onreplystatus(id)
 	return false;
 };
 
-function onrt_t(id)
+function onrt_tstatus(id)
 {
 	o_status = $("li#status_" + id).find("span.entry-content").text();
 	$("input#in_reply_to_status_id").attr("value",id);

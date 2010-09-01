@@ -1,4 +1,4 @@
-package jtweet.web;
+package jtweet.mobile;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,12 +65,11 @@ public class SettingServlet extends BaseServlet {
 	protected void getSetting(HttpServletResponse resp, String msg) throws IOException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 
 		try {
 			root.put("login_user", login_user);
-			root.put("getbigpic", new GetBigPic());
 			if (msg != null)
 				root.put("msg", msg);
 			Template t = config.getTemplate("setting.ftl");

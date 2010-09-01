@@ -1,0 +1,48 @@
+body {
+	background:#ddd;
+ 	color:#111;
+ 	margin:0;
+ 	font:90% sans-serif
+}
+img
+{
+	border:none;
+	padding:0px;
+	margin:0px;
+}
+
+ul, ol
+{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+}
+a, a:visited
+{
+	text-decoration:none;
+	color:#d12;
+}
+a:hover
+{
+	text-decoration:underline;
+}
+
+table{border-collapse:collapse}
+form{margin:.3em;}
+td{vertical-align:top;padding:0.3em}
+small,small a,small a:visited{color:#555}
+tr.odd td{background:#fff}
+tr.even td{background:#eee}
+tr.reply td{background:#ffa}
+tr.reply.even td{background: #dd9}
+
+.menu
+{
+ 	color:#fff;
+ 	background:#c12;
+ 	padding: 2px;
+}
+.menu a,.menu a:visited
+{
+ 	color:#fff;
+}

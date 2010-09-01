@@ -1,4 +1,4 @@
-package jtweet.web;
+package jtweet.mobile;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jtweet.gae.GCache;
+import jtweet.mobile.template.GetMiniPic;
+import jtweet.mobile.template.TexttoHTML;
 import jtweet.util.Utils;
-import jtweet.web.template.GetBigPic;
-import jtweet.web.template.TexttoHTML;
-
 import twitter4j.PagableResponseList;
+import twitter4j.Paging;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import freemarker.template.Template;
@@ -21,6 +21,7 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class UserServlet extends BaseServlet {
 	protected String user_screenname;
+	protected Paging page = new Paging();
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		if(!isLogin(req))
@@ -34,20 +35,29 @@ public class UserServlet extends BaseServlet {
 		String uri = req.getRequestURI();
 		String[] path = uri.split("/");
 		
-		if(path.length < 3)
+		if(path.length < 4)
 		{
 			resp.sendRedirect("/home");
 			return;
 		}
-		user_screenname = path[2];
+		user_screenname = path[3];
+		
+		String p = req.getParameter("p");
+		page.setCount(20);
+		page.setPage(1);
+		if(!Utils.isEmptyOrNull(p))
+		{
+			page.setPage(Integer.parseInt(p));
+		}
+		
 		String action;
-		if(path.length == 3)
+		if(path.length == 4)
 		{
 			action = "status";
 		}
 		else
 		{
-			action = path[3];
+			action = path[4];
 		}
 		if(action.equalsIgnoreCase("status"))
 		{
@@ -77,27 +87,23 @@ public class UserServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "时间线");
-			root.put("title_en", "Timeline");
-			root.put("uri", "/home");
-			root.put("getbigpic", new GetBigPic());
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + login_screenname + ":" +user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" + user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + login_screenname + ":" +user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" + user_screenname, user, 120);
 			}
 			root.put("user", user);
 			root.put("blocked", twitter.existsBlock(user_screenname));
-			String[] js = {"/js/user.js"};
-			root.put("js", js);
-			root.put("morefunction", "javascript:ongetmoreusertimeline('" + user_screenname + "')");
-			root.put("status", twitter.getUserTimeline(user_screenname));
+			root.put("status", twitter.getUserTimeline(user_screenname, page));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -131,27 +137,23 @@ public class UserServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "收藏");
-			root.put("title_en", "Faveorites");
-			root.put("uri", "/home");
-			root.put("getbigpic", new GetBigPic());
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + login_screenname + ":" +user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" + user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + login_screenname + ":" +user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" + user_screenname, user, 120);
 			}
 			root.put("user", user);
 			root.put("blocked", twitter.existsBlock(user_screenname));
-			String[] js = {"/js/user.js"};
-			root.put("js", js);
-			root.put("morefunction", "javascript:ongetmoreuserfav('" + user_screenname + "')");
-			root.put("status", twitter.getFavorites(user_screenname));
+			root.put("status", twitter.getFavorites(user_screenname, page.getPage()));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("user.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -185,7 +187,7 @@ public class UserServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		String s_c = req.getParameter("c");
@@ -197,20 +199,18 @@ public class UserServlet extends BaseServlet {
 		
 		try {
 			root.put("title", "朋友");
-			root.put("title_en", "Following");
+			root.put("GetMiniPic", new GetMiniPic());
 			root.put("login_user", login_user);
-			User user = (User) GCache.get("user:" + login_screenname + ":" +user_screenname);
+			User user = (User) GCache.get("user:" + login_screenname + ":" + user_screenname);
 			if (null == user) {
 				user = twitter.showUser(user_screenname);
-				GCache.put("user:" + login_screenname + ":" +user_screenname, user, 120);
+				GCache.put("user:" + login_screenname + ":" + user_screenname, user, 120);
 			}
 			root.put("user", user);
 			PagableResponseList<User> follows = twitter.getFriendsStatuses(user_screenname,c);
 			root.put("follows", follows);
 			root.put("previouscursor", follows.getPreviousCursor());
 			root.put("nextcursor", follows.getNextCursor());
-			String[] js = {"/js/follow.js"};
-			root.put("js", js);
 			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -238,7 +238,7 @@ public class UserServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		String s_c = req.getParameter("c");
@@ -250,7 +250,7 @@ public class UserServlet extends BaseServlet {
 		
 		try {
 			root.put("title", "关注者");
-			root.put("title_en", "Follower");
+			root.put("GetMiniPic", new GetMiniPic());
 			root.put("login_user", login_user);
 			User user = (User) GCache.get("user:" + login_screenname + ":" + user_screenname);
 			if (null == user) {
@@ -262,8 +262,6 @@ public class UserServlet extends BaseServlet {
 			root.put("follows", follows);
 			root.put("previouscursor", follows.getPreviousCursor());
 			root.put("nextcursor", follows.getNextCursor());
-			String[] js = {"/js/follow.js"};
-			root.put("js", js);
 			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {

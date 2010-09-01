@@ -50,7 +50,7 @@
                     </ol>
                     <div id="page">
                     	<#if page gt 1><a href="?p=${page - 1}" class="left">上一页</a></#if>
-						<#if follows?size gte 20><a href="?p=${page + 1}" class="right">下一页</a></#if>
+						<a href="?p=${page + 1}" class="right">下一页</a>
 					</div>
                 <!--#wrapper--></div>
 			<!--#content--></td>

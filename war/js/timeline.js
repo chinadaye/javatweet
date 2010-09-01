@@ -31,7 +31,11 @@ function onreply(id)
 {
 	onreplystatus(id);
 	return false;
-}
+};
+function onrt_t(id)
+{
+	return onrt_tstatus(id);
+};
 
 function onfav(id)
 {

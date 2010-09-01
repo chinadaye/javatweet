@@ -30,6 +30,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint> 
+
+<!-- web -->
+
 	<servlet>
 		<servlet-name>apiproxy.ApiServlet</servlet-name>
 		<servlet-class>jtweet.apiproxy.ApiServlet</servlet-class>
@@ -154,5 +157,123 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>web.SettingServlet</servlet-name>
 		<url-pattern>/setting</url-pattern>
 		<url-pattern>/setimg</url-pattern>
+	</servlet-mapping>
+
+
+<!-- Mobile -->
+
+	<servlet>
+		<servlet-name>mobile.IndexServlet</servlet-name>
+		<servlet-class>jtweet.mobile.IndexServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.IndexServlet</servlet-name>
+		<url-pattern>/m</url-pattern>
+		<url-pattern>/m/index</url-pattern>
+		<url-pattern>/m/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.OAuthLoginServlet</servlet-name>
+		<servlet-class>jtweet.mobile.OAuthLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.OAuthLoginServlet</servlet-name>
+		<url-pattern>/m/oauthproxy</url-pattern>
+		<url-pattern>/m/oauthoffical</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.OAuthCallbackServlet</servlet-name>
+		<servlet-class>jtweet.mobile.OAuthCallbackServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.OAuthCallbackServlet</servlet-name>
+		<url-pattern>/m/oauthcallback</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.OAuthLogoutServlet</servlet-name>
+		<servlet-class>jtweet.mobile.OAuthLogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.OAuthLogoutServlet</servlet-name>
+		<url-pattern>/m/logout</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.HomeServlet</servlet-name>
+		<servlet-class>jtweet.mobile.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.HomeServlet</servlet-name>
+		<url-pattern>/m/home</url-pattern>
+		<url-pattern>/m/replies</url-pattern>
+		<url-pattern>/m/favorites</url-pattern>
+		<url-pattern>/m/retweets_by_me</url-pattern>
+		<url-pattern>/m/retweets_to_me</url-pattern>
+		<url-pattern>/m/public</url-pattern>
+		<url-pattern>/m/follower</url-pattern>
+		<url-pattern>/m/following</url-pattern>
+		<url-pattern>/m/blocking</url-pattern>
+		<url-pattern>/m/post</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.UserServlet</servlet-name>
+		<servlet-class>jtweet.mobile.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.UserServlet</servlet-name>
+		<url-pattern>/m/user/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.MsgServlet</servlet-name>
+		<servlet-class>jtweet.mobile.MsgServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.MsgServlet</servlet-name>
+		<url-pattern>/m/inbox</url-pattern>
+		<url-pattern>/m/outbox</url-pattern>
+		<url-pattern>/m/senddm</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.ActionServlet</servlet-name>
+		<servlet-class>jtweet.mobile.ActionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.ActionServlet</servlet-name>
+		<url-pattern>/m/re</url-pattern>
+		<url-pattern>/m/rt</url-pattern>
+		<url-pattern>/m/rt_offical</url-pattern>
+		<url-pattern>/m/fav</url-pattern>
+		<url-pattern>/m/unfav</url-pattern>
+		<url-pattern>/m/fo</url-pattern>
+		<url-pattern>/m/unfo</url-pattern>
+		<url-pattern>/m/b</url-pattern>
+		<url-pattern>/m/unb</url-pattern>
+		<url-pattern>/m/delstatus</url-pattern>
+		<url-pattern>/m/delmsg</url-pattern>
+		<url-pattern>/m/dm</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>mobile.SearchServlet</servlet-name>
+		<servlet-class>jtweet.mobile.SearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.SearchServlet</servlet-name>
+		<url-pattern>/m/search</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>mobile.SettingServlet</servlet-name>
+		<servlet-class>jtweet.mobile.SettingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.SettingServlet</servlet-name>
+		<url-pattern>/m/setting</url-pattern>
+		<url-pattern>/m/setimg</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>mobile.StatusServlet</servlet-name>
+		<servlet-class>jtweet.mobile.StatusServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mobile.StatusServlet</servlet-name>
+		<url-pattern>/m/status/*</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -46,7 +46,13 @@ function onreply(id)
 	$("form#status_update_form").slideDown("normal");
 	onreplystatus(id);
 	return false;
-}
+};
+function onrt_t(id)
+{
+	$("form#msg_update_form").slideUp("normal");
+	$("form#status_update_form").slideDown("normal");
+	return onrt_tstatus(id);
+};
 
 function onfav(id)
 {

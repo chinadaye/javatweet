@@ -1,4 +1,4 @@
-package jtweet.web;
+package jtweet.mobile;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,11 +7,12 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jtweet.gae.GCache;
+import jtweet.mobile.template.GetMiniPic;
+import jtweet.mobile.template.TexttoHTML;
 import jtweet.util.ShortURL;
 import jtweet.util.Utils;
-import jtweet.web.template.TexttoHTML;
 import twitter4j.PagableResponseList;
+import twitter4j.Paging;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import freemarker.template.Template;
@@ -20,9 +21,8 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class HomeServlet extends BaseServlet {
 	protected String uri;
-	protected String text = new String();
-	protected String action_result = new String();
 	protected Long in_reply_to = (long) 0;
+	protected Paging page = new Paging();
 	
 	
 	
@@ -34,144 +34,6 @@ public class HomeServlet extends BaseServlet {
 		}
 		init_twitter(req, resp);
 		
-		String action = req.getParameter("action");
-		String s_status_id = req.getParameter("id");
-		if(Utils.isEmptyOrNull(action))
-		{
-			text = "";
-			in_reply_to = (long) 0;
-		}
-		else if(Utils.isEmptyOrNull(s_status_id))
-		{
-			if(action.equalsIgnoreCase("fo"))
-			{
-				String fo = req.getParameter("u");
-				try {
-					twitter.createFriendship(fo);
-					GCache.clean("user:" + login_screenname + ":" + fo);
-					action_result = "Follow成功。";
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					action_result = "Follow失败，错误：" + e.getStatusCode();
-				}
-			}
-			else if(action.equalsIgnoreCase("unfo"))
-			{
-				String unfo = req.getParameter("u");
-				try {
-					twitter.destroyFriendship(unfo);
-					GCache.clean("user:" + login_screenname + ":" + unfo);
-					action_result = "UnFollow成功。";
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					action_result = "UnFollow失败，错误：" + e.getStatusCode();
-				}
-			}
-			else if(action.equalsIgnoreCase("b"))
-			{
-				String b = req.getParameter("u");
-				try {
-					twitter.createBlock(b);
-					action_result = "Block成功。";
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					action_result = "Block失败，错误：" + e.getStatusCode();
-				}
-			}
-			else if(action.equalsIgnoreCase("unb"))
-			{
-				String unb = req.getParameter("u");
-				try {
-					twitter.destroyBlock(unb);
-					action_result = "UnBlock成功。";
-				} catch (TwitterException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					action_result = "Unblock失败，错误：" + e.getStatusCode();
-				}
-			}
-			else
-			{
-				text = "";
-				in_reply_to = (long) 0;
-			}
-		}
-		else if(action.equalsIgnoreCase("re"))
-		{
-			in_reply_to = Long.parseLong(s_status_id);
-			String to = req.getParameter("u");
-			text = "@" + to + " ";
-		}
-		else if(action.equalsIgnoreCase("rt_t"))
-		{
-			Long id = Long.parseLong(s_status_id);
-			String source = req.getParameter("u");
-			try {
-				text = twitter.showStatus(id).getText();
-				text = "RT @" + source + " " + text;
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				action_result = "RT 失败，错误：" + e.getStatusCode();
-			}
-		}
-		else if(action.equalsIgnoreCase("rt"))
-		{
-			Long id = Long.parseLong(s_status_id);
-			try {
-				twitter.retweetStatus(id);
-				action_result = "RT成功。";
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				action_result = "RT 失败，错误：" + e.getStatusCode();
-			}
-			
-		}
-		else if(action.equalsIgnoreCase("unfav"))
-		{
-			Long id = Long.parseLong(s_status_id);
-			try {
-				twitter.destroyFavorite(id);
-				action_result = "取消收藏成功。";
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				action_result = "取消收藏失败，错误：" + e.getStatusCode();
-			}
-		}
-		else if(action.equalsIgnoreCase("fav"))
-		{
-			Long id = Long.parseLong(s_status_id);
-			try {
-				twitter.createFavorite(id);
-				action_result = "收藏成功。";
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				action_result = "收藏失败，错误：" + e.getStatusCode();
-			}
-		}
-		else if(action.equalsIgnoreCase("del"))
-		{
-			Long id = Long.parseLong(s_status_id);
-			try {
-				twitter.destroyStatus(id);
-				action_result = "删除成功。";
-			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				action_result = "删除失败，错误：" + e.getStatusCode();
-			}
-		}
-		else
-		{
-			text = "";
-			in_reply_to = (long) 0;
-		}
 		getTimeline(req, resp);		
 	}
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -183,26 +45,32 @@ public class HomeServlet extends BaseServlet {
 		}
 		init_twitter(req, resp);
 		
-		String s_in_reply_to = req.getParameter("in_reply_to_status_id");
+		String s_in_reply_to = req.getParameter("in_reply_to_id");
 		String content = req.getParameter("status");
-		in_reply_to = Long.parseLong(s_in_reply_to);
+		try{
+			in_reply_to = Long.parseLong(s_in_reply_to);
+		} catch(NumberFormatException e){
+			in_reply_to = (long)0;
+		}
 		if(Utils.isEmptyOrNull(content))
 		{
-			action_result = "请勿发送空消息";
+			showError(resp, "请勿发送空消息");
+			return;
 		}
 		else if(in_reply_to > 0)
 		{
 			try {
+				content = ShortURL.ShortURL_isgd(content);
 				if(content.length() > 140)
 				{
 					content = content.substring(0, 138) + "…";
 				}
 				twitter.updateStatus(content, in_reply_to);
-				action_result = "发推成功。";
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
-				action_result = "发推失败，错误：" + e.getStatusCode();
+				showError(resp, "发推失败，错误：" + e.getStatusCode());
+				return;
 			}
 		}
 		else
@@ -214,61 +82,67 @@ public class HomeServlet extends BaseServlet {
 					content = content.substring(0, 138) + "…";
 				}
 				twitter.updateStatus(content);
-				action_result = "发推成功。";
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
-				action_result = "发推失败，错误：" + e.getStatusCode();
+				showError(resp, "发推失败，错误：" + e.getStatusCode());
+				return;
 			}
 		}
 		in_reply_to = (long) 0;
-		text = "";
-		getTimeline(req, resp);
+		resp.sendRedirect("/m/home");
 	}
-	
+
 	public void getTimeline(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		uri = req.getRequestURI();
 		resp.setContentType("text/html; charset=UTF-8");
-		if(uri.equalsIgnoreCase("/home"))
+		String p = req.getParameter("p");
+		page.setCount(20);
+		page.setPage(1);
+		if(!Utils.isEmptyOrNull(p))
+		{
+			page.setPage(Integer.parseInt(p));
+		}
+		if(uri.equalsIgnoreCase("/m/home"))
 		{
 			getHomeTimeline(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/replies"))
+		else if(uri.equalsIgnoreCase("/m/replies"))
 		{
 			getReplies(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/favorites"))
+		else if(uri.equalsIgnoreCase("/m/favorites"))
 		{
 			getFaveorites(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/retweets_by_me"))
+		else if(uri.equalsIgnoreCase("/m/retweets_by_me"))
 		{
 			getRetweetsByMe(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/retweets_to_me"))
+		else if(uri.equalsIgnoreCase("/m/retweets_to_me"))
 		{
 			getRetweetsToMe(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/public"))
+		else if(uri.equalsIgnoreCase("/m/public"))
 		{
 			getPublicTimeline(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/following"))
+		else if(uri.equalsIgnoreCase("/m/following"))
 		{
 			getFollowing(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/follower"))
+		else if(uri.equalsIgnoreCase("/m/follower"))
 		{
 			getFollower(req, resp);
 		}
-		else if(uri.equalsIgnoreCase("/blocking"))
+		else if(uri.equalsIgnoreCase("/m/blocking"))
 		{
 			getBlocking(req, resp);
 		}
 		else
 		{
-			resp.sendRedirect("/home");
+			resp.sendRedirect("/m/home");
 		}
 	}
 	
@@ -276,21 +150,16 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "首页");
-			root.put("title_en", "Home");
-			root.put("in_reply_to", in_reply_to);
-			root.put("uri", uri);
-			root.put("text", text);
-			root.put("action_result", action_result);
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", twitter.getHomeTimeline());
-			String[] js = {"/js/home.js"};
-			root.put("js", js);
+			root.put("status", twitter.getHomeTimeline(page));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -317,21 +186,16 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "回复");
-			root.put("title_en", "Replies");
-			root.put("uri", uri);
-			root.put("in_reply_to", in_reply_to);
-			root.put("text", text);
-			root.put("action_result", action_result);
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", twitter.getMentions());
-			String[] js = {"/js/timeline.js"};
-			root.put("js", js);
+			root.put("status", twitter.getMentions(page));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -358,21 +222,16 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "收藏");
-			root.put("title_en", "Faveorites");
-			root.put("uri", uri);
-			root.put("in_reply_to", in_reply_to);
-			root.put("text", text);
-			root.put("action_result", action_result);
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", twitter.getFavorites());
-			String[] js = {"/js/timeline.js"};
-			root.put("js", js);
+			root.put("status", twitter.getFavorites(page.getPage()));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -399,21 +258,16 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "Retweets by me");
-			root.put("title_en", "Retweets by me");
-			root.put("uri", uri);
-			root.put("in_reply_to", in_reply_to);
-			root.put("text", text);
-			root.put("action_result", action_result);
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", twitter.getRetweetedByMe());
-			String[] js = {"/js/timeline.js"};
-			root.put("js", js);
+			root.put("status", twitter.getRetweetedByMe(page));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -440,21 +294,16 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "Retweets To me");
-			root.put("title_en", "Retweets To me");
-			root.put("uri", uri);
-			root.put("in_reply_to", in_reply_to);
-			root.put("text", text);
-			root.put("action_result", action_result);
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", twitter.getRetweetedToMe());
-			String[] js = {"/js/timeline.js"};
-			root.put("js", js);
+			root.put("status", twitter.getRetweetedToMe(page));
+			root.put("page", page.getPage());
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -481,7 +330,7 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		String s_c = req.getParameter("c");
@@ -493,16 +342,13 @@ public class HomeServlet extends BaseServlet {
 		
 		try {
 			root.put("title", "朋友");
-			root.put("title_en", "Following");
+			root.put("GetMiniPic", new GetMiniPic());
 			root.put("login_user", login_user);
 			root.put("user", login_user);
-			root.put("action_result", action_result);
 			PagableResponseList<User> follows = twitter.getFriendsStatuses(c);
 			root.put("follows", follows);
 			root.put("previouscursor", follows.getPreviousCursor());
 			root.put("nextcursor", follows.getNextCursor());
-			String[] js = {"/js/follow.js"};
-			root.put("js", js);
 			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -529,7 +375,7 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		String s_c = req.getParameter("c");
@@ -541,16 +387,13 @@ public class HomeServlet extends BaseServlet {
 		
 		try {
 			root.put("title", "关注者");
-			root.put("title_en", "Follower");
+			root.put("GetMiniPic", new GetMiniPic());
 			root.put("login_user", login_user);
 			root.put("user", login_user);
-			root.put("action_result", action_result);
 			PagableResponseList<User> follows = twitter.getFollowersStatuses(c);
 			root.put("follows", follows);
 			root.put("previouscursor", follows.getPreviousCursor());
 			root.put("nextcursor", follows.getNextCursor());
-			String[] js = {"/js/follow.js"};
-			root.put("js", js);
 			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
@@ -577,7 +420,7 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		String s_p = req.getParameter("p");
@@ -589,15 +432,12 @@ public class HomeServlet extends BaseServlet {
 		
 		try {
 			root.put("title", "屏蔽列表");
-			root.put("title_en", "Blocking");
+			root.put("GetMiniPic", new GetMiniPic());
 			root.put("login_user", login_user);
 			root.put("user", login_user);
-			root.put("action_result", action_result);
 			root.put("follows", twitter.getBlockingUsers(p));
 			root.put("page", p);
-			String[] js = {"/js/follow.js"};
-			root.put("js", js);
-			Template t = config.getTemplate("block.ftl");
+			Template t = config.getTemplate("follow.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
@@ -623,21 +463,15 @@ public class HomeServlet extends BaseServlet {
 	{
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
-		config.setDirectoryForTemplateLoading(new File("template"));
+		config.setDirectoryForTemplateLoading(new File("mobile"));
 		config.setDefaultEncoding("UTF-8");
 		
 		try {
 			root.put("title", "公共页面");
-			root.put("title_en", "Public");
-			root.put("uri", uri);
-			root.put("in_reply_to", in_reply_to);
-			root.put("text", text);
-			root.put("action_result", action_result);
-			root.put("texttohtml", new TexttoHTML());
+			root.put("GetMiniPic", new GetMiniPic());
+			root.put("TexttoHTML", new TexttoHTML());
 			root.put("login_user", login_user);
 			root.put("status", twitter.getPublicTimeline());
-			String[] js = {"/js/timeline.js"};
-			root.put("js", js);
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
