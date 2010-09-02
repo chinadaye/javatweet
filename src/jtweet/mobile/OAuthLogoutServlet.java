@@ -16,6 +16,6 @@ public class OAuthLogoutServlet extends HttpServlet {
 		cookie.setMaxAge(0);
 		cookie.setPath("/");
 		resp.addCookie(cookie);
-		resp.sendRedirect("/");
+		resp.sendRedirect("/m");
 	}
 }
