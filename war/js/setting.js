@@ -14,7 +14,6 @@ $(document).ready(function() {
 			else
 				flash_radio[1].checked = "true";
 			window.setInterval(function() {
-						updateStatus("home");
 						reloadprofile();
 					}, 60000);
 		});
