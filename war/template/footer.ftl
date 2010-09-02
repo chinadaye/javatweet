@@ -3,10 +3,10 @@
 <div id="footer" class="round">
 	<ul class="footer-nav">
 		<li>&copy; 2010</li>
-		<li><a href="/user/yulei666" target="_blank">@yulei666</li>
-		<li><a href="/user/gythialy" target="_blank">@gythialy</li>
-		<li><a href="/user/sospartan" target="_blank">@sospartan</li>
-		<li><a href="/user/gowers" target="_blank">@gowers</li>
+		<li><a href="/user/yulei666" target="_blank">@yulei666</a></li>
+		<li><a href="/user/gythialy" target="_blank">@gythialy</a></li>
+		<li><a href="/user/sospartan" target="_blank">@sospartan</a></li>
+		<li><a href="/user/gowers" target="_blank">@gowers</a></li>
 		<li><a href="http://code.google.com/p/javatweet" target="_blank">JaveTweet with OAuth</a></li>
 	</ul>
 </div>

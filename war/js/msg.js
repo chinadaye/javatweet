@@ -3,7 +3,6 @@ $(document).ready(function() {
 						updateCount();
 					}, 300);
 			window.setInterval(function() {
-						updateStatus("home");
 						reloadprofile();
 					}, 60000);
 		});
@@ -54,7 +53,7 @@ function ongetmoremsg(u)
 	}
 	else if(u == "/outbox")
 	{
-		type = "moreroutbox";
+		type = "moreoutbox";
 	}
 	getmorestaus(type);
 };

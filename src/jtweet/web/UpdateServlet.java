@@ -437,7 +437,7 @@ public class UpdateServlet extends BaseServlet {
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
 			root.put("msgs", twitter.getDirectMessages(p));
-			Template t = config.getTemplate("status_element.ftl");
+			Template t = config.getTemplate("msg_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
@@ -472,7 +472,7 @@ public class UpdateServlet extends BaseServlet {
 			root.put("uri", "/outbox");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("msgs", twitter.getSentDirectMessages());
+			root.put("msgs", twitter.getSentDirectMessages(p));
 			Template t = config.getTemplate("msg_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
