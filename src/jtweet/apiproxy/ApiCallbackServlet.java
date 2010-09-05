@@ -67,7 +67,7 @@ public class ApiCallbackServlet extends HttpServlet {
 			session.setAttribute("apitoken", accessToken);
 			GCache.put("apitoken:" + twitter.getScreenName(), accessToken, 3600 * 24 * 7);
 			updateToken(accessToken);
-			String out = "<html><head><title>API登陆密钥</title></head><body><h3>登陆信息：<br/>(登陆即可再次见得该页面。)</h3><p>用户名:" + twitter.getScreenName() + "</p><p>密码:" + accessToken.getToken().substring(0, 6) + "</p><p><a href=\"/apilogout\">删除登陆记录</a></p></body>";
+			String out = "<html><head><title>API登陆密钥</title></head><body><h3>登陆信息：<br/>(登陆即可再次见得该页面。)</h3><p>用户名:" + twitter.getScreenName() + "</p><p>密码:" + accessToken.getTokenSecret().substring(0, 6) + "</p><p><a href=\"/apilogout\">删除登陆记录</a></p></body>";
 			resp.getOutputStream().write(out.getBytes("UTF-8"));
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
