@@ -24,6 +24,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	throws IOException {
+		resp.setContentType("text/html; charset=UTF-8");
 		String oauthVerifier = req.getParameter("oauth_verifier");
 		
 		if(Utils.isEmptyOrNull(oauthVerifier))

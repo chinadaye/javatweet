@@ -34,15 +34,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 <!-- web -->
 
 	<servlet>
-		<servlet-name>apiproxy.ApiServlet</servlet-name>
-		<servlet-class>jtweet.apiproxy.ApiServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>apiproxy.ApiServlet</servlet-name>
-		<url-pattern>/api</url-pattern>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>apiproxy.OAuthProxyServlet</servlet-name>
 		<servlet-class>jtweet.apiproxy.OAuthProxyServlet</servlet-class>
 	</servlet>
@@ -276,4 +267,33 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>mobile.StatusServlet</servlet-name>
 		<url-pattern>/m/status/*</url-pattern>
 	</servlet-mapping>
+	
+<!--API-->
+	<servlet>
+		<servlet-name>apiproxy.ApiServlet</servlet-name>
+		<servlet-class>jtweet.apiproxy.ApiServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>apiproxy.ApiServlet</servlet-name>
+		<url-pattern>/api</url-pattern>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>apiproxy.ApiLoginServlet</servlet-name>
+		<servlet-class>jtweet.apiproxy.ApiLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>apiproxy.ApiLoginServlet</servlet-name>
+		<url-pattern>/apioauth</url-pattern>
+		<url-pattern>/apioauthproxy</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>apiproxy.ApiCallbackServlet</servlet-name>
+		<servlet-class>jtweet.apiproxy.ApiCallbackServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>apiproxy.ApiCallbackServlet</servlet-name>
+		<url-pattern>/apicallback</url-pattern>
+		<url-pattern>/apilogout</url-pattern>
+	</servlet-mapping>	
 </web-app>

@@ -27,6 +27,7 @@ public class OAuthLoginServlet extends HttpServlet {
 	}
 	private void doLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
+		resp.setContentType("text/html; charset=UTF-8");
 		String URI = req.getRequestURI();
 		
 		HttpSession session = req.getSession(true);

@@ -12,6 +12,7 @@ public class OAuthLogoutServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	throws IOException {
+		resp.setContentType("text/html; charset=UTF-8");
 		Cookie cookie = new Cookie(BaseServlet.ACCESS_COOKIE_NAME, null);
 		cookie.setMaxAge(0);
 		cookie.setPath("/");

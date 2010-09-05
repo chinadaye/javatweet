@@ -55,7 +55,7 @@ public class GCache {
 		try {
 			cache = CacheManager.getInstance().getCacheFactory().createCache(
 					props);
-			cache.put(key, obj);
+			cache.put(key.trim(), obj);
 			return true;
 		} catch (CacheException e) {
 			log.warning(e.getMessage());
@@ -66,7 +66,7 @@ public class GCache {
 	}
 	
 	public static void clean(String key){
-		MemcacheServiceFactory.getMemcacheService().delete(key);
+		MemcacheServiceFactory.getMemcacheService().delete(key.trim());
 	}
 	
 	public static void clearAll(){
