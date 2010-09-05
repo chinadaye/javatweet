@@ -79,7 +79,7 @@ public class ApiServlet extends HttpServlet {
 					passwd = BasicAuth.substring(BasicAuth.indexOf(":") + 1);
 					//logger.log(Level.SEVERE, passwd);
 					accessToken = getToken(username);
-					if(accessToken != null && accessToken.getToken().startsWith(passwd))
+					if(accessToken != null && accessToken.getTokenSecret().startsWith(passwd))
 					{
 						Hashtable<String, String> params = new Hashtable<String, String>();
 						Enumeration<String> param_names = req.getParameterNames();
@@ -149,7 +149,7 @@ public class ApiServlet extends HttpServlet {
 					username = BasicAuth.substring(0, BasicAuth.indexOf(":"));
 					passwd = BasicAuth.substring(BasicAuth.indexOf(":") + 1);
 					accessToken = getToken(username);
-					if(accessToken != null && accessToken.getToken().startsWith(passwd))
+					if(accessToken != null && accessToken.getTokenSecret().startsWith(passwd))
 					{
 						Hashtable<String, String> params = new Hashtable<String, String>();
 						if(!req.getContentType().contains("multipart/form-data"))
