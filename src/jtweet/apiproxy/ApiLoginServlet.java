@@ -1,4 +1,4 @@
-package jtweet.web;
+package jtweet.apiproxy;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.http.RequestToken;
 
 @SuppressWarnings("serial")
-public class OAuthLoginServlet extends HttpServlet {
+public class ApiLoginServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	throws IOException {
@@ -29,7 +29,6 @@ public class OAuthLoginServlet extends HttpServlet {
 	{
 		resp.setContentType("text/html; charset=UTF-8");
 		String URI = req.getRequestURI();
-		String stayin = req.getParameter("stayin");
 		
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
@@ -37,16 +36,12 @@ public class OAuthLoginServlet extends HttpServlet {
 		TwitterFactory twitterfactory = new TwitterFactory();
 		Twitter twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
 		
-		String callbackURL = Utils.getBaseURL(req) + "/oauthcallback";
-		if(!Utils.isEmptyOrNull(stayin) && stayin.equalsIgnoreCase("1"))
-		{
-			callbackURL += "?stayin=1";
-		}
+		String callbackURL = Utils.getBaseURL(req) + "/apicallback";
 		try {
 			RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
 			session.setAttribute("requestToken", requestToken);
 			String authURL = requestToken.getAuthorizationURL();
-			if(URI.equalsIgnoreCase("/oauthproxy"))
+			if(URI.equalsIgnoreCase("/apioauthproxy"))
 			{
 				authURL = authURL.replaceFirst("http(s?)://twitter.com/oauth/authorize", "/oauth/authorize");
 			}			

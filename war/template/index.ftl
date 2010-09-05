@@ -31,16 +31,7 @@
         </form>
     </div>
 <div class="fixed"></div>
-<div id="footer" class="round">
-	<ul class="footer-nav">
-		<li >&copy; 2010 @Yulei666</li>
-		<li><a href="http://code.google.com/p/javatweet" target="_blank">JaveTweet with OAuth</a></li>
-	</ul>
-</div>
-<div id="footer-icon">
-	<a href="http://code.google.com/appengine/" target="_blank" title="Google AppEngine"><img src="img/appengine-silver-120x30.gif" alt="Google AppEngine"/></a>
-    <a href="http://twitter4j.org/" target="_blank" title="Twitter4J"><img src="img/powered-by-twitter4j-138x30.gif" alt="Twitter4J" /></a>
-</div>
+<#include "footer.ftl" />
 <!-- #container --></div>
 </body>
 </html>
