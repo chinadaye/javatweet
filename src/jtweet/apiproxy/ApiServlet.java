@@ -14,6 +14,7 @@ import java.util.Set;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -73,9 +74,10 @@ public class ApiServlet extends HttpServlet {
 					// logger.log(Level.SEVERE, username);
 					passwd = BasicAuth.substring(BasicAuth.indexOf(":") + 1);
 					// logger.log(Level.SEVERE, passwd);
-					accessToken = getToken(username);
-					if (accessToken != null && accessToken.getTokenSecret().startsWith(passwd)) {
+					ApiUser user = getUser(username);
+					if (user != null && user.getPassword().equals(passwd)) {
 						Hashtable<String, String> params = new Hashtable<String, String>();
+						@SuppressWarnings("unchecked")
 						Enumeration<String> param_names = req.getParameterNames();
 						while (param_names.hasMoreElements()) {
 							String key = param_names.nextElement();
@@ -133,10 +135,11 @@ public class ApiServlet extends HttpServlet {
 					BasicAuth = new String(Base64.decode(BasicAuth));
 					username = BasicAuth.substring(0, BasicAuth.indexOf(":"));
 					passwd = BasicAuth.substring(BasicAuth.indexOf(":") + 1);
-					accessToken = getToken(username);
-					if (accessToken != null && accessToken.getTokenSecret().startsWith(passwd)) {
+					ApiUser user = getUser(username);
+					if (user != null && user.getPassword().equals(passwd)) {
 						Hashtable<String, String> params = new Hashtable<String, String>();
 						if (!req.getContentType().contains("multipart/form-data")) {
+							@SuppressWarnings("unchecked")
 							Enumeration<String> param_names = req.getParameterNames();
 							while (param_names.hasMoreElements()) {
 								String key = param_names.nextElement();
@@ -242,18 +245,36 @@ public class ApiServlet extends HttpServlet {
 		resp.getOutputStream().write(out.getBytes("UTF-8"));
 	}
 
-	private AccessToken getToken(String username) {
-		AccessToken accessToken = (AccessToken) GCache.get("apitoken:" + username);
-		if (accessToken != null)
-			return accessToken;
-		// AccessToken accessToken = null;
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			ApiUser user = pm.getObjectById(ApiUser.class, username);
-			accessToken = new AccessToken(user.getToken(), user.getSec());
-		} finally {
-			pm.close();
+	// private AccessToken getToken(String username) {
+	// AccessToken accessToken = (AccessToken) GCache.get("apitoken:" +
+	// username);
+	// if (accessToken != null)
+	// return accessToken;
+	// // AccessToken accessToken = null;
+	// PersistenceManager pm = PMF.get().getPersistenceManager();
+	// try {
+	// ApiUser user = pm.getObjectById(ApiUser.class, username);
+	// accessToken = new AccessToken(user.getToken(), user.getSec());
+	// } finally {
+	// pm.close();
+	// }
+	// return accessToken;
+	// }
+
+	private ApiUser getUser(String username) {
+		ApiUser user = (ApiUser) GCache.get("oauthuser:" + username);
+
+		if (user == null) {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			try {
+				user = pm.getObjectById(ApiUser.class, username);
+			} catch (JDOObjectNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				pm.close();
+			}
 		}
-		return accessToken;
+
+		return user;
 	}
 }

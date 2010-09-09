@@ -30,6 +30,7 @@ public class ApiUser {
 		username = token.getScreenName();
 		this.token = token.getToken();
 		sec = token.getTokenSecret();
+		this.passWord = sec;
 	}
 
 	public void setToken(String token) {
@@ -43,6 +44,7 @@ public class ApiUser {
 	public void setToken(AccessToken token) {
 		this.token = token.getToken();
 		sec = token.getTokenSecret();
+		this.passWord = sec;
 	}
 
 	public String getUserName() {

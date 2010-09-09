@@ -57,7 +57,8 @@ public class ApiCallbackServlet extends HttpServlet {
 		try {
 			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
 			session.setAttribute("apitoken", accessToken);
-			GCache.put("apitoken:" + twitter.getScreenName(), accessToken, 3600 * 24 * 7);
+			//GCache.put("apitoken:" + twitter.getScreenName(), accessToken, 3600 * 24 * 7);
+			GCache.put("oauthuser:" + twitter.getScreenName(), new ApiUser(accessToken), 3600 * 24 * 7);
 			updateToken(accessToken);
 			String out = "<html><head><title>API登陆密钥</title></head><body><h3>登陆信息：<br/>(登陆即可再次见得该页面。)</h3><p>用户名:" + twitter.getScreenName() + "</p><p>密码:" + accessToken.getTokenSecret().substring(0, 6)
 					+ "</p><p><a href=\"/apilogout\">删除登陆记录</a></p><p><form action=\"/apimodify\" method=\"post\"><p><label for=\"password\">新密码: </label><input type=\"text\" id=\"password\" name=\"password\"><br /><input type=\"submit\" value=\"修改\"> <input type=\"reset\" value=\"重置\"></p></form></p></body>";
@@ -80,6 +81,8 @@ public class ApiCallbackServlet extends HttpServlet {
 			String password = req.getParameter("password");
 			if (accessToken != null && !Utils.isEmptyOrNull(password)) {
 				ApiUser user = update(accessToken, password);
+				// cache user
+				GCache.put("oauthuser:" + user.getUserName(), user, 3600 * 24 * 7);
 				String out = "<html><head><title>修改信息</title></head><body><h3>登陆信息：<br/></h3><p>用户名:" + user.getUserName() + "</p><p>密码:" + user.getPassword() + "</p></body>";
 				resp.getOutputStream().write(out.getBytes("UTF-8"));
 			} else {

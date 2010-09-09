@@ -18,9 +18,6 @@ public class TRequest {
 
 	// search?
 	public static Boolean isSearch(String req_url) {
-		if (req_url.startsWith("/search") || req_url.startsWith("/trends"))
-			return true;
-		else
-			return false;
+		return (req_url.startsWith("/search") || req_url.startsWith("/trends"));
 	}
 }
