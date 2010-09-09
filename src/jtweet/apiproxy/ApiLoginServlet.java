@@ -16,35 +16,33 @@ import twitter4j.http.RequestToken;
 
 @SuppressWarnings("serial")
 public class ApiLoginServlet extends HttpServlet {
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-	throws IOException {
+
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		doLogin(req, resp);
 	}
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-	throws IOException {
+
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		doLogin(req, resp);
 	}
-	private void doLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException
-	{
+
+	private void doLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		String URI = req.getRequestURI();
-		
+
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
-		
+
 		TwitterFactory twitterfactory = new TwitterFactory();
 		Twitter twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
-		
+
 		String callbackURL = Utils.getBaseURL(req) + "/apicallback";
 		try {
 			RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
 			session.setAttribute("requestToken", requestToken);
 			String authURL = requestToken.getAuthorizationURL();
-			if(URI.equalsIgnoreCase("/apioauthproxy"))
-			{
+			if (URI.equalsIgnoreCase("/apioauthproxy")) {
 				authURL = authURL.replaceFirst("http(s?)://twitter.com/oauth/authorize", "/oauth/authorize");
-			}			
+			}
 			resp.sendRedirect(authURL);
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
