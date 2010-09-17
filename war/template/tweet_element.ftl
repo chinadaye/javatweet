@@ -10,11 +10,11 @@
                                 	<span class="entry-content">${texttohtml(t.getText())}</span>
                             	</div>
                                 <div class="meta entry-meta">
-                                	<span>通过${t.getSource()}</span>
+                                	<span class="published timestamp" ><a class="entry-date" href="/status/${t.getId()?c}" target="_blank">大约在 ${t.getHumanTime()}</a></span>
+                                	<span>通过 ${t.getSource()} 发表</span>
                                 	<#if t.getToUser()?exists>
                                     <span>对${t.getToUser()}的回复</span>
                                     </#if>
-                                    <span class="published timestamp" ><a class="entry-date" href="/status/${t.getId()?c}" target="_blank">发表于${t.getCreatedAt()?datetime}</a></span>
                                 </div>
                                 <ul class="actions-hover right">
                                 	<li><a href="/home?action=re&id=${t.getId()?c}&u=${t.getFromUser()}" title="回复" onclick="return onreply('${t.getId()?c}');" class="a_re">回复</a></li>

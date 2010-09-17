@@ -19,11 +19,11 @@
 		<#if status?exists>
 		<div class="status_text">${texttohtml(status.getText())}</div>
 		<div class="status_info">	
-			<span class="status_source">通过${status.getSource()}</span>
+			<span class="published timestamp" ><a class="entry-date" href="/status/${status.getId()?c}" target="_blank">大约在 ${status.getHumanTime()}</a></span>
+			<span class="status_source">通过 ${status.getSource()} 发表</span>
 			<#if status.getInReplyToScreenName()?exists>
 			<a href="/status/${status.getInReplyToStatusId()?c}" class="status_reply_to">对${status.getInReplyToScreenName()}的回复</a>
 			</#if>
-			<span class="status_time">发表于${status.getCreatedAt()?datetime}</span>
 		</div>
 		<div id="status_user_warp">
 			<#assign u=status.getUser()> 

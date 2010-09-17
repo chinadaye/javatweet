@@ -7,9 +7,11 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jtweet.hack.JStatus;
 import jtweet.web.template.GetBigPic;
 import jtweet.web.template.TexttoHTML;
 
+import twitter4j.Status;
 import twitter4j.TwitterException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -19,46 +21,44 @@ public class StatusServlet extends BaseServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
-		
-		if(!isLogin(req))
-		{
+
+		if (!isLogin(req)) {
 			redirectIndex(resp);
 			return;
 		}
 		init_twitter(req, resp);
-		
+
 		String uri = req.getRequestURI();
 		String[] path = uri.split("/");
-		
-		if(path.length < 3)
-		{
+
+		if (path.length < 3) {
 			resp.sendRedirect("/home");
 			return;
 		}
 		long id = Long.parseLong(path[2]);
-		if(id <= 0)
-		{
+		if (id <= 0) {
 			resp.sendError(404);
 			return;
 		}
-		
+
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
 		config.setDirectoryForTemplateLoading(new File("template"));
 		config.setDefaultEncoding("UTF-8");
-		
+
 		try {
 			root.put("title", id);
 			root.put("getbigpic", new GetBigPic());
 			root.put("texttohtml", new TexttoHTML());
-			root.put("status", twitter.showStatus(id));
+			Status status = twitter.showStatus(id);
+			JStatus jStatus = new JStatus(status);
+			root.put("status", jStatus);
 			Template t = config.getTemplate("status.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			if(e.getStatusCode() == 401 || e.getStatusCode() == 403)
-			{
+			// e.printStackTrace();
+			if (e.getStatusCode() == 401 || e.getStatusCode() == 403) {
 				Template t = config.getTemplate("status.ftl");
 				try {
 					t.process(root, resp.getWriter());
@@ -66,13 +66,9 @@ public class StatusServlet extends BaseServlet {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			else if(e.getStatusCode() > 0)
-			{
+			} else if (e.getStatusCode() > 0) {
 				resp.sendError(e.getStatusCode());
-			}
-			else
-			{
+			} else {
 				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		} catch (TemplateException e) {
