@@ -2,7 +2,6 @@ package jtweet.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jtweet.hack.JStatus;
-import jtweet.hack.JTweet;
 import jtweet.hack.StatusHelper;
+import jtweet.hack.TweetHelper;
 import jtweet.util.Utils;
 import jtweet.web.template.TexttoHTML;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.Status;
-import twitter4j.Tweet;
 import twitter4j.TwitterException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -82,24 +80,19 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getHomeTimeline(p));
 			root.put("uri", "/home");
 			root.put("newcome", true);
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getHomeTimeline(p)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void morehome(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -121,20 +114,16 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getHomeTimeline(p));
 			root.put("uri", "/home");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getHomeTimeline(p)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -159,21 +148,16 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			// List<Status> status = twitter.getMentions(p);
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getMentions(p));
 			root.put("uri", "/replies");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getMentions(p)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -200,20 +184,15 @@ public class UpdateServlet extends BaseServlet {
 			} else {
 				root.put("uri", "/home");
 			}
-			// List<Status> status = twitter.getFavorites(u, page);
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getFavorites(u, page));
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getFavorites(u, page)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -238,21 +217,16 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			// List<Status> status = twitter.getRetweetedByMe(p);
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getRetweetedByMe(p));
 			root.put("uri", "/retweets_by_me");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getRetweetedByMe(p)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -277,22 +251,16 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			// List<Status> status = twitter.getRetweetedToMe(p);
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getRetweetedToMe(p));
-
 			root.put("uri", "/retweets_to_me");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getRetweetedToMe(p)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -306,24 +274,18 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			// List<Status> status = twitter.getPublicTimeline();
-			List<JStatus> status = StatusHelper.parseStatus(twitter.getPublicTimeline());
 			root.put("uri", "/public");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getPublicTimeline()));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void moresearch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -345,22 +307,13 @@ public class UpdateServlet extends BaseServlet {
 		try {
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			List<Tweet> tweets = twitter.search(q).getTweets();
-			List<JTweet> jTweets = new ArrayList<JTweet>(tweets.size());
-			for (Tweet tweet : tweets) {
-				JTweet jTweet = new JTweet(tweet);
-				jTweets.add(jTweet);
-			}
-			root.put("tweets", jTweets);
+			root.put("tweets", TweetHelper.parseTweets(twitter.search(q).getTweets()));
 			Template t = config.getTemplate("tweet_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -386,23 +339,18 @@ public class UpdateServlet extends BaseServlet {
 		config.setDefaultEncoding("UTF-8");
 
 		try {
-			List<Status> status = twitter.getUserTimeline(u, p);
 			root.put("uri", "/home");
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-			root.put("status", status);
+			root.put("status", StatusHelper.parseStatus(twitter.getUserTimeline(u, p)));
 			Template t = config.getTemplate("status_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void moreinbox(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -431,14 +379,11 @@ public class UpdateServlet extends BaseServlet {
 			Template t = config.getTemplate("msg_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void moreoutbox(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -467,11 +412,9 @@ public class UpdateServlet extends BaseServlet {
 			Template t = config.getTemplate("msg_element.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			if (e.getStatusCode() > 0)
 				resp.sendError(e.getStatusCode());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

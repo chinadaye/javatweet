@@ -51,8 +51,7 @@ public class StatusServlet extends BaseServlet {
 			root.put("getbigpic", new GetBigPic());
 			root.put("texttohtml", new TexttoHTML());
 			Status status = twitter.showStatus(id);
-			JStatus jStatus = new JStatus(status);
-			root.put("status", jStatus);
+			root.put("status", new JStatus(status));
 			Template t = config.getTemplate("status.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
