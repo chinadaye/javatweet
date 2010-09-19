@@ -10,7 +10,7 @@
                                 	<span class="entry-content">${texttohtml(t.getText())}</span>
                             	</div>
                                 <div class="meta entry-meta">
-                                	<span class="published timestamp" ><a class="entry-date" href="/status/${t.getId()?c}" target="_blank">大约在 ${t.getHumanTime()}</a></span>
+                                	<span class="published timestamp" ><a class="entry-date" href="/status/${t.getId()?c}" target="_blank">大约在${t.getHumanTime()}</a></span>
                                 	<span>通过 ${t.getSource()} 发表</span>
                                 	<#if t.getToUser()?exists>
                                     <span>对${t.getToUser()}的回复</span>

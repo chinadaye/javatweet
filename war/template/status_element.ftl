@@ -16,7 +16,7 @@
                                 <div class="meta entry-meta">
                                 	<span>ReTweet to you by</span>
                                     <span><a href="/user/${u.getScreenName()}" target="_blank">${u.getScreenName()}</a></span>
-                                    <span class="published timestamp" ><a class="entry-date" href="/status/${s_rt.getId()?c}" target="_blank">大约发表于 ${s_rt.getHumanTime()}</a></span>
+                                    <span class="published timestamp" ><a class="entry-date" href="/status/${s_rt.getId()?c}" target="_blank">大约发表于${s_rt.getHumanTime()}</a></span>
                                 </div>
                                 <ul class="actions-hover right">
                                 	<li><a href="${uri}?action=re&id=${s_rt.getId()?c}&u=${u_rt.getScreenName()}" title="回复" onclick="return onreply('${s_rt.getId()?c}');" class="a_re">回复</a></li>
@@ -44,7 +44,7 @@
                                 	<span class="entry-content">${texttohtml(s.getText())}</span>
                             	</div>
                                 <div class="meta entry-meta">
-                                	<span class="published timestamp" ><a class="entry-date" href="/status/${s.getId()?c}" target="_blank">大约在 ${s.getHumanTime()}</a></span>
+                                	<span class="published timestamp" ><a class="entry-date" href="/status/${s.getId()?c}" target="_blank">大约在${s.getHumanTime()}</a></span>
                                 	<span>通过 ${s.getSource()} 发表</span>
                                 	<#if s.getInReplyToScreenName()?exists>
                                     <span>对<a href="/status/${s.getInReplyToStatusId()?c}" target="_blank">${s.getInReplyToScreenName()}</a>的回复</span>
