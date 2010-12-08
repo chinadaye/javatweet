@@ -3,19 +3,16 @@ package jtweet.web;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jtweet.hack.JStatus;
 import jtweet.hack.StatusHelper;
 import jtweet.hack.TweetHelper;
 import jtweet.util.Utils;
 import jtweet.web.template.TexttoHTML;
 import twitter4j.Paging;
 import twitter4j.Query;
-import twitter4j.Status;
 import twitter4j.TwitterException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

@@ -1,9 +1,11 @@
 package jtweet.hack;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.Date;
 
 import jtweet.util.Utils;
+import twitter4j.Annotations;
 import twitter4j.GeoLocation;
 import twitter4j.Place;
 import twitter4j.RateLimitStatus;
@@ -109,5 +111,35 @@ public class JStatus implements Status, Serializable {
 
 	public String getHumanTime() {
 		return Utils.humanReadableString(status.getCreatedAt());
+	}
+
+	@Override
+	public Annotations getAnnotations() {
+		return status.getAnnotations();
+	}
+
+	@Override
+	public String[] getHashtags() {
+		return status.getHashtags();
+	}
+
+	@Override
+	public long getRetweetCount() {
+		return status.getRetweetCount();
+	}
+
+	@Override
+	public URL[] getURLs() {
+		return status.getURLs();
+	}
+
+	@Override
+	public User[] getUserMentions() {
+		return status.getUserMentions();
+	}
+
+	@Override
+	public boolean isRetweetedByMe() {
+		return status.isRetweetedByMe();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import jtweet.util.Utils;
 
+import twitter4j.Annotations;
 import twitter4j.GeoLocation;
 import twitter4j.Tweet;
 
@@ -85,5 +86,10 @@ public final class JTweet implements Tweet, Serializable {
 
 	public String getHumanTime() {
 		return Utils.humanReadableString(tweet.getCreatedAt());
+	}
+
+	@Override
+	public Annotations getAnnotations() {
+		return tweet.getAnnotations();
 	}
 }
