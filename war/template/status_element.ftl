@@ -3,7 +3,7 @@
 <#list status as s>
 <#assign u=s.getUser()/>
 <#if s.isRetweet()>
-<#assign s_rt=s.getRetweetedStatus()/>
+<#assign s_rt=s.getRetweetedJStatus()/>
 <#assign u_rt=s_rt.getUser()/>
                     	<li class="hentry status <#if newcome?exists> newcome<#if (u_rt.getScreenName()?lower_case != login_user.getScreenName()?lower_case) && (u.getScreenName()?lower_case != login_user.getScreenName()?lower_case)> unread</#if></#if>" id="status_${s_rt.getId()?c}">
                         	<div class="fixed hentry_id" id="status_id${s.getId()?c}"></div>
@@ -16,7 +16,7 @@
                                 <div class="meta entry-meta">
                                 	<span>ReTweet to you by</span>
                                     <span><a href="/user/${u.getScreenName()}" target="_blank">${u.getScreenName()}</a></span>
-                                    <span class="published timestamp" ><a class="entry-date" href="/status/${s_rt.getId()?c}" target="_blank">发表于${s_rt.getCreatedAt()?datetime}</a></span>
+                                    <span class="published timestamp" ><a class="entry-date" href="/status/${s_rt.getId()?c}" target="_blank">大约发表于${s_rt.getHumanTime()}</a></span>
                                 </div>
                                 <ul class="actions-hover right">
                                 	<li><a href="${uri}?action=re&id=${s_rt.getId()?c}&u=${u_rt.getScreenName()}" title="回复" onclick="return onreply('${s_rt.getId()?c}');" class="a_re">回复</a></li>
@@ -44,11 +44,11 @@
                                 	<span class="entry-content">${texttohtml(s.getText())}</span>
                             	</div>
                                 <div class="meta entry-meta">
-                                	<span>通过${s.getSource()}</span>
+                                	<span class="published timestamp" ><a class="entry-date" href="/status/${s.getId()?c}" target="_blank">大约在${s.getHumanTime()}</a></span>
+                                	<span>通过 ${s.getSource()} 发表</span>
                                 	<#if s.getInReplyToScreenName()?exists>
                                     <span>对<a href="/status/${s.getInReplyToStatusId()?c}" target="_blank">${s.getInReplyToScreenName()}</a>的回复</span>
                                     </#if>
-                                    <span class="published timestamp" ><a class="entry-date" href="/status/${s.getId()?c}" target="_blank">发表于${s.getCreatedAt()?datetime}</a></span>
                                 </div>
                                 <ul class="actions-hover right">
                                 	<li><a href="${uri}?action=re&id=${s.getId()?c}&u=${u.getScreenName()}" title="回复" onclick="return onreply('${s.getId()?c}');" class="a_re">回复</a></li>
