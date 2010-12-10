@@ -295,5 +295,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>apiproxy.ApiCallbackServlet</servlet-name>
 		<url-pattern>/apicallback</url-pattern>
 		<url-pattern>/apilogout</url-pattern>
+		<url-pattern>/apimodify</url-pattern>
 	</servlet-mapping>	
 </web-app>
