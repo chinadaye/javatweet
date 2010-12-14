@@ -32,7 +32,7 @@
                         <div id="user_name">${user.getScreenName()}(${user.getName()})</div>
                         <ul id="user_action">
                         	<li><a href="/outbox?action=re&u=${user.getScreenName()}" title="发送消息" onclick="return onsendmsg('${user.getScreenName()}');" class="a_sendmsg">发送消息</a></li>
-                            <#if user.isFollowing()>
+                            <#if user.isFollowRequestSent()>
                             <li><a href="/following?action=unfo&u=${user.getScreenName()}" title="取消关注" onclick="return onunfo('${user.getScreenName()}');" class="a_fo">取消关注</a></li>
                             <#else>
                             <li><a href="/following?action=fo&u=${user.getScreenName()}" title="关注" onclick="return onfo('${user.getScreenName()}');" class="a_fo">关注</a></li>
