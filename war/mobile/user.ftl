@@ -37,7 +37,7 @@
 			| <a href="/m/user/${user.getScreenName()}/following">${user.getFriendsCount()?c}朋友</a>
 			| <a href="/m/user/${user.getScreenName()}/favorites">${user.getFavouritesCount()?c}收藏</a>	
 			| <a href="/m/dm?u=${user.getScreenName()}">发送消息</a> 
-			| <#if user.isFollowing()><a href="/m/unfo?u=${user.getScreenName()}">取消关注</a><#else><a href="/m/fo?u=${user.getScreenName()}">关注</a></#if> 
+			| <#if user.isFollowRequestSent()><a href="/m/unfo?u=${user.getScreenName()}">取消关注</a><#else><a href="/m/fo?u=${user.getScreenName()}">关注</a></#if> 
 			| <#if blocked><a href="/m/unb?u=${user.getScreenName()}">取消屏蔽</a><#else><a href="/m/b?u=${user.getScreenName()}">屏蔽</a></#if>
 	
 	</td>
