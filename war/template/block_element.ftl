@@ -8,7 +8,7 @@
                                 <ul class="follow-action">
                                 	<li><strong><a href="/user/${f.getScreenName()}" class="tweet-url screen-name">${f.getScreenName()}</a></strong></li>
                                     <li><a href="/outbox?action=re&u=${f.getScreenName()}" title="发送消息" onclick="return onsendmsg('${f.getScreenName()}');" class="a_sendmsg">发送消息</a></li>
-                                    <#if f.isFollowing()>
+                                    <#if f.isFollowRequestSent()>
                                     <li><a href="/following?action=unfo&u=${f.getScreenName()}" title="取消关注" onclick="return onunfo('${f.getId()?c}');" class="a_fo">取消关注</a></li>
                                     <#else>
                                     <li><a href="/following?action=fo&u=${f.getScreenName()}" title="关注" onclick="return onfo('${f.getId()?c}');" class="a_fo">关注</a></li>
