@@ -2,16 +2,25 @@ package jtweet.apiproxy;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.*;
-import com.google.appengine.api.urlfetch.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@SuppressWarnings("serial")
+import com.google.appengine.api.urlfetch.HTTPHeader;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
+
 public class OAuthProxyServlet extends HttpServlet {
-
-	protected String twurl = "https://twitter.com/oauth/authorize";
+	private static final Logger LOGGER = Logger.getLogger(OAuthProxyServlet.class.getName());
+	private static final long serialVersionUID = -3333489666377871869L;
+	protected String twurl = "https://api.twitter.com/oauth/authorize";
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String query_string = req.getQueryString();
@@ -22,6 +31,7 @@ public class OAuthProxyServlet extends HttpServlet {
 		try {
 			HTTPResponse httpresp = urlFetch.fetch(httpreq);
 			String respcon = new String(httpresp.getContent(), "UTF-8");
+			LOGGER.info(respcon);
 			respcon = respcon.replaceAll(twurl, "/oauth/authorize");
 			String reg = "<body(.)+?>";
 			Pattern p = Pattern.compile(reg);
@@ -43,8 +53,8 @@ public class OAuthProxyServlet extends HttpServlet {
 			if (httpresp.getResponseCode() != 200)
 				resp.sendError(httpresp.getResponseCode());
 		} catch (IOException e) {
+			LOGGER.severe(e.getMessage());
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-			// e.printStackTrace();
 		}
 	}
 
@@ -82,8 +92,8 @@ public class OAuthProxyServlet extends HttpServlet {
 			if (httpresp.getResponseCode() != 200)
 				resp.sendError(httpresp.getResponseCode());
 		} catch (IOException e) {
+			LOGGER.severe(e.getMessage());
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-			// e.printStackTrace();
 		}
 	}
 }

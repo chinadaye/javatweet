@@ -2,6 +2,7 @@ package jtweet.mobile;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -19,44 +20,42 @@ import twitter4j.TwitterFactory;
 import twitter4j.http.AccessToken;
 import twitter4j.http.RequestToken;
 
-@SuppressWarnings("serial")
 public class OAuthCallbackServlet extends HttpServlet {
+	private static final Logger LOGGER = Logger.getLogger(OAuthCallbackServlet.class.getName());
+	private static final long serialVersionUID = -7791356099155680485L;
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-	throws IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		String oauthVerifier = req.getParameter("oauth_verifier");
-		
-		if(Utils.isEmptyOrNull(oauthVerifier))
-		{
+
+		if (Utils.isEmptyOrNull(oauthVerifier)) {
 			resp.sendRedirect("/m/logout");
 			return;
 		}
-		
+
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
-		
+
 		RequestToken requestToken = (RequestToken) session.getAttribute("requestToken");
 		session.removeAttribute("requestToken");
-		session.invalidate();
-		
+		LOGGER.info("RequestToken : " + requestToken.toString());
+		// session.invalidate();
+
 		TwitterFactory twitterfactory = new TwitterFactory();
 		Twitter twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
-		
+
 		try {
 			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
+			LOGGER.info("AccessToken : " + accessToken.toString());
 			String accessCookie = Encrypt.encodeAccount(accessToken.getToken(), accessToken.getTokenSecret());
-			@SuppressWarnings("deprecation")
-			Cookie cookie = new Cookie(BaseServlet.ACCESS_COOKIE_NAME, URLEncoder.encode(accessCookie));
+			Cookie cookie = new Cookie(BaseServlet.ACCESS_COOKIE_NAME, URLEncoder.encode(accessCookie, "UTF-8"));
 			cookie.setMaxAge(7 * 24 * 3600);
 			cookie.setPath("/");
 			resp.addCookie(cookie);
 			resp.sendRedirect("/m/home");
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.severe(e.getMessage());
 			resp.sendRedirect("/m/logout");
 		}
 	}
-	
 }
