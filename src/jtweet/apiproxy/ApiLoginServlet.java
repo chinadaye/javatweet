@@ -41,7 +41,7 @@ public class ApiLoginServlet extends HttpServlet {
 			session.setAttribute("requestToken", requestToken);
 			String authURL = requestToken.getAuthorizationURL();
 			if (URI.equalsIgnoreCase("/apioauthproxy")) {
-				authURL = authURL.replaceFirst("http(s?)://twitter.com/oauth/authorize", "/oauth/authorize");
+				authURL = authURL.replaceFirst("http(s?)://api.twitter.com/oauth/authorize", "/oauth/authorize");
 			}
 			resp.sendRedirect(authURL);
 		} catch (TwitterException e) {
