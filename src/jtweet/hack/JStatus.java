@@ -1,16 +1,18 @@
 package jtweet.hack;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.Date;
 
 import jtweet.util.Utils;
 import twitter4j.Annotations;
 import twitter4j.GeoLocation;
+import twitter4j.HashtagEntity;
 import twitter4j.Place;
 import twitter4j.RateLimitStatus;
 import twitter4j.Status;
+import twitter4j.URLEntity;
 import twitter4j.User;
+import twitter4j.UserMentionEntity;
 
 public class JStatus implements Status, Serializable {
 	private static final long serialVersionUID = -2056720393048797997L;
@@ -61,7 +63,7 @@ public class JStatus implements Status, Serializable {
 	}
 
 	@Override
-	public int getInReplyToUserId() {
+	public long getInReplyToUserId() {
 		return status.getInReplyToUserId();
 	}
 
@@ -119,8 +121,8 @@ public class JStatus implements Status, Serializable {
 	}
 
 	@Override
-	public String[] getHashtags() {
-		return status.getHashtags();
+	public HashtagEntity[] getHashtagEntities() {
+		return status.getHashtagEntities();
 	}
 
 	@Override
@@ -129,13 +131,13 @@ public class JStatus implements Status, Serializable {
 	}
 
 	@Override
-	public URL[] getURLs() {
-		return status.getURLs();
+	public URLEntity[] getURLEntities() {
+		return status.getURLEntities();
 	}
 
 	@Override
-	public User[] getUserMentions() {
-		return status.getUserMentions();
+	public UserMentionEntity[] getUserMentionEntities() {
+		return status.getUserMentionEntities();
 	}
 
 	@Override

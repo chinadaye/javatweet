@@ -13,6 +13,7 @@ import jtweet.util.ShortURL;
 import jtweet.util.Utils;
 import jtweet.web.template.TexttoHTML;
 import twitter4j.PagableResponseList;
+import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import freemarker.template.Template;
@@ -164,7 +165,8 @@ public class HomeServlet extends BaseServlet {
 				if (content.length() > 140) {
 					content = content.substring(0, 138) + "…";
 				}
-				twitter.updateStatus(content, in_reply_to);
+				StatusUpdate statusUpdate = new StatusUpdate(content);
+				twitter.updateStatus(statusUpdate.inReplyToStatusId(in_reply_to));
 				action_result = "发推成功。";
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
@@ -180,8 +182,7 @@ public class HomeServlet extends BaseServlet {
 				twitter.updateStatus(content);
 				action_result = "发推成功。";
 			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
+				 e.printStackTrace();
 				action_result = "发推失败，错误：" + e.getStatusCode();
 			}
 		}
@@ -231,14 +232,12 @@ public class HomeServlet extends BaseServlet {
 			root.put("action_result", action_result);
 			root.put("texttohtml", new TexttoHTML());
 			root.put("login_user", login_user);
-
 			root.put("status", StatusHelper.parseStatus(twitter.getHomeTimeline()));
 			String[] js = { "/js/home.js" };
 			root.put("js", js);
 			Template t = config.getTemplate("home.ftl");
 			t.process(root, resp.getWriter());
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			if (e.getStatusCode() == 401) {
 				redirectIndex(resp);
 			} else if (e.getStatusCode() > 0) {
@@ -247,7 +246,6 @@ public class HomeServlet extends BaseServlet {
 				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

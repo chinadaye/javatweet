@@ -17,59 +17,49 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
-import twitter4j.http.AccessToken;
+import twitter4j.auth.AccessToken;
 
 @SuppressWarnings("serial")
-public class BaseServlet extends HttpServlet
-{
+public class BaseServlet extends HttpServlet {
 	protected Twitter twitter = null;
 	protected String browser = null;
 	private AccessToken accessToken = null;
 	public static final String ACCESS_COOKIE_NAME = "access";
 	public String login_screenname;
 	public User login_user;
-		
-	//读取session和cookie，判断是否已经登陆
+
+	// 读取session和cookie，判断是否已经登陆
 	@SuppressWarnings("deprecation")
-	protected boolean isLogin(HttpServletRequest req) 
-	{
+	protected boolean isLogin(HttpServletRequest req) {
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
 		String Token = (String) session.getAttribute("accessToken");
 		String TokenSecret = (String) session.getAttribute("accessTokenSecret");
 
-		if (!Utils.isEmptyOrNull(Token) && !Utils.isEmptyOrNull(TokenSecret))
-		{
+		if (!Utils.isEmptyOrNull(Token) && !Utils.isEmptyOrNull(TokenSecret)) {
 			accessToken = new AccessToken(Token, TokenSecret);
 			return true;
-		}
-		else
-		{
+		} else {
 			Cookie[] cookies = req.getCookies();
-			if (cookies == null)
-			{
+			if (cookies == null) {
 				return false;
 			}
-			
+
 			Cookie accountCookie = null;
-			for (Cookie cookie : cookies)
-			{
-				if (cookie.getName().equals(BaseServlet.ACCESS_COOKIE_NAME))
-				{
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(BaseServlet.ACCESS_COOKIE_NAME)) {
 					accountCookie = cookie;
 					break;
 				}
 			}
 
-			if (accountCookie == null || accountCookie.getValue() == null)
-			{
+			if (accountCookie == null || accountCookie.getValue() == null) {
 				return false;
 			}
 
 			String[] accountString = Encrypt.decodeAccount(URLDecoder.decode(accountCookie.getValue()));
 
-			if (accountString == null)
-			{
+			if (accountString == null) {
 				return false;
 			}
 			Token = accountString[0];
@@ -81,18 +71,18 @@ public class BaseServlet extends HttpServlet
 
 		return true;
 	}
-	
-	//清空cookie中的登陆信息，重定向到登陆页面
-	protected void redirectIndex(HttpServletResponse resp) throws IOException
-	{
+
+	// 清空cookie中的登陆信息，重定向到登陆页面
+	protected void redirectIndex(HttpServletResponse resp) throws IOException {
 		resp.sendRedirect("/logout");
 	}
-	
-	//初始化twitter
-	public void init_twitter(HttpServletRequest req, HttpServletResponse resp) throws IOException
-	{
-		TwitterFactory twitterfactory = new TwitterFactory();
-		twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret(), accessToken);
+
+	// 初始化twitter
+	public void init_twitter(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		twitter = new TwitterFactory().getInstance();
+		twitter.setOAuthConsumer(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
+		twitter.setOAuthAccessToken(accessToken);
+
 		try {
 			login_screenname = twitter.getScreenName();
 			login_user = (User) GCache.get("user:" + login_screenname + ":" + login_screenname);
@@ -102,16 +92,11 @@ public class BaseServlet extends HttpServlet
 			}
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			if(e.getStatusCode() == 401)
-			{
+			if (e.getStatusCode() == 401) {
 				redirectIndex(resp);
-			}
-			else if(e.getStatusCode() > 0)
-			{
+			} else if (e.getStatusCode() > 0) {
 				resp.sendError(e.getStatusCode());
-			}
-			else
-			{
+			} else {
 				resp.getOutputStream().println("Error Message: " + e.getMessage());
 			}
 		}
@@ -126,9 +111,8 @@ public class BaseServlet extends HttpServlet
 			browser = "other";
 		}
 	}
-	
-	public AccessToken getAccessToken()
-	{
+
+	public AccessToken getAccessToken() {
 		return accessToken;
 	}
 

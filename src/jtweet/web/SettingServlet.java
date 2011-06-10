@@ -34,23 +34,21 @@ import freemarker.template.TemplateException;
 @SuppressWarnings("serial")
 public class SettingServlet extends BaseServlet {
 	private static Random RAND = new Random();
-	
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
-		if(!isLogin(req))
-		{
+		if (!isLogin(req)) {
 			redirectIndex(resp);
 			return;
 		}
 		init_twitter(req, resp);
 		getSetting(resp, null);
 	}
-	
+
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		String uri = req.getRequestURI();
-		if(!isLogin(req))
-		{
+		if (!isLogin(req)) {
 			redirectIndex(resp);
 			return;
 		}
@@ -61,7 +59,7 @@ public class SettingServlet extends BaseServlet {
 			UpdateProfile(req, resp);
 		}
 	}
-	
+
 	protected void getSetting(HttpServletResponse resp, String msg) throws IOException {
 		HashMap<String, Object> root = new HashMap<String, Object>();
 		freemarker.template.Configuration config = new freemarker.template.Configuration();
@@ -101,19 +99,19 @@ public class SettingServlet extends BaseServlet {
 			msg = "什么也没有更新，因为你啥也没提交。";
 		} else {
 			try {
-				twitter.updateProfile(name, null, url, loc, desc);
+				twitter.updateProfile(name, url, loc, desc);
 				GCache.clean("user:" + login_screenname + ":" + login_screenname);
 				msg = "资料更新成功。";
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
 				msg = "资料更新失败，错误代码：" + e.getStatusCode() + "。";
-				//e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 
 		getSetting(resp, msg);
 	}
-	
+
 	protected void UpdateImg(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String msg = null;
 
@@ -138,25 +136,26 @@ public class SettingServlet extends BaseServlet {
 
 		getSetting(resp, msg);
 	}
-	
-    @SuppressWarnings("deprecation")
+
+	@SuppressWarnings("deprecation")
 	private String generateAuthorizationHeader() {
-    	
-        Long timestamp = System.currentTimeMillis() / 1000;
-        Long nonce = timestamp + RAND.nextInt();
-    	String base_str = "POST&http%3A%2F%2Fapi.twitter.com%2F1%2Faccount%2Fupdate_profile_image.json&oauth_consumer_key%3D" + URLEncoder.encode(Configuration.getConsumerKey()) + "%26oauth_nonce%3D" + nonce +"%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D" + timestamp + "%26oauth_token%3D" + URLEncoder.encode(getAccessToken().getToken()) + "%26oauth_version%3D1.0";
-        try {
+
+		Long timestamp = System.currentTimeMillis() / 1000;
+		Long nonce = timestamp + RAND.nextInt();
+		String base_str = "POST&http%3A%2F%2Fapi.twitter.com%2F1%2Faccount%2Fupdate_profile_image.json&oauth_consumer_key%3D" + URLEncoder.encode(Configuration.getConsumerKey()) + "%26oauth_nonce%3D" + nonce + "%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D" + timestamp
+				+ "%26oauth_token%3D" + URLEncoder.encode(getAccessToken().getToken()) + "%26oauth_version%3D1.0";
+		try {
 			Mac mac = Mac.getInstance("HmacSHA1");
 			String oauthSignature = URLEncoder.encode(Configuration.getConsumerSecret()) + "&" + URLEncoder.encode(getAccessToken().getTokenSecret());
-	        SecretKeySpec spec = new SecretKeySpec(oauthSignature.getBytes(), "HmacSHA1");
-	        mac.init(spec);
-	        byte[] byteHMAC = mac.doFinal(base_str.getBytes());
-	        String signature = BASE64Encoder.encode(byteHMAC);
-	        
-	    	String header_str = "OAuth oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"" + timestamp
-	    						+ "\", oauth_consumer_key=\"" + URLEncoder.encode(Configuration.getConsumerKey()) + "\", oauth_token=\"" + URLEncoder.encode(getAccessToken().getToken()) + "\", oauth_signature=\"" + URLEncoder.encode(signature) + "\", oauth_version=\"1.0\"";
-	    	return header_str;
-        } catch (NoSuchAlgorithmException e) {
+			SecretKeySpec spec = new SecretKeySpec(oauthSignature.getBytes(), "HmacSHA1");
+			mac.init(spec);
+			byte[] byteHMAC = mac.doFinal(base_str.getBytes());
+			String signature = BASE64Encoder.encode(byteHMAC);
+
+			String header_str = "OAuth oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"" + timestamp + "\", oauth_consumer_key=\"" + URLEncoder.encode(Configuration.getConsumerKey()) + "\", oauth_token=\"" + URLEncoder.encode(getAccessToken().getToken())
+					+ "\", oauth_signature=\"" + URLEncoder.encode(signature) + "\", oauth_version=\"1.0\"";
+			return header_str;
+		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
@@ -164,5 +163,5 @@ public class SettingServlet extends BaseServlet {
 			e.printStackTrace();
 		}
 		return null;
-    }
+	}
 }

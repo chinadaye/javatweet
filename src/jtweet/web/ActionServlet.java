@@ -11,6 +11,7 @@ import jtweet.util.Utils;
 
 import org.json.simple.JSONObject;
 
+import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 
 @SuppressWarnings("serial")
@@ -26,8 +27,7 @@ public class ActionServlet extends BaseServlet {
 	public void doAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String type = req.getParameter("type");
 		resp.setContentType("application/x-javascript; charset=UTF-8");
-		if(!isLogin(req))
-		{
+		if (!isLogin(req)) {
 			JSONObject json = new JSONObject();
 			json.put("success", false);
 			json.put("info", "no login");
@@ -35,65 +35,40 @@ public class ActionServlet extends BaseServlet {
 			return;
 		}
 		init_twitter(req, resp);
-		
-		if(type.equalsIgnoreCase("poststatus"))
-		{
+
+		if (type.equalsIgnoreCase("poststatus")) {
 			poststatus(req, resp);
-		}
-		else if(type.equalsIgnoreCase("rtstatus"))
-		{
+		} else if (type.equalsIgnoreCase("rtstatus")) {
 			rtstatus(req, resp);
-		}
-		else if(type.equalsIgnoreCase("fav"))
-		{
+		} else if (type.equalsIgnoreCase("fav")) {
 			favstatus(req, resp);
-		}
-		else if(type.equalsIgnoreCase("unfav"))
-		{
+		} else if (type.equalsIgnoreCase("unfav")) {
 			unfavstatus(req, resp);
-		}
-		else if(type.equalsIgnoreCase("delstatus"))
-		{
+		} else if (type.equalsIgnoreCase("delstatus")) {
 			delstatus(req, resp);
-		}
-		else if(type.equalsIgnoreCase("sendmsg"))
-		{
+		} else if (type.equalsIgnoreCase("sendmsg")) {
 			sendmsg(req, resp);
-		}
-		else if(type.equalsIgnoreCase("delmsg"))
-		{
+		} else if (type.equalsIgnoreCase("delmsg")) {
 			delmsg(req, resp);
-		}
-		else if(type.equalsIgnoreCase("fo"))
-		{
+		} else if (type.equalsIgnoreCase("fo")) {
 			fo(req, resp);
-		}
-		else if(type.equalsIgnoreCase("unfo"))
-		{
+		} else if (type.equalsIgnoreCase("unfo")) {
 			unfo(req, resp);
-		}
-		else if(type.equalsIgnoreCase("b"))
-		{
+		} else if (type.equalsIgnoreCase("b")) {
 			block(req, resp);
-		}
-		else if(type.equalsIgnoreCase("unb"))
-		{
+		} else if (type.equalsIgnoreCase("unb")) {
 			unblock(req, resp);
-		}
-		else if(type.equalsIgnoreCase("reloadprofile"))
-		{
+		} else if (type.equalsIgnoreCase("reloadprofile")) {
 			reloadprofile(req, resp);
-		}
-		else
-		{
+		} else {
 			JSONObject json = new JSONObject();
 			json.put("success", false);
 			json.put("info", "wrong action");
 			resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 		}
-		
+
 	}
-	
+
 	public void poststatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String t = req.getParameter("t");
 		String re_id = req.getParameter("id");
@@ -101,29 +76,25 @@ public class ActionServlet extends BaseServlet {
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(re_id))
-			{
-				id = Long.parseLong(re_id); 
+			if (!Utils.isEmptyOrNull(re_id)) {
+				id = Long.parseLong(re_id);
 			}
 			t = ShortURL.ShortURL_isgd(t);
 			if (t.length() > 140) {
 				t = t.substring(0, 139) + "…";
 			}
-			if(id > 0)
-			{
-				twitter.updateStatus(t, id);	
-			}
-			else
-			{
-				twitter.updateStatus(t, id);
+			if (id > 0) {
+				StatusUpdate statusUpdate = new StatusUpdate(t);
+				twitter.updateStatus(statusUpdate.inReplyToStatusId(id));
+			} else {
+				StatusUpdate statusUpdate = new StatusUpdate(t);
+				twitter.updateStatus(statusUpdate);
 			}
 			rst = true;
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			info = "代码：" + e.getStatusCode();
 		} catch (NumberFormatException e) {
 			info = "id格式错误";
 		}
@@ -135,33 +106,29 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void rtstatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String re_id = req.getParameter("id");
 		long id = 0;
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(re_id))
-			{
-				id = Long.parseLong(re_id); 
+			if (!Utils.isEmptyOrNull(re_id)) {
+				id = Long.parseLong(re_id);
 			}
-			if(id > 0)
-			{
+			if (id > 0) {
 				twitter.retweetStatus(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		} catch (NumberFormatException e) {
 			info = "id格式错误";
 		}
@@ -173,33 +140,29 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void delstatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String re_id = req.getParameter("id");
 		long id = 0;
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(re_id))
-			{
-				id = Long.parseLong(re_id); 
+			if (!Utils.isEmptyOrNull(re_id)) {
+				id = Long.parseLong(re_id);
 			}
-			if(id > 0)
-			{
+			if (id > 0) {
 				twitter.destroyStatus(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		} catch (NumberFormatException e) {
 			info = "id格式错误";
 		}
@@ -211,33 +174,29 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void favstatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String re_id = req.getParameter("id");
 		long id = 0;
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(re_id))
-			{
-				id = Long.parseLong(re_id); 
+			if (!Utils.isEmptyOrNull(re_id)) {
+				id = Long.parseLong(re_id);
 			}
-			if(id > 0)
-			{
+			if (id > 0) {
 				twitter.createFavorite(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		} catch (NumberFormatException e) {
 			info = "id格式错误";
 		}
@@ -249,33 +208,29 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void unfavstatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String re_id = req.getParameter("id");
 		long id = 0;
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(re_id))
-			{
-				id = Long.parseLong(re_id); 
+			if (!Utils.isEmptyOrNull(re_id)) {
+				id = Long.parseLong(re_id);
 			}
-			if(id > 0)
-			{
+			if (id > 0) {
 				twitter.destroyFavorite(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		} catch (NumberFormatException e) {
 			info = "id格式错误";
 		}
@@ -287,32 +242,29 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void sendmsg(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String t = req.getParameter("t");
 		String id = req.getParameter("id");
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
-		if(Utils.isEmptyOrNull(id))
-		{
+
+		if (Utils.isEmptyOrNull(id)) {
 			rst = false;
 			info = "id格式错误";
 		}
 		t = ShortURL.ShortURL_isgd(t);
 		if (t.length() > 140) {
 			t = t.substring(0, 139) + "…";
-		}
-		else
-		{
+		} else {
 			try {
 				twitter.sendDirectMessage(id, t);
 				rst = true;
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				info =  "代码：" + e.getStatusCode();
+				// e.printStackTrace();
+				info = "代码：" + e.getStatusCode();
 			}
 		}
 		if (rst) {
@@ -323,33 +275,29 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void delmsg(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String re_id = req.getParameter("id");
 		int id = 0;
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(re_id))
-			{
-				id = Integer.parseInt(re_id); 
+			if (!Utils.isEmptyOrNull(re_id)) {
+				id = Integer.parseInt(re_id);
 			}
-			if(id > 0)
-			{
+			if (id > 0) {
 				twitter.destroyDirectMessage(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		} catch (NumberFormatException e) {
 			info = "id格式错误";
 		}
@@ -361,29 +309,26 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void fo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("id");
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(id))
-			{
+			if (!Utils.isEmptyOrNull(id)) {
 				twitter.createFriendship(id);
 				GCache.clean("user:" + login_screenname + ":" + id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		}
 		if (rst) {
 			json.put("success", true);
@@ -393,29 +338,26 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void unfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("id");
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(id))
-			{
+			if (!Utils.isEmptyOrNull(id)) {
 				twitter.destroyFriendship(id);
 				GCache.clean("user:" + login_screenname + ":" + id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		}
 		if (rst) {
 			json.put("success", true);
@@ -425,28 +367,25 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void block(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("id");
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(id))
-			{
+			if (!Utils.isEmptyOrNull(id)) {
 				twitter.createBlock(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		}
 		if (rst) {
 			json.put("success", true);
@@ -456,28 +395,25 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void unblock(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("id");
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
-			if(!Utils.isEmptyOrNull(id))
-			{
+			if (!Utils.isEmptyOrNull(id)) {
 				twitter.destroyBlock(id);
 				rst = true;
-			}
-			else
-			{
+			} else {
 				info = "id格式错误";
 			}
-			
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		}
 		if (rst) {
 			json.put("success", true);
@@ -487,12 +423,12 @@ public class ActionServlet extends BaseServlet {
 		}
 		resp.getOutputStream().write(json.toJSONString().getBytes("utf-8"));
 	}
-	
+
 	public void reloadprofile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		boolean rst = false;
 		String info = new String();
 		JSONObject json = new JSONObject();
-		
+
 		try {
 			GCache.clean("user:" + login_screenname + ":" + login_screenname);
 			login_user = twitter.verifyCredentials();
@@ -500,8 +436,8 @@ public class ActionServlet extends BaseServlet {
 			rst = true;
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			info =  "代码：" + e.getStatusCode();
+			// e.printStackTrace();
+			info = "代码：" + e.getStatusCode();
 		}
 		if (rst) {
 			json.put("success", true);

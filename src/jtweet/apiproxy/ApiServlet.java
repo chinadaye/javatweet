@@ -24,7 +24,7 @@ import jtweet.gae.Configuration;
 import jtweet.gae.GCache;
 import jtweet.gae.PMF;
 import jtweet.util.Utils;
-import twitter4j.http.AccessToken;
+import twitter4j.auth.AccessToken;
 import twitter4j.internal.http.BASE64Encoder;
 
 import com.google.appengine.api.urlfetch.HTTPHeader;

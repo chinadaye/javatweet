@@ -12,7 +12,7 @@ import jtweet.util.Utils;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.http.RequestToken;
+import twitter4j.auth.RequestToken;
 
 @SuppressWarnings("serial")
 public class ApiLoginServlet extends HttpServlet {
@@ -32,8 +32,8 @@ public class ApiLoginServlet extends HttpServlet {
 		HttpSession session = req.getSession(true);
 		session.setMaxInactiveInterval(3600);
 
-		TwitterFactory twitterfactory = new TwitterFactory();
-		Twitter twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
+		Twitter twitter = new TwitterFactory().getInstance();
+		twitter.setOAuthConsumer(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
 
 		String callbackURL = Utils.getBaseURL(req) + "/apicallback";
 		try {

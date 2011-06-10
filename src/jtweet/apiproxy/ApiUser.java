@@ -8,7 +8,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import twitter4j.http.AccessToken;
+import twitter4j.auth.AccessToken;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class ApiUser implements Serializable {

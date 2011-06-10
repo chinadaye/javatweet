@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import jtweet.util.Utils;
-
 import twitter4j.Annotations;
 import twitter4j.GeoLocation;
+import twitter4j.Place;
 import twitter4j.Tweet;
 
 public final class JTweet implements Tweet, Serializable {
@@ -30,7 +30,7 @@ public final class JTweet implements Tweet, Serializable {
 	}
 
 	@Override
-	public int getToUserId() {
+	public long getToUserId() {
 		return tweet.getToUserId();
 	}
 
@@ -50,7 +50,7 @@ public final class JTweet implements Tweet, Serializable {
 	}
 
 	@Override
-	public int getFromUserId() {
+	public long getFromUserId() {
 		return tweet.getFromUserId();
 	}
 
@@ -91,5 +91,10 @@ public final class JTweet implements Tweet, Serializable {
 	@Override
 	public Annotations getAnnotations() {
 		return tweet.getAnnotations();
+	}
+
+	@Override
+	public Place getPlace() {
+		return tweet.getPlace();
 	}
 }

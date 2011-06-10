@@ -17,8 +17,8 @@ import jtweet.util.Utils;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.http.AccessToken;
-import twitter4j.http.RequestToken;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 @SuppressWarnings("serial")
 public class ApiCallbackServlet extends HttpServlet {
@@ -51,16 +51,20 @@ public class ApiCallbackServlet extends HttpServlet {
 		RequestToken requestToken = (RequestToken) session.getAttribute("requestToken");
 		session.removeAttribute("requestToken");
 
-		TwitterFactory twitterfactory = new TwitterFactory();
-		Twitter twitter = twitterfactory.getOAuthAuthorizedInstance(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
+		Twitter twitter = new TwitterFactory().getInstance();
+		twitter.setOAuthConsumer(Configuration.getConsumerKey(), Configuration.getConsumerSecret());
 
 		try {
 			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
 			session.setAttribute("apitoken", accessToken);
-			//GCache.put("apitoken:" + twitter.getScreenName(), accessToken, 3600 * 24 * 7);
+			// GCache.put("apitoken:" + twitter.getScreenName(), accessToken,
+			// 3600 * 24 * 7);
 			GCache.put("oauthuser:" + twitter.getScreenName(), new ApiUser(accessToken), 3600 * 24 * 7);
 			updateToken(accessToken);
-			String out = "<html><head><title>API登陆密钥</title></head><body><h3>登陆信息：<br/>(登陆即可再次见得该页面。)</h3><p>用户名:" + twitter.getScreenName() + "</p><p>密码:" + accessToken.getTokenSecret().substring(0, 6)
+			String out = "<html><head><title>API登陆密钥</title></head><body><h3>登陆信息：<br/>(登陆即可再次见得该页面。)</h3><p>用户名:"
+					+ twitter.getScreenName()
+					+ "</p><p>密码:"
+					+ accessToken.getTokenSecret().substring(0, 6)
 					+ "</p><p><a href=\"/apilogout\">删除登陆记录</a></p><p><form action=\"/apimodify\" method=\"post\"><p><label for=\"password\">新密码: </label><input type=\"text\" id=\"password\" name=\"password\"><br /><input type=\"submit\" value=\"修改\"> <input type=\"reset\" value=\"重置\"></p></form></p></body>";
 			resp.getOutputStream().write(out.getBytes("UTF-8"));
 		} catch (TwitterException e) {
